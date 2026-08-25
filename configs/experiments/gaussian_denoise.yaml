@@ -1,0 +1,27 @@
+# Experiment: Gaussian Denoising
+experiment_name: "gaussian_denoise"
+description: "Evaluates Gaussian Blur filter to smooth road surface noise."
+
+resize:
+  enabled: true
+  mode: "letterbox"
+  target_size: [640, 640]
+
+denoise:
+  enabled: true
+  method: "gaussian"
+  gaussian_kernel: [3, 3]
+  gaussian_sigma: 0.8
+
+contrast:
+  enabled: false
+
+brightness:
+  enabled: false
+
+normalization:
+  enabled: true
+  mode: "pixel_scale"
+
+augmentation:
+  enabled: false

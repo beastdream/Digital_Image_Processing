@@ -9,12 +9,12 @@ data_yaml: "d:/Digital_Image_Processing/data/processed/detection/dataset.yaml"
 
 # Hyperparameters
 imgsz: 320
-epochs: 3
+epochs: 10
 batch: 16
-fraction: 0.1
+fraction: 0.5
 optimizer: "Auto"
 learning_rate: 0.01
-patience: 5
+patience: 10
 seed: 42
 cache: false
 

@@ -1,0 +1,26 @@
+# Experiment: Median Denoising
+experiment_name: "median_denoise"
+description: "Evaluates Median Blur filter to remove salt-and-pepper road artifacts."
+
+resize:
+  enabled: true
+  mode: "letterbox"
+  target_size: [640, 640]
+
+denoise:
+  enabled: true
+  method: "median"
+  median_kernel: 3
+
+contrast:
+  enabled: false
+
+brightness:
+  enabled: false
+
+normalization:
+  enabled: true
+  mode: "pixel_scale"
+
+augmentation:
+  enabled: false
