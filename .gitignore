@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Raw dataset
+data/raw/
+
+# Processed dataset
+data/processed/
+
+# YOLO training outputs
+runs/
+experiments/yolo/
+
+# Model weights
+*.pt
+*.pth
+*.onnx
+
+# Generated results
+results/yolo/
+results/preprocessing_visualizations/
+
+# Python cache / tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+*.tmp
