@@ -1,0 +1,41 @@
+{
+  "duplicate_groups_count": 5,
+  "total_excluded_images": 5,
+  "duplicate_groups": {
+    "5daf7d6215742b755a6cad3efe58c7b3": {
+      "kept_image": "vlcsnap-2025-02-18-17h03m41s574.jpg",
+      "duplicate_images": [
+        "vlcsnap-2025-02-18-17h04m14s457.jpg"
+      ],
+      "total_duplicates": 2
+    },
+    "7297e28bdc3bfd813a80be541746da69": {
+      "kept_image": "vlcsnap-2025-02-18-17h11m34s646.jpg",
+      "duplicate_images": [
+        "vlcsnap-2025-02-18-18h30m17s408.jpg"
+      ],
+      "total_duplicates": 2
+    },
+    "967851fb30b83e3a7ca0a9bf7ba5f2e6": {
+      "kept_image": "vlcsnap-2025-02-19-14h41m29s105.jpg",
+      "duplicate_images": [
+        "vlcsnap-2025-02-19-14h41m49s395.jpg"
+      ],
+      "total_duplicates": 2
+    },
+    "8274461e796042b1c780bdd2843b8d8b": {
+      "kept_image": "vlcsnap-2025-02-19-15h02m56s842.jpg",
+      "duplicate_images": [
+        "vlcsnap-2025-02-19-15h03m10s511.jpg"
+      ],
+      "total_duplicates": 2
+    },
+    "1cffcc4152aafb9289a065cfcf3f4cd8": {
+      "kept_image": "vlcsnap-2025-02-26-20h36m03s983.jpg",
+      "duplicate_images": [
+        "vlcsnap-2025-02-26-20h36m04s054.jpg"
+      ],
+      "total_duplicates": 2
+    }
+  }
+}

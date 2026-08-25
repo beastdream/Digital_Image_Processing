@@ -1,0 +1,25 @@
+# Experiment: Direct vs Letterbox Resize Comparison
+experiment_name: "resize"
+description: "Evaluates Direct Resize vs Letterbox Resize effect on aspect ratio and bbox geometry."
+
+resize:
+  enabled: true
+  mode: "direct"  # Set to "direct" to test direct stretching vs "letterbox"
+  target_size: [640, 640]
+  pad_color: [114, 114, 114]
+
+denoise:
+  enabled: false
+
+contrast:
+  enabled: false
+
+brightness:
+  enabled: false
+
+normalization:
+  enabled: true
+  mode: "pixel_scale"
+
+augmentation:
+  enabled: false

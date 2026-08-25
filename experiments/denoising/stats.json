@@ -1,0 +1,13 @@
+{
+  "experiment_name": "denoising",
+  "description": "Evaluates Denoising filters (Gaussian/Median) to smooth road surface noise.",
+  "processed_samples": 20,
+  "avg_latency_ms": 10.901033878326416,
+  "pixel_stats": {
+    "mean_intensity": 0.4773892447352409,
+    "std_intensity": 0.16925400234758853,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-25 21:40:54"
+}

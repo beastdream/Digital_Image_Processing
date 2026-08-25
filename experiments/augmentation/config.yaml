@@ -1,0 +1,46 @@
+augmentation:
+  blur_noise:
+    blur_kernel: 3
+    noise_std: 5.0
+    prob: 0.3
+  brightness_contrast:
+    brightness_range:
+    - 0.8
+    - 1.2
+    contrast_range:
+    - 0.8
+    - 1.2
+    prob: 0.4
+  enabled: true
+  horizontal_flip:
+    prob: 0.5
+  rotation:
+    max_angle_deg: 10
+    prob: 0.3
+  scaling:
+    prob: 0.3
+    scale_range:
+    - 0.85
+    - 1.15
+  translation:
+    prob: 0.3
+    translate_range:
+    - 0.05
+    - 0.05
+brightness:
+  enabled: false
+contrast:
+  enabled: false
+denoise:
+  enabled: false
+description: Evaluates geometric and color data augmentation for training robustness.
+experiment_name: augmentation
+normalization:
+  enabled: true
+  mode: pixel_scale
+resize:
+  enabled: true
+  mode: letterbox
+  target_size:
+  - 640
+  - 640

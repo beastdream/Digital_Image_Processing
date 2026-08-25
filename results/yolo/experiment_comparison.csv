@@ -1,0 +1,7 @@
+experiment,precision,recall,mAP50,mAP50_95,inference_time
+baseline,0.0006,0.0858,0.0002,0.0001,86.9ms
+exp_b_gaussian,0.0007,0.0892,0.0003,0.0001,87.2ms
+exp_c_median,0.0006,0.0860,0.0002,0.0001,87.0ms
+exp_d_clahe,0.0011,0.0985,0.0005,0.0002,87.5ms
+exp_e_brightness,0.0008,0.0910,0.0003,0.0001,86.8ms
+exp_f_full_preprocessing,0.0014,0.1042,0.0007,0.0003,88.1ms

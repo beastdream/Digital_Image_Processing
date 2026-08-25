@@ -1,0 +1,24 @@
+augmentation:
+  enabled: false
+brightness:
+  enabled: false
+contrast:
+  enabled: false
+denoise:
+  enabled: false
+description: Evaluates Direct Resize vs Letterbox Resize effect on aspect ratio and
+  bbox geometry.
+experiment_name: resize
+normalization:
+  enabled: true
+  mode: pixel_scale
+resize:
+  enabled: true
+  mode: direct
+  pad_color:
+  - 114
+  - 114
+  - 114
+  target_size:
+  - 640
+  - 640

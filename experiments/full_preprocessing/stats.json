@@ -1,0 +1,13 @@
+{
+  "experiment_name": "full_preprocessing",
+  "description": "Combines Letterbox Resize, Denoising, CLAHE, Brightness Adjustment, Normalization, and Training Augmentation.",
+  "processed_samples": 20,
+  "avg_latency_ms": 25.09632110595703,
+  "pixel_stats": {
+    "mean_intensity": 0.5055923238396645,
+    "std_intensity": 0.19158603623509407,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-25 21:40:56"
+}

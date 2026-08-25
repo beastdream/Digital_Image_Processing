@@ -1,0 +1,5 @@
+Experiment: clahe
+Description: Evaluates CLAHE contrast enhancement for highlighting subtle asphalt cracks and shadow area potholes.
+Avg Processing Latency: 21.10 ms/image
+Pixel Mean: 0.4830
+Pixel Std: 0.1919

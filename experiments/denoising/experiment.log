@@ -1,0 +1,5 @@
+Experiment: denoising
+Description: Evaluates Denoising filters (Gaussian/Median) to smooth road surface noise.
+Avg Processing Latency: 10.90 ms/image
+Pixel Mean: 0.4774
+Pixel Std: 0.1693

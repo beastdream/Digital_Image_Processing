@@ -1,0 +1,26 @@
+augmentation:
+  enabled: false
+brightness:
+  enabled: false
+contrast:
+  enabled: false
+denoise:
+  enabled: true
+  gaussian_kernel:
+  - 3
+  - 3
+  gaussian_sigma: 0.8
+  median_kernel: 3
+  method: gaussian
+description: Evaluates Denoising filters (Gaussian/Median) to smooth road surface
+  noise.
+experiment_name: denoising
+normalization:
+  enabled: true
+  mode: pixel_scale
+resize:
+  enabled: true
+  mode: letterbox
+  target_size:
+  - 640
+  - 640

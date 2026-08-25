@@ -1,0 +1,93 @@
+{
+  "baseline": {
+    "experiment_name": "baseline",
+    "description": "Minimal baseline: Letterbox resize to 640x640 with standard pixel normalization.",
+    "processed_samples": 20,
+    "avg_latency_ms": 8.346712589263916,
+    "pixel_stats": {
+      "mean_intensity": 0.4773876667022705,
+      "std_intensity": 0.17573250010609626,
+      "min_pixel": 0.0,
+      "max_pixel": 1.0
+    },
+    "timestamp": "2026-08-25 21:40:53"
+  },
+  "resize": {
+    "experiment_name": "resize",
+    "description": "Evaluates Direct Resize vs Letterbox Resize effect on aspect ratio and bbox geometry.",
+    "processed_samples": 20,
+    "avg_latency_ms": 7.937955856323242,
+    "pixel_stats": {
+      "mean_intensity": 0.5006353169679642,
+      "std_intensity": 0.22006875313818455,
+      "min_pixel": 0.0,
+      "max_pixel": 1.0
+    },
+    "timestamp": "2026-08-25 21:40:53"
+  },
+  "denoising": {
+    "experiment_name": "denoising",
+    "description": "Evaluates Denoising filters (Gaussian/Median) to smooth road surface noise.",
+    "processed_samples": 20,
+    "avg_latency_ms": 10.901033878326416,
+    "pixel_stats": {
+      "mean_intensity": 0.4773892447352409,
+      "std_intensity": 0.16925400234758853,
+      "min_pixel": 0.0,
+      "max_pixel": 1.0
+    },
+    "timestamp": "2026-08-25 21:40:54"
+  },
+  "clahe": {
+    "experiment_name": "clahe",
+    "description": "Evaluates CLAHE contrast enhancement for highlighting subtle asphalt cracks and shadow area potholes.",
+    "processed_samples": 20,
+    "avg_latency_ms": 21.095430850982666,
+    "pixel_stats": {
+      "mean_intensity": 0.483043010532856,
+      "std_intensity": 0.19185929372906685,
+      "min_pixel": 0.0,
+      "max_pixel": 1.0
+    },
+    "timestamp": "2026-08-25 21:40:55"
+  },
+  "brightness": {
+    "experiment_name": "brightness",
+    "description": "Evaluates brightness balancing under extreme sunlight/shadow road conditions.",
+    "processed_samples": 20,
+    "avg_latency_ms": 19.4185733795166,
+    "pixel_stats": {
+      "mean_intensity": 0.5439099669456482,
+      "std_intensity": 0.19402303472161292,
+      "min_pixel": 0.0,
+      "max_pixel": 1.0
+    },
+    "timestamp": "2026-08-25 21:40:55"
+  },
+  "augmentation": {
+    "experiment_name": "augmentation",
+    "description": "Evaluates geometric and color data augmentation for training robustness.",
+    "processed_samples": 20,
+    "avg_latency_ms": 10.808312892913818,
+    "pixel_stats": {
+      "mean_intensity": 0.480136813223362,
+      "std_intensity": 0.17478376105427743,
+      "min_pixel": 0.0,
+      "max_pixel": 1.0
+    },
+    "timestamp": "2026-08-25 21:40:56"
+  },
+  "full_preprocessing": {
+    "experiment_name": "full_preprocessing",
+    "description": "Combines Letterbox Resize, Denoising, CLAHE, Brightness Adjustment, Normalization, and Training Augmentation.",
+    "processed_samples": 20,
+    "avg_latency_ms": 25.09632110595703,
+    "pixel_stats": {
+      "mean_intensity": 0.5055923238396645,
+      "std_intensity": 0.19158603623509407,
+      "min_pixel": 0.0,
+      "max_pixel": 1.0
+    },
+    "timestamp": "2026-08-25 21:40:56"
+  }
+}

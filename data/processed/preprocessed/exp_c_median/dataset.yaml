@@ -1,0 +1,10 @@
+path: d:/Digital_Image_Processing/data/processed/preprocessed/exp_c_median
+train: images/train
+val: images/val
+test: images/test
+
+nc: 3
+names:
+  0: pothole
+  1: crack
+  2: manhole

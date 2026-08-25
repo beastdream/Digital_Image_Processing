@@ -1,0 +1,13 @@
+{
+  "experiment_name": "clahe",
+  "description": "Evaluates CLAHE contrast enhancement for highlighting subtle asphalt cracks and shadow area potholes.",
+  "processed_samples": 20,
+  "avg_latency_ms": 21.095430850982666,
+  "pixel_stats": {
+    "mean_intensity": 0.483043010532856,
+    "std_intensity": 0.19185929372906685,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-25 21:40:55"
+}

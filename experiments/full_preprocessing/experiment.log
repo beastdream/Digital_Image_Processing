@@ -1,0 +1,5 @@
+Experiment: full_preprocessing
+Description: Combines Letterbox Resize, Denoising, CLAHE, Brightness Adjustment, Normalization, and Training Augmentation.
+Avg Processing Latency: 25.10 ms/image
+Pixel Mean: 0.5056
+Pixel Std: 0.1916

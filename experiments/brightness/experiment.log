@@ -1,0 +1,5 @@
+Experiment: brightness
+Description: Evaluates brightness balancing under extreme sunlight/shadow road conditions.
+Avg Processing Latency: 19.42 ms/image
+Pixel Mean: 0.5439
+Pixel Std: 0.1940

@@ -1,0 +1,13 @@
+{
+  "experiment_name": "resize",
+  "description": "Evaluates Direct Resize vs Letterbox Resize effect on aspect ratio and bbox geometry.",
+  "processed_samples": 20,
+  "avg_latency_ms": 7.937955856323242,
+  "pixel_stats": {
+    "mean_intensity": 0.5006353169679642,
+    "std_intensity": 0.22006875313818455,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-25 21:40:53"
+}

@@ -1,0 +1,24 @@
+# YOLO Model Configuration for Road Damage Detection
+
+default_model_size: "nano"  # Options: "nano", "small", "medium"
+
+models:
+  nano:
+    weights: "yolov8n.pt"
+    params: "3.2M"
+    description: "Lightweight and fast, optimized for CPU training and edge inference."
+  small:
+    weights: "yolov8s.pt"
+    params: "11.2M"
+    description: "Balanced speed and accuracy model."
+  medium:
+    weights: "yolov8m.pt"
+    params: "25.9M"
+    description: "Higher capacity model for complex detection tasks."
+
+task: "detect"
+num_classes: 3
+class_names:
+  0: "pothole"
+  1: "crack"
+  2: "manhole"

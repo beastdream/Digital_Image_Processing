@@ -1,0 +1,12 @@
+{
+  "invalid_annotations_count": 1,
+  "clipped_coordinates_count": 63,
+  "invalid_annotations": [
+    {
+      "file": "vlcsnap-00058.txt",
+      "line_index": 1,
+      "reason": "Invalid dimension: width=0.003125, height=0.0",
+      "content": "1 0.639062 0.786111 0.003125 0.000000"
+    }
+  ]
+}

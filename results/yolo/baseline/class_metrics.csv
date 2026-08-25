@@ -1,0 +1,4 @@
+class_id,class_name,precision,recall,mAP50,mAP50_95
+0,Pothole,0.0,0.0093,0.0,0.0
+1,Crack,0.0019,0.2481,0.0007,0.0002
+2,Manhole,0.0,0.0,0.0,0.0

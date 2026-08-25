@@ -1,0 +1,32 @@
+# YOLO Training Configuration for Road Damage Detection
+
+# Model Weights
+model_weights: "yolov8n.pt"
+model_size: "nano"
+
+# Dataset
+data_yaml: "d:/Digital_Image_Processing/data/processed/detection/dataset.yaml"
+
+# Hyperparameters
+imgsz: 320
+epochs: 3
+batch: 16
+fraction: 0.1
+optimizer: "Auto"
+learning_rate: 0.01
+patience: 5
+seed: 42
+cache: false
+
+# Hardware / Environment
+device: "cpu"
+workers: 0
+
+# Output & Logging
+project: "experiments/yolo"
+name: "baseline"
+exist_ok: true
+save: true
+save_period: -1
+plots: true
+verbose: true

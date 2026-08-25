@@ -1,0 +1,104 @@
+{
+  "total_images": 2009,
+  "total_label_files": 2009,
+  "total_yolo_files": 2009,
+  "image_extensions": {
+    ".jpg": 2009
+  },
+  "images_without_labels_count": 0,
+  "labels_without_images_count": 0,
+  "corrupted_images": [],
+  "unique_image_shapes": {
+    "640x360x3": 2009
+  },
+  "duplicate_images_group_count": 5,
+  "total_duplicate_images": 10,
+  "polygon_annotations_per_class": {
+    "2": 957,
+    "1": 2519,
+    "0": 1261
+  },
+  "polygon_images_per_class": {
+    "2": 759,
+    "1": 1375,
+    "0": 795
+  },
+  "invalid_polygon_annotations_count": 22,
+  "sample_invalid_poly": [
+    {
+      "file": "20250223_144154.txt",
+      "line": 1,
+      "reason": "Out of bounds coords min=-0.003125, max=0.655556"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-14h17m45s679.txt",
+      "line": 0,
+      "reason": "Out of bounds coords min=-0.007812, max=0.719444"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h36m00s346.txt",
+      "line": 2,
+      "reason": "Out of bounds coords min=-0.001563, max=0.8"
+    },
+    {
+      "file": "20250223_144145.txt",
+      "line": 0,
+      "reason": "Out of bounds coords min=-0.001563, max=0.994444"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h30m26s925.txt",
+      "line": 3,
+      "reason": "Out of bounds coords min=-0.001563, max=0.75"
+    }
+  ],
+  "yolo_annotations_per_class": {
+    "2": 957,
+    "1": 2519,
+    "0": 1261
+  },
+  "yolo_images_per_class": {
+    "2": 759,
+    "1": 1375,
+    "0": 795
+  },
+  "invalid_yolo_annotations_count": 1,
+  "sample_invalid_yolo": [
+    {
+      "file": "vlcsnap-00058.txt",
+      "line": 1,
+      "reason": "Invalid size w=0.003125, h=0.0"
+    }
+  ],
+  "coco_info": {},
+  "coco_categories": [
+    {
+      "id": 0,
+      "name": "pothole"
+    },
+    {
+      "id": 1,
+      "name": "crack"
+    },
+    {
+      "id": 2,
+      "name": "manhole"
+    }
+  ],
+  "coco_images_count": 2009,
+  "coco_annotations_count": 4737,
+  "coco_has_segmentation": false,
+  "coco_segmentation_types": {
+    "none": 4737
+  },
+  "coco_annotations_per_class": {
+    "2": 957,
+    "0": 1261,
+    "1": 2519
+  },
+  "coco_images_per_class": {
+    "2": 759,
+    "0": 795,
+    "1": 1375
+  },
+  "invalid_coco_annotations_count": 1
+}

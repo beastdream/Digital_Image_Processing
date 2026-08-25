@@ -1,0 +1,13 @@
+{
+  "experiment_name": "baseline",
+  "description": "Minimal baseline: Letterbox resize to 640x640 with standard pixel normalization.",
+  "processed_samples": 20,
+  "avg_latency_ms": 8.346712589263916,
+  "pixel_stats": {
+    "mean_intensity": 0.4773876667022705,
+    "std_intensity": 0.17573250010609626,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-25 21:40:53"
+}

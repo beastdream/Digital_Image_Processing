@@ -1,0 +1,5 @@
+Experiment: resize
+Description: Evaluates Direct Resize vs Letterbox Resize effect on aspect ratio and bbox geometry.
+Avg Processing Latency: 7.94 ms/image
+Pixel Mean: 0.5006
+Pixel Std: 0.2201

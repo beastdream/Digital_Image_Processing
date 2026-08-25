@@ -1,0 +1,53 @@
+# Default Preprocessing Pipeline Configuration for Road Damage Detection
+
+resize:
+  enabled: true
+  mode: "letterbox"  # Options: "letterbox", "direct"
+  target_size: [640, 640]  # [width, height]
+  pad_color: [114, 114, 114]  # Gray padding for YOLO letterbox
+
+denoise:
+  enabled: false
+  method: "gaussian"  # Options: "gaussian", "median"
+  gaussian_kernel: [3, 3]
+  gaussian_sigma: 0.5
+  median_kernel: 3
+
+contrast:
+  enabled: false
+  method: "clahe"  # Options: "clahe", "global"
+  clahe_clip_limit: 2.0
+  clahe_tile_grid_size: [8, 8]
+  global_factor: 1.2
+
+brightness:
+  enabled: false
+  brightness_factor: 1.0  # > 1.0 brightens, < 1.0 darkens
+
+normalization:
+  enabled: true
+  mode: "pixel_scale"  # Options: "pixel_scale" ([0, 255] -> [0.0, 1.0]), "standardize" (mean/std), "none"
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+augmentation:
+  enabled: false  # Applied ONLY during training
+  horizontal_flip:
+    prob: 0.5
+  rotation:
+    prob: 0.3
+    max_angle_deg: 10
+  scaling:
+    prob: 0.3
+    scale_range: [0.85, 1.15]
+  translation:
+    prob: 0.3
+    translate_range: [0.05, 0.05]
+  brightness_contrast:
+    prob: 0.4
+    brightness_range: [0.8, 1.2]
+    contrast_range: [0.8, 1.2]
+  blur_noise:
+    prob: 0.3
+    blur_kernel: 3
+    noise_std: 5.0

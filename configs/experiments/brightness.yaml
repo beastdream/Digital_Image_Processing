@@ -1,0 +1,25 @@
+# Experiment: Brightness Adjustment
+experiment_name: "brightness"
+description: "Evaluates brightness balancing under extreme sunlight/shadow road conditions."
+
+resize:
+  enabled: true
+  mode: "letterbox"
+  target_size: [640, 640]
+
+denoise:
+  enabled: false
+
+contrast:
+  enabled: false
+
+brightness:
+  enabled: true
+  brightness_factor: 1.15
+
+normalization:
+  enabled: true
+  mode: "pixel_scale"
+
+augmentation:
+  enabled: false

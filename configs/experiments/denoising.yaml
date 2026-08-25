@@ -1,0 +1,28 @@
+# Experiment: Denoising (Gaussian & Median Blur)
+experiment_name: "denoising"
+description: "Evaluates Denoising filters (Gaussian/Median) to smooth road surface noise."
+
+resize:
+  enabled: true
+  mode: "letterbox"
+  target_size: [640, 640]
+
+denoise:
+  enabled: true
+  method: "gaussian"
+  gaussian_kernel: [3, 3]
+  gaussian_sigma: 0.8
+  median_kernel: 3
+
+contrast:
+  enabled: false
+
+brightness:
+  enabled: false
+
+normalization:
+  enabled: true
+  mode: "pixel_scale"
+
+augmentation:
+  enabled: false

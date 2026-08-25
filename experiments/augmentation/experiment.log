@@ -1,0 +1,5 @@
+Experiment: augmentation
+Description: Evaluates geometric and color data augmentation for training robustness.
+Avg Processing Latency: 10.81 ms/image
+Pixel Mean: 0.4801
+Pixel Std: 0.1748

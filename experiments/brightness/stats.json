@@ -1,0 +1,13 @@
+{
+  "experiment_name": "brightness",
+  "description": "Evaluates brightness balancing under extreme sunlight/shadow road conditions.",
+  "processed_samples": 20,
+  "avg_latency_ms": 19.4185733795166,
+  "pixel_stats": {
+    "mean_intensity": 0.5439099669456482,
+    "std_intensity": 0.19402303472161292,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-25 21:40:55"
+}

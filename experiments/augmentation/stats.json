@@ -1,0 +1,13 @@
+{
+  "experiment_name": "augmentation",
+  "description": "Evaluates geometric and color data augmentation for training robustness.",
+  "processed_samples": 20,
+  "avg_latency_ms": 10.808312892913818,
+  "pixel_stats": {
+    "mean_intensity": 0.480136813223362,
+    "std_intensity": 0.17478376105427743,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-25 21:40:56"
+}
