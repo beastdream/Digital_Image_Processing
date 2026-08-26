@@ -5,7 +5,7 @@ model_weights: "yolov8n.pt"
 model_size: "nano"
 
 # Dataset
-data_yaml: "d:/Digital_Image_Processing/data/processed/detection/dataset.yaml"
+data_yaml: "data/processed/road_damage_detection/dataset.yaml"
 
 # Hyperparameters
 imgsz: 320
@@ -17,6 +17,16 @@ learning_rate: 0.01
 patience: 10
 seed: 42
 cache: false
+
+# Online training augmentation only. It changes geometry/appearance but never
+# class IDs; validation and test are not augmented by Ultralytics.
+degrees: 8.0
+translate: 0.03
+scale: 0.10
+fliplr: 0.5
+hsv_h: 0.01
+hsv_s: 0.2
+hsv_v: 0.15
 
 # Hardware / Environment
 device: "cpu"

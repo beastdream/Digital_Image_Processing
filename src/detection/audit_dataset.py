@@ -5,6 +5,7 @@ import hashlib
 import numpy as np
 import yaml
 from typing import Dict, List, Tuple
+from src.data.dataset_utils import CLASS_NAMES, group_key, project_root
 
 def compute_md5(filepath: str) -> str:
     hash_md5 = hashlib.md5()
@@ -14,8 +15,8 @@ def compute_md5(filepath: str) -> str:
     return hash_md5.hexdigest()
 
 def audit_dataset() -> Tuple[Dict, bool]:
-    base_dir = r"d:\Digital_Image_Processing"
-    proc_dir = os.path.join(base_dir, "data", "processed", "detection")
+    base_dir = str(project_root())
+    proc_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
     output_dir = os.path.join(base_dir, "results", "yolo", "debug")
     os.makedirs(output_dir, exist_ok=True)
 
@@ -55,6 +56,11 @@ def audit_dataset() -> Tuple[Dict, bool]:
         }
         if data_cfg.get("nc") != 3:
             audit_result["errors"].append(f"Expected nc=3, got {data_cfg.get('nc')}")
+            audit_result["is_valid"] = False
+        names = data_cfg.get("names", {})
+        names = {int(k): v for k, v in names.items()} if isinstance(names, dict) else dict(enumerate(names))
+        if names != CLASS_NAMES:
+            audit_result["errors"].append(f"Expected class mapping {CLASS_NAMES}, got {names}")
             audit_result["is_valid"] = False
 
     # 2. File counts & Split analysis
@@ -164,17 +170,28 @@ def audit_dataset() -> Tuple[Dict, bool]:
     md5_overlap_tt = train_md5s.intersection(test_md5s)
     md5_overlap_vt = val_md5s.intersection(test_md5s)
 
+    # A sequence of near-adjacent captures must never be split across train/val/test.
+    group_splits = {}
+    for split, files in split_files.items():
+        for filename in files.values():
+            group_splits.setdefault(group_key(filename), set()).add(split)
+    leaked_groups = {group: sorted(assigned) for group, assigned in group_splits.items() if len(assigned) > 1}
+
     audit_result["overlap_check"] = {
         "filename_overlap_train_val": len(fn_overlap_tv),
         "filename_overlap_train_test": len(fn_overlap_tt),
         "filename_overlap_val_test": len(fn_overlap_vt),
         "md5_overlap_train_val": len(md5_overlap_tv),
         "md5_overlap_train_test": len(md5_overlap_tt),
-        "md5_overlap_val_test": len(md5_overlap_vt)
+        "md5_overlap_val_test": len(md5_overlap_vt),
+        "group_cross_split_leakage": leaked_groups,
     }
 
     if md5_overlap_tv or md5_overlap_tt or md5_overlap_vt:
         audit_result["errors"].append(f"MD5 image content leakage detected between splits: TV={len(md5_overlap_tv)}, TT={len(md5_overlap_tt)}, VT={len(md5_overlap_vt)}")
+        audit_result["is_valid"] = False
+    if leaked_groups:
+        audit_result["errors"].append(f"Capture-group leakage detected: {len(leaked_groups)} groups")
         audit_result["is_valid"] = False
 
     # Save dataset_audit.json

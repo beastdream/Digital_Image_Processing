@@ -14,12 +14,12 @@ from src.detection.evaluate import evaluate_yolo
 
 def generate_preprocessed_dataset(exp_name: str, config_file: str) -> str:
     base_dir = r"d:\Digital_Image_Processing"
-    proc_detection_dir = os.path.join(base_dir, "data", "processed", "detection")
+    proc_detection_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
 
     if exp_name in ["baseline", "no_preprocessing"]:
         return os.path.join(proc_detection_dir, "dataset.yaml")
 
-    out_exp_dir = os.path.join(base_dir, "data", "processed", "preprocessed", exp_name)
+    out_exp_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection", "preprocessed", exp_name)
     out_yaml_path = os.path.join(out_exp_dir, "dataset.yaml")
 
     if os.path.exists(out_yaml_path):
@@ -31,6 +31,10 @@ def generate_preprocessed_dataset(exp_name: str, config_file: str) -> str:
 
     config_path = os.path.join(base_dir, "configs", "experiments", config_file)
     pipeline = ImagePreprocessingPipeline(config_path)
+    # Offline files are materialized once. Random augmentation belongs in
+    # Ultralytics' per-epoch training loader, never in a persistent dataset.
+    if pipeline.config.get("augmentation", {}).get("enabled", False):
+        pipeline.config["augmentation"] = {"enabled": False}
 
     splits = ['train', 'val', 'test']
     for s in splits:
@@ -73,7 +77,8 @@ def generate_preprocessed_dataset(exp_name: str, config_file: str) -> str:
             uint8_img = meta.get("intermediates", {}).get("final_uint8", img)
             cv2.imwrite(os.path.join(dst_img_dir, fname), uint8_img)
 
-            lines = [f"{int(b[0])} {b[1]:.6f} {b[2]:.6f} {b[3]:.6f} {b[4]:.6f}" for b in (updated_bboxes or bboxes)]
+            final_boxes = updated_bboxes if updated_bboxes is not None else bboxes
+            lines = [f"{int(b[0])} {b[1]:.6f} {b[2]:.6f} {b[3]:.6f} {b[4]:.6f}" for b in final_boxes]
             with open(os.path.join(dst_lbl_dir, stem + ".txt"), "w", encoding="utf-8") as f:
                 f.write("\n".join(lines))
 
@@ -98,7 +103,7 @@ names:
 def measure_inference_latency(model_path: str, dataset_yaml: str) -> float:
     model = YOLO(model_path)
     base_dir = r"d:\Digital_Image_Processing"
-    test_img_dir = os.path.join(base_dir, "data", "processed", "detection", "images", "test")
+    test_img_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection", "images", "test")
     test_imgs = sorted([os.path.join(test_img_dir, f) for f in os.listdir(test_img_dir) if f.lower().endswith(('.jpg', '.png'))])[:50]
 
     latencies = []

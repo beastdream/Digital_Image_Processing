@@ -9,7 +9,7 @@ from src.preprocessing.pipeline import ImagePreprocessingPipeline
 
 def visualize_preprocessing_samples():
     base_dir = r"d:\Digital_Image_Processing"
-    proc_dir = os.path.join(base_dir, "data", "processed", "detection")
+    proc_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
     output_dir = os.path.join(base_dir, "results", "preprocessing_visualizations")
     os.makedirs(output_dir, exist_ok=True)
 

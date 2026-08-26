@@ -6,11 +6,12 @@ import yaml
 from src.preprocessing.pipeline import ImagePreprocessingPipeline
 from src.preprocessing.resize import letterbox_resize
 from src.preprocessing.normalize import normalize_image
+from src.data.dataset_utils import project_root
 
 class TestImagePreprocessingPipeline(unittest.TestCase):
 
     def setUp(self):
-        self.base_dir = r"d:\Digital_Image_Processing"
+        self.base_dir = str(project_root())
         self.config_path = os.path.join(self.base_dir, "configs", "experiments", "full_preprocessing.yaml")
         with open(self.config_path, "r", encoding="utf-8") as f:
             self.config = yaml.safe_load(f)

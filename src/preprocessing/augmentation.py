@@ -23,10 +23,10 @@ class DataAugmenter:
         Applies configured augmentations if split == 'train' and config is enabled.
         """
         if split != "train" or not self.config.get("enabled", False):
-            return image.copy(), [list(b) for b in bboxes]
+            return image.copy(), [list(b) for b in (bboxes or [])]
 
         img_aug = image.copy()
-        bbox_aug = [list(b) for b in bboxes]
+        bbox_aug = [list(b) for b in (bboxes or [])]
 
         # 1. Horizontal Flip
         flip_cfg = self.config.get("horizontal_flip", {})

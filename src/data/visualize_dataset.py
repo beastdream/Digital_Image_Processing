@@ -1,13 +1,14 @@
 import os
 import random
 import cv2
+from src.data.dataset_utils import CLASS_NAMES, project_root
 
 def visualize_dataset_samples():
-    base_dir = r"d:\Digital_Image_Processing"
-    processed_dir = os.path.join(base_dir, "data", "processed", "detection")
+    base_dir = str(project_root())
+    processed_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
     output_base_dir = os.path.join(base_dir, "results", "visualizations")
 
-    class_names = {0: "pothole", 1: "crack", 2: "manhole"}
+    class_names = CLASS_NAMES
     colors = {
         0: (0, 0, 255),    # Red for Pothole
         1: (255, 0, 0),    # Blue for Crack

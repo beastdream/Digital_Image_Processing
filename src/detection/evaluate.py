@@ -4,24 +4,36 @@ import json
 import numpy as np
 import pandas as pd
 from ultralytics import YOLO
+from pathlib import Path
+import yaml
+from src.data.dataset_utils import CLASS_NAMES, project_root
 
 def evaluate_yolo(
     model_path: str,
-    data_yaml: str = "d:/Digital_Image_Processing/data/processed/detection/dataset.yaml",
+    data_yaml: str = "data/processed/road_damage_detection/dataset.yaml",
     output_dir: str = "results/yolo/baseline",
     split: str = "test"
 ) -> dict:
-    base_dir = r"d:\Digital_Image_Processing"
-    full_output_dir = os.path.join(base_dir, output_dir) if not os.path.isabs(output_dir) else output_dir
+    base_dir = project_root()
+    data_path = Path(data_yaml)
+    if not data_path.is_absolute(): data_path = base_dir / data_path
+    with data_path.open(encoding="utf-8") as handle: dataset = yaml.safe_load(handle)
+    names = dataset.get("names", {}); names = {int(k): v for k, v in names.items()} if isinstance(names, dict) else dict(enumerate(names))
+    if dataset.get("nc") != 3 or names != CLASS_NAMES:
+        raise ValueError(f"Dataset must preserve {CLASS_NAMES}; got nc={dataset.get('nc')}, names={names}")
+    full_output_dir = base_dir / output_dir if not os.path.isabs(output_dir) else Path(output_dir)
     os.makedirs(full_output_dir, exist_ok=True)
 
     print(f"Evaluating YOLO Model [{model_path}] on split '{split}' using data [{data_yaml}]...")
 
     model = YOLO(model_path)
+    model_names = {int(key): value for key, value in model.names.items()}
+    if model_names != CLASS_NAMES:
+        raise ValueError(f"Weights must preserve {CLASS_NAMES}; got {model_names}")
 
     # Run validation strictly on 'test' split
     metrics = model.val(
-        data=data_yaml,
+        data=str(data_path),
         split=split,
         imgsz=640,
         batch=16,
@@ -38,27 +50,30 @@ def evaluate_yolo(
     map50_overall = float(metrics.results_dict.get("metrics/mAP50(B)", 0.0))
     map50_95_overall = float(metrics.results_dict.get("metrics/mAP50-95(B)", 0.0))
 
-    class_names = {0: "Pothole", 1: "Crack", 2: "Manhole"}
+    class_names = CLASS_NAMES
     class_metrics_rows = []
 
     # Per-class metrics extraction
-    p_per_class = metrics.box.p if isinstance(metrics.box.p, (list, np.ndarray)) else [metrics.box.p]
-    r_per_class = metrics.box.r if isinstance(metrics.box.r, (list, np.ndarray)) else [metrics.box.r]
-    maps_per_class = metrics.box.maps if hasattr(metrics.box, "maps") and isinstance(metrics.box.maps, (list, np.ndarray)) else [0.0, 0.0, 0.0]
+    p_per_class = np.asarray(metrics.box.p).reshape(-1)
+    r_per_class = np.asarray(metrics.box.r).reshape(-1)
+    maps_per_class = np.asarray(getattr(metrics.box, "maps", [])).reshape(-1)
+    class_indices = np.asarray(getattr(metrics.box, "ap_class_index", range(len(p_per_class)))).reshape(-1)
+    metric_index = {int(class_id): index for index, class_id in enumerate(class_indices)}
 
     all_ap = getattr(metrics.box, "all_ap", None)
 
     for cid in [0, 1, 2]:
         cname = class_names[cid]
-        p_c = float(p_per_class[cid]) if len(p_per_class) > cid else 0.0
-        r_c = float(r_per_class[cid]) if len(r_per_class) > cid else 0.0
+        index = metric_index.get(cid)
+        p_c = float(p_per_class[index]) if index is not None and index < len(p_per_class) else 0.0
+        r_c = float(r_per_class[index]) if index is not None and index < len(r_per_class) else 0.0
 
-        if all_ap is not None and len(all_ap) > cid:
-            m50_c = float(all_ap[cid][0])
+        if all_ap is not None and index is not None and index < len(all_ap):
+            m50_c = float(all_ap[index][0])
         else:
-            m50_c = float(maps_per_class[cid]) if len(maps_per_class) > cid else 0.0
+            m50_c = float(maps_per_class[index]) if index is not None and index < len(maps_per_class) else 0.0
 
-        m95_c = float(maps_per_class[cid]) if len(maps_per_class) > cid else 0.0
+        m95_c = float(maps_per_class[index]) if index is not None and index < len(maps_per_class) else 0.0
 
         class_metrics_rows.append({
             "class_id": cid,
@@ -100,7 +115,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", type=str, required=True, help="Path to best.pt weights")
-    parser.add_argument("--data", type=str, default="d:/Digital_Image_Processing/data/processed/detection/dataset.yaml")
+    parser.add_argument("--data", type=str, default="data/processed/road_damage_detection/dataset.yaml")
     parser.add_argument("--output", type=str, default="results/yolo/baseline")
     parser.add_argument("--split", type=str, default="test")
     args = parser.parse_args()

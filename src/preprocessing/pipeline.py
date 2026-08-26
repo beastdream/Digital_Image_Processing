@@ -24,6 +24,10 @@ class ImagePreprocessingPipeline:
         else:
             self.config = config
 
+        # Dataset images written for Ultralytics must remain uint8. Normalization is
+        # only useful for direct array consumers, never for persisted YOLO images.
+        self.config = self.config or {}
+
         self.augmenter = DataAugmenter(self.config.get("augmentation", {}))
 
     def process(
@@ -76,6 +80,8 @@ class ImagePreprocessingPipeline:
             elif mode == "direct":
                 curr_img = direct_resize(curr_img, target_size=target_size)
                 # Direct resize retains normalized bboxes
+            else:
+                raise ValueError(f"Unsupported resize mode: {mode}")
 
             exec_meta["steps_executed"].append(f"resize_{mode}")
             if return_intermediates:
@@ -92,6 +98,8 @@ class ImagePreprocessingPipeline:
             elif method == "median":
                 k_size = int(denoise_cfg.get("median_kernel", 3))
                 curr_img = apply_median_blur(curr_img, kernel_size=k_size)
+            else:
+                raise ValueError(f"Unsupported denoise method: {method}")
 
             exec_meta["steps_executed"].append(f"denoise_{method}")
             if return_intermediates:
@@ -108,6 +116,8 @@ class ImagePreprocessingPipeline:
             elif method == "global":
                 factor = float(contrast_cfg.get("global_factor", 1.2))
                 curr_img = apply_global_contrast(curr_img, factor=factor)
+            else:
+                raise ValueError(f"Unsupported contrast method: {method}")
 
             exec_meta["steps_executed"].append(f"contrast_{method}")
             if return_intermediates:

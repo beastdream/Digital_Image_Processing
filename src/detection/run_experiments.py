@@ -18,8 +18,8 @@ def generate_preprocessed_dataset(exp_name: str, config_name: str) -> str:
     without double normalization, saving to data/processed/preprocessed/<exp_name>/.
     """
     base_dir = r"d:\Digital_Image_Processing"
-    proc_detection_dir = os.path.join(base_dir, "data", "processed", "detection")
-    out_exp_dir = os.path.join(base_dir, "data", "processed", "preprocessed", exp_name)
+    proc_detection_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
+    out_exp_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection", "preprocessed", exp_name)
 
     if exp_name == "baseline":
         return os.path.join(proc_detection_dir, "dataset.yaml")
@@ -29,6 +29,9 @@ def generate_preprocessed_dataset(exp_name: str, config_name: str) -> str:
 
     config_path = os.path.join(base_dir, "configs", "experiments", config_name)
     pipeline = ImagePreprocessingPipeline(config_path)
+    # Do not freeze one random train augmentation into a derived dataset.
+    if pipeline.config.get("augmentation", {}).get("enabled", False):
+        pipeline.config["augmentation"] = {"enabled": False}
 
     splits = ['train', 'val', 'test']
     for s in splits:
@@ -75,7 +78,8 @@ def generate_preprocessed_dataset(exp_name: str, config_name: str) -> str:
             cv2.imwrite(os.path.join(dst_img_dir, fname), uint8_img)
 
             # Save labels
-            lines = [f"{int(b[0])} {b[1]:.6f} {b[2]:.6f} {b[3]:.6f} {b[4]:.6f}" for b in (updated_bboxes or bboxes)]
+            final_boxes = updated_bboxes if updated_bboxes is not None else bboxes
+            lines = [f"{int(b[0])} {b[1]:.6f} {b[2]:.6f} {b[3]:.6f} {b[4]:.6f}" for b in final_boxes]
             with open(os.path.join(dst_lbl_dir, stem + ".txt"), "w", encoding="utf-8") as f:
                 f.write("\n".join(lines))
 

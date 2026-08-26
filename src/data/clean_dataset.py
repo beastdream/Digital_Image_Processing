@@ -1,308 +1,170 @@
-import os
-import shutil
-import json
-import csv
-import hashlib
-from collections import defaultdict, Counter
+"""Build a validated, group-aware YOLO dataset from raw static images."""
+from __future__ import annotations
+import argparse, csv, hashlib, json, shutil
+from collections import Counter, defaultdict
+from pathlib import Path
+import cv2
+from src.data.dataset_utils import (CLASS_NAMES, IMAGE_SUFFIXES, SPLITS, dataset_yaml_text,
+                                    format_yolo_box, group_key, label_signature,
+                                    parse_yolo_line, project_root, validate_yolo_box)
 
-def run_dataset_cleaning():
-    base_dir = r"d:\Digital_Image_Processing"
-    data_dir = os.path.join(base_dir, "data")
-    raw_dir = os.path.join(data_dir, "raw")
-    raw_images_dir = os.path.join(raw_dir, "images")
-    raw_labels_yolo_dir = os.path.join(raw_dir, "labels-YOLO")
+def _md5(path: Path) -> str:
+    digest = hashlib.md5()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
-    reports_dir = os.path.join(data_dir, "reports")
-    processed_dir = os.path.join(data_dir, "processed", "detection")
+def _read_labels(path: Path, image_name: str, report: list[dict]) -> list[str]:
+    if not path.exists():
+        return []  # Empty labels are valid, but a label file is still written.
+    cleaned = []
+    for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if not raw.strip(): continue
+        try:
+            parsed = parse_yolo_line(raw)
+            corrected, status = validate_yolo_box(parsed)
+            if status == "clipped":
+                report.append({"image": image_name, "label_file": path.name, "line": number,
+                               "class_id": parsed[0], "class": CLASS_NAMES[parsed[0]], "original_bbox": list(parsed[1:]),
+                               "reason": "bbox boundary overflow within EPSILON=1e-5", "action": "clipped", "status": "clipped"})
+            cleaned.append(format_yolo_box(corrected))
+        except ValueError as exc:
+            parts = raw.split()
+            class_id = int(parts[0]) if parts and parts[0].lstrip("+-").isdigit() else None
+            report.append({"image": image_name, "label_file": path.name, "line": number,
+                           "class_id": class_id, "class": CLASS_NAMES.get(class_id), "original_bbox": raw,
+                           "reason": str(exc), "action": "excluded", "status": "invalid"})
+    return cleaned
 
-    os.makedirs(reports_dir, exist_ok=True)
-    os.makedirs(processed_dir, exist_ok=True)
+def _assign_groups(groups: dict[str, list[str]], labels: dict[str, list[str]]) -> dict[str, str]:
+    """Assign complete capture groups; known acquisition sessions use a stable split."""
+    # These are capture sessions, not individual files. Keeping this reviewed map
+    # avoids moving the held-out test set whenever raw data is reprocessed.
+    reviewed = {
+        "capture_20250216": "val", "capture_20250219": "val", "capture_20250223": "train",
+        "vlcsnap_unsequenced": "train", "vlcsnap_2025-02-18_17h": "val",
+        "vlcsnap_2025-02-18_18h": "train", "vlcsnap_2025-02-18_23h": "test",
+        "vlcsnap_2025-02-19_13h": "test", "vlcsnap_2025-02-19_14h": "train",
+        "vlcsnap_2025-02-19_15h": "val", "vlcsnap_2025-02-19_16h": "test",
+        "vlcsnap_2025-02-19_17h": "train", "vlcsnap_2025-02-26_20h": "train",
+    }
+    fixed = {key: split for key, split in reviewed.items() if key in groups}
+    unassigned = {key: files for key, files in groups.items() if key not in fixed}
+    if not unassigned:
+        return fixed
+    # New sessions are added only to train by default; users must explicitly
+    # promote an independent session to validation/test after reviewing it.
+    # This prevents accidental contamination of the established held-out sets.
+    return {**fixed, **{key: "train" for key in unassigned}}
 
-    # 1. Protection Check
-    assert os.path.exists(raw_images_dir), f"Raw images not found in {raw_images_dir}"
-    assert os.path.exists(raw_labels_yolo_dir), f"Raw YOLO labels not found in {raw_labels_yolo_dir}"
+def _annotation_statistics(names: list[str], labels: dict[str, list[str]]) -> dict:
+    """Count objects, class presence, and mutually exclusive class combinations."""
+    object_counts = Counter()
+    image_counts = Counter()
+    combinations = Counter({"pothole only": 0, "crack only": 0, "manhole only": 0,
+                            "pothole + crack": 0, "pothole + manhole": 0,
+                            "crack + manhole": 0, "all 3 classes": 0, "no object": 0})
+    combination_names = {
+        frozenset({0}): "pothole only", frozenset({1}): "crack only", frozenset({2}): "manhole only",
+        frozenset({0, 1}): "pothole + crack", frozenset({0, 2}): "pothole + manhole",
+        frozenset({1, 2}): "crack + manhole", frozenset({0, 1, 2}): "all 3 classes", frozenset(): "no object",
+    }
+    for name in names:
+        classes = {int(line.split()[0]) for line in labels[Path(name).stem]}
+        for line in labels[Path(name).stem]: object_counts[int(line.split()[0])] += 1
+        for class_id in classes: image_counts[class_id] += 1
+        combinations[combination_names[frozenset(classes)]] += 1
+    return {"total_images": len(names), "total_objects": sum(object_counts.values()),
+            "object_counts": {CLASS_NAMES[cid]: object_counts[cid] for cid in CLASS_NAMES},
+            "images_containing": {CLASS_NAMES[cid]: image_counts[cid] for cid in CLASS_NAMES},
+            "class_combinations": dict(combinations)}
 
-    all_image_files = sorted([f for f in os.listdir(raw_images_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png'))])
-    print(f"Total raw images found: {len(all_image_files)}")
-
-    # 2. Duplicate Check via MD5 Hash
+def run_dataset_cleaning(root: str | Path | None = None) -> dict:
+    root_path = Path(root) if root else project_root()
+    raw_images, raw_labels = root_path / "data/raw/images", root_path / "data/raw/labels-YOLO"
+    processed_dir = root_path / "data/processed/road_damage_detection"
+    reports_dir = processed_dir / "reports"
+    if not raw_images.is_dir() or not raw_labels.is_dir(): raise FileNotFoundError("Expected data/raw/images and data/raw/labels-YOLO")
+    # Rebuild only this dataset's canonical artifacts.  In particular, do not
+    # remove optional derived preprocessing experiments under this directory.
+    for generated_path in (processed_dir / "images", processed_dir / "labels", reports_dir):
+        if generated_path.exists():
+            shutil.rmtree(generated_path)
+    dataset_yaml = processed_dir / "dataset.yaml"
+    if dataset_yaml.exists():
+        dataset_yaml.unlink()
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    raw_entries = sorted(path for path in raw_images.iterdir() if path.is_file())
+    images = [path for path in raw_entries if path.suffix.lower() in IMAGE_SUFFIXES]
+    unsupported_image_files = [path.name for path in raw_entries if path.suffix.lower() not in IMAGE_SUFFIXES]
+    invalid_images, missing_label_files, readable_images = [], [], []
+    valid_images = []
+    for image in images:
+        if not image.exists():
+            invalid_images.append({"file": image.name, "reason": "file does not exist"})
+            continue
+        decoded = cv2.imread(str(image), cv2.IMREAD_UNCHANGED)
+        channels = 1 if decoded is not None and decoded.ndim == 2 else (decoded.shape[2] if decoded is not None and decoded.ndim == 3 else 0)
+        if decoded is None or decoded.size == 0 or decoded.shape[0] <= 0 or decoded.shape[1] <= 0 or channels not in (1, 3, 4):
+            invalid_images.append({"file": image.name, "reason": "unreadable image, invalid dimensions, or unsupported channels"})
+            continue
+        readable_images.append(image)
+        if not (raw_labels / f"{image.stem}.txt").exists():
+            missing_label_files.append(image.name)
+            continue
+        valid_images.append(image)
+    image_stems = {image.stem for image in images}
+    orphan_labels = sorted(path.name for path in raw_labels.iterdir() if path.is_file() and path.suffix.lower() == ".txt" and path.stem not in image_stems)
+    validation = {
+        "total_images": len(images), "readable_images": len(readable_images),
+        "corrupt_images": invalid_images, "missing_labels": missing_label_files,
+        "orphan_labels": orphan_labels, "unsupported_image_files": unsupported_image_files,
+        "excluded_from_processing": len(images) - len(valid_images),
+        "status": "PASSED" if not invalid_images and not missing_label_files and not orphan_labels else "COMPLETED_WITH_EXCLUSIONS",
+    }
+    (reports_dir / "dataset_validation.json").write_text(json.dumps(validation, indent=2), encoding="utf-8")
     hashes = defaultdict(list)
-    for fname in all_image_files:
-        fpath = os.path.join(raw_images_dir, fname)
-        with open(fpath, 'rb') as f:
-            h = hashlib.md5(f.read()).hexdigest()
-        hashes[h].append(fname)
-
-    duplicate_groups = {}
-    clean_image_files = []
-    excluded_duplicate_images = []
-
-    for h, file_list in hashes.items():
-        kept_file = file_list[0]
-        clean_image_files.append(kept_file)
-        if len(file_list) > 1:
-            duplicate_groups[h] = {
-                "kept_image": kept_file,
-                "duplicate_images": file_list[1:],
-                "total_duplicates": len(file_list)
-            }
-            excluded_duplicate_images.extend(file_list[1:])
-
-    # Save duplicates report
-    duplicates_report_path = os.path.join(reports_dir, "duplicates.json")
-    with open(duplicates_report_path, "w", encoding="utf-8") as f:
-        json.dump({
-            "duplicate_groups_count": len(duplicate_groups),
-            "total_excluded_images": len(excluded_duplicate_images),
-            "duplicate_groups": duplicate_groups
-        }, f, indent=2)
-
-    print(f"Duplicates processed: {len(duplicate_groups)} groups, {len(excluded_duplicate_images)} excluded images.")
-
-    # 3. Read and Clean Labels
-    invalid_annotations = []
-    cleaned_labels = {} # stem -> list of formatted yolo lines
-    clipped_coords_count = 0
-
-    for fname in clean_image_files:
-        stem = os.path.splitext(fname)[0]
-        label_fname = stem + ".txt"
-        label_path = os.path.join(raw_labels_yolo_dir, label_fname)
-
-        valid_lines_for_file = []
-
-        if os.path.exists(label_path):
-            with open(label_path, "r", encoding="utf-8") as f:
-                lines = [line.strip() for line in f.readlines() if line.strip()]
-
-            for line_idx, line in enumerate(lines):
-                parts = line.split()
-                if len(parts) != 5:
-                    invalid_annotations.append({
-                        "file": label_fname,
-                        "line_index": line_idx,
-                        "reason": f"Expected 5 values, got {len(parts)}",
-                        "content": line
-                    })
-                    continue
-
-                try:
-                    cls_id = int(parts[0])
-                    xc = float(parts[1])
-                    yc = float(parts[2])
-                    w = float(parts[3])
-                    h = float(parts[4])
-
-                    if w <= 0.0 or h <= 0.0:
-                        invalid_annotations.append({
-                            "file": label_fname,
-                            "line_index": line_idx,
-                            "reason": f"Invalid dimension: width={w}, height={h}",
-                            "content": line
-                        })
-                        continue
-
-                    # Bbox bounds
-                    xmin = xc - w / 2.0
-                    ymin = yc - h / 2.0
-                    xmax = xc + w / 2.0
-                    ymax = yc + h / 2.0
-
-                    was_clipped = False
-                    if xmin < 0.0 or ymin < 0.0 or xmax > 1.0 or ymax > 1.0:
-                        was_clipped = True
-                        clipped_coords_count += 1
-                        xmin = max(0.0, min(1.0, xmin))
-                        ymin = max(0.0, min(1.0, ymin))
-                        xmax = max(0.0, min(1.0, xmax))
-                        ymax = max(0.0, min(1.0, ymax))
-
-                        xc = (xmin + xmax) / 2.0
-                        yc = (ymin + ymax) / 2.0
-                        w = xmax - xmin
-                        h = ymax - ymin
-
-                    valid_lines_for_file.append(f"{cls_id} {xc:.6f} {yc:.6f} {w:.6f} {h:.6f}")
-
-                except Exception as e:
-                    invalid_annotations.append({
-                        "file": label_fname,
-                        "line_index": line_idx,
-                        "reason": str(e),
-                        "content": line
-                    })
-
-        cleaned_labels[stem] = valid_lines_for_file
-
-    # Save invalid annotations report
-    invalid_report_path = os.path.join(reports_dir, "invalid_annotations.json")
-    with open(invalid_report_path, "w", encoding="utf-8") as f:
-        json.dump({
-            "invalid_annotations_count": len(invalid_annotations),
-            "clipped_coordinates_count": clipped_coords_count,
-            "invalid_annotations": invalid_annotations
-        }, f, indent=2)
-
-    print(f"Invalid annotations excluded: {len(invalid_annotations)}. Clipped coordinates: {clipped_coords_count}.")
-
-    # 4. Sequence-based Train / Val / Test Split
-    def get_sequence_key(fname):
-        name = os.path.splitext(fname)[0]
-        if name.startswith('vlcsnap'):
-            parts = name.split('-')
-            if len(parts) >= 4 and parts[1].isdigit() and len(parts[1]) == 4:
-                date = parts[1] + '-' + parts[2] + '-' + parts[3]
-                time = parts[4] if len(parts) >= 5 else ''
-                hour = time[:3] if 'h' in time else ''
-                return f'vlcsnap_{date}_{hour}'
-            else:
-                return 'vlcsnap_numeric'
-        elif '_' in name:
-            date = name.split('_')[0]
-            return f'seq_{date}'
-        return 'seq_other'
-
-    seq_assignment = {
-        'seq_20250216': 'val',
-        'seq_20250219': 'val',
-        'seq_20250223': 'train',
-        'vlcsnap_numeric': 'train',
-        'vlcsnap_2025-02-18_17h': 'val',
-        'vlcsnap_2025-02-18_18h': 'train',
-        'vlcsnap_2025-02-18_23h': 'test',
-        'vlcsnap_2025-02-19_13h': 'test',
-        'vlcsnap_2025-02-19_14h': 'train',
-        'vlcsnap_2025-02-19_15h': 'val',
-        'vlcsnap_2025-02-19_16h': 'test',
-        'vlcsnap_2025-02-19_17h': 'train',
-        'vlcsnap_2025-02-26_20h': 'train'
-    }
-
-    split_images = {'train': [], 'val': [], 'test': []}
-    seq_split_report = defaultdict(lambda: defaultdict(int))
-
-    for fname in clean_image_files:
-        seq_key = get_sequence_key(fname)
-        split = seq_assignment.get(seq_key, 'train')
-        split_images[split].append(fname)
-        seq_split_report[seq_key][split] += 1
-
-    # 5. Populate Processed Dataset Folders
-    splits = ['train', 'val', 'test']
-    for s in splits:
-        os.makedirs(os.path.join(processed_dir, "images", s), exist_ok=True)
-        os.makedirs(os.path.join(processed_dir, "labels", s), exist_ok=True)
-
-    class_counts = {s: Counter() for s in splits}
-    image_counts = {s: len(split_images[s]) for s in splits}
-
-    for s in splits:
-        img_out_dir = os.path.join(processed_dir, "images", s)
-        lbl_out_dir = os.path.join(processed_dir, "labels", s)
-
-        for fname in split_images[s]:
-            stem = os.path.splitext(fname)[0]
-
-            # Copy Image
-            src_img = os.path.join(raw_images_dir, fname)
-            dst_img = os.path.join(img_out_dir, fname)
-            shutil.copy2(src_img, dst_img)
-
-            # Write Cleaned Label
-            dst_lbl = os.path.join(lbl_out_dir, stem + ".txt")
-            lines = cleaned_labels.get(stem, [])
-            with open(dst_lbl, "w", encoding="utf-8") as f:
-                f.write("\n".join(lines))
-
-            # Count objects
-            for line in lines:
-                cls_id = int(line.split()[0])
-                class_counts[s][cls_id] += 1
-
-    # 6. Create dataset.yaml
-    processed_dir_posix = processed_dir.replace('\\', '/')
-    yaml_content = f"""path: {processed_dir_posix}
-train: images/train
-val: images/val
-test: images/test
-
-nc: 3
-names:
-  0: pothole
-  1: crack
-  2: manhole
-"""
-    yaml_path = os.path.join(processed_dir, "dataset.yaml")
-    with open(yaml_path, "w", encoding="utf-8") as f:
-        f.write(yaml_content)
-
-    print(f"Created dataset.yaml at {yaml_path}")
-
-    # 7. Create dataset_statistics.csv
-    class_names = {0: "pothole", 1: "crack", 2: "manhole"}
-    csv_path = os.path.join(reports_dir, "dataset_statistics.csv")
-
-    with open(csv_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["class_id", "class_name", "train_images", "val_images", "test_images", "train_objects", "val_objects", "test_objects"])
-
-        for cid in [0, 1, 2]:
-            cname = class_names[cid]
-            # Count images containing class
-            train_imgs_c = sum(1 for fname in split_images['train'] if any(int(l.split()[0]) == cid for l in cleaned_labels[os.path.splitext(fname)[0]]))
-            val_imgs_c = sum(1 for fname in split_images['val'] if any(int(l.split()[0]) == cid for l in cleaned_labels[os.path.splitext(fname)[0]]))
-            test_imgs_c = sum(1 for fname in split_images['test'] if any(int(l.split()[0]) == cid for l in cleaned_labels[os.path.splitext(fname)[0]]))
-
-            tr_objs = class_counts['train'][cid]
-            va_objs = class_counts['val'][cid]
-            te_objs = class_counts['test'][cid]
-
-            writer.writerow([cid, cname, train_imgs_c, val_imgs_c, test_imgs_c, tr_objs, va_objs, te_objs])
-
-    print(f"Created dataset_statistics.csv at {csv_path}")
-
-    # 8. Data Leakage Verification
-    train_stems = set(os.path.splitext(f)[0] for f in split_images['train'])
-    val_stems = set(os.path.splitext(f)[0] for f in split_images['val'])
-    test_stems = set(os.path.splitext(f)[0] for f in split_images['test'])
-
-    train_val_overlap = train_stems.intersection(val_stems)
-    train_test_overlap = train_stems.intersection(test_stems)
-    val_test_overlap = val_stems.intersection(test_stems)
-
-    seq_leakage_found = False
-    seq_split_summary = {}
-    for seq_k, splits_dict in seq_split_report.items():
-        seq_split_summary[seq_k] = dict(splits_dict)
-        if len(splits_dict) > 1:
-            seq_leakage_found = True
-
-    leakage_report = {
-        "status": "PASSED" if not (train_val_overlap or train_test_overlap or val_test_overlap or seq_leakage_found) else "FAILED",
-        "train_val_stem_overlap": len(train_val_overlap),
-        "train_test_stem_overlap": len(train_test_overlap),
-        "val_test_stem_overlap": len(val_test_overlap),
-        "sequence_cross_split_leakage": seq_leakage_found,
-        "sequence_distribution": seq_split_summary,
-        "image_counts": {
-            "train": len(split_images['train']),
-            "val": len(split_images['val']),
-            "test": len(split_images['test']),
-            "total_clean": len(clean_image_files)
-        },
-        "object_counts": {
-            "train": dict(class_counts['train']),
-            "val": dict(class_counts['val']),
-            "test": dict(class_counts['test'])
-        }
-    }
-
-    leakage_report_path = os.path.join(reports_dir, "data_leakage_report.json")
-    with open(leakage_report_path, "w", encoding="utf-8") as f:
-        json.dump(leakage_report, f, indent=2)
-
-    print(f"Data leakage report saved to {leakage_report_path}")
-    print("DATASET PREPARATION COMPLETED SUCCESSFULLY!")
+    for image in valid_images: hashes[_md5(image)].append(image)
+    invalid, duplicates, conflicts, labels, retained = [], {}, [], {}, []
+    for digest, paths in sorted(hashes.items()):
+        paths = sorted(paths); canonical = paths[0]; canonical_lines = _read_labels(raw_labels / f"{canonical.stem}.txt", canonical.name, invalid)
+        labels[canonical.stem] = canonical_lines; retained.append(canonical)
+        if len(paths) > 1:
+            signatures = {path.name: label_signature(_read_labels(raw_labels / f"{path.stem}.txt", path.name, invalid)) for path in paths}
+            duplicates[digest] = {"kept_image": canonical.name, "duplicate_images": [p.name for p in paths[1:]], "total_duplicates": len(paths)}
+            if len(set(signatures.values())) > 1:
+                # Identical pixels with divergent boxes have no defensible canonical
+                # label. Exclude the whole conflict group instead of silently choosing.
+                conflicts.append({"md5": digest, "images": [p.name for p in paths], "annotation_signatures": {name: list(sig) for name, sig in signatures.items()}, "action": "excluded_from_dataset"})
+                retained.pop(); labels.pop(canonical.stem)
+    (reports_dir / "duplicates.json").write_text(json.dumps({"duplicate_groups_count": len(duplicates), "total_excluded_images": len(valid_images)-len(retained), "duplicate_groups": duplicates, "annotation_conflicts": conflicts}, indent=2), encoding="utf-8")
+    annotation_summary = Counter(item["action"] for item in invalid)
+    (reports_dir / "invalid_annotations.json").write_text(json.dumps({"epsilon": 1e-5, "total_flagged": len(invalid), "clipped_count": annotation_summary["clipped"], "excluded_count": annotation_summary["excluded"], "annotations": invalid}, indent=2), encoding="utf-8")
+    groups = defaultdict(list)
+    for image in retained: groups[group_key(image.name)].append(image.name)
+    group_splits = _assign_groups(groups, labels)
+    split_images = {split: sorted(name for key, names in groups.items() if group_splits[key] == split for name in names) for split in SPLITS}
+    if any(not split_images[split] for split in SPLITS): raise RuntimeError("Group-aware split produced an empty split; add more independent capture groups.")
+    for split in SPLITS:
+        (processed_dir / "images" / split).mkdir(parents=True); (processed_dir / "labels" / split).mkdir(parents=True)
+    counts = {split: Counter() for split in SPLITS}
+    for split, names in split_images.items():
+        for name in names:
+            image = raw_images / name; shutil.copy2(image, processed_dir / "images" / split / name)
+            lines = labels[image.stem]; (processed_dir / "labels" / split / f"{image.stem}.txt").write_text("\n".join(lines), encoding="utf-8")
+            counts[split].update(int(line.split()[0]) for line in lines)
+    (processed_dir / "dataset.yaml").write_text(dataset_yaml_text(processed_dir), encoding="utf-8")
+    with (reports_dir / "dataset_statistics.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle); writer.writerow(["class_id", "class_name", "train_images", "val_images", "test_images", "train_objects", "val_objects", "test_objects"])
+        for cid, name in CLASS_NAMES.items(): writer.writerow([cid, name, *[sum(any(int(line.split()[0]) == cid for line in labels[Path(f).stem]) for f in split_images[s]) for s in SPLITS], *[counts[s][cid] for s in SPLITS]])
+    full_statistics = _annotation_statistics([image.name for image in retained], labels)
+    split_statistics = {split: _annotation_statistics(split_images[split], labels) for split in SPLITS}
+    (reports_dir / "annotation_statistics.json").write_text(json.dumps({"all": full_statistics, "splits": split_statistics}, indent=2), encoding="utf-8")
+    report = {"status": "PASSED", "group_aware": True, "cross_split_group_leakage": False, "group_distribution": {key: group_splits[key] for key in sorted(groups)}, "image_counts": {s: len(split_images[s]) for s in SPLITS}, "object_counts": {s: dict(counts[s]) for s in SPLITS}}
+    (reports_dir / "data_leakage_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    return report
 
 if __name__ == "__main__":
-    run_dataset_cleaning()
+    parser = argparse.ArgumentParser(); parser.add_argument("--root", default=None)
+    print(json.dumps(run_dataset_cleaning(parser.parse_args().root), indent=2))

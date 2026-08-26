@@ -1,4 +1,4 @@
 class_id,class_name,train_images,val_images,test_images,train_objects,val_objects,test_objects
-0,pothole,548,164,80,892,258,107
-1,crack,1029,197,146,1844,394,270
-2,manhole,516,80,161,659,94,201
+0,pothole,547,162,80,890,256,107
+1,crack,1027,194,146,1841,387,270
+2,manhole,514,79,161,657,92,201

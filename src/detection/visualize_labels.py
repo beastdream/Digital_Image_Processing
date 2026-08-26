@@ -2,14 +2,15 @@ import os
 import cv2
 import random
 import numpy as np
+from src.data.dataset_utils import CLASS_NAMES, project_root
 
 def visualize_labels():
-    base_dir = r"d:\Digital_Image_Processing"
-    proc_dir = os.path.join(base_dir, "data", "processed", "detection")
+    base_dir = str(project_root())
+    proc_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
     out_dir = os.path.join(base_dir, "results", "yolo", "debug", "label_visualization")
     os.makedirs(out_dir, exist_ok=True)
 
-    class_names = {0: "Pothole", 1: "Crack", 2: "Manhole"}
+    class_names = CLASS_NAMES
     colors = {
         0: (0, 0, 255),    # Red
         1: (255, 0, 0),    # Blue

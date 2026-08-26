@@ -1,66 +1,38 @@
 {
   "status": "PASSED",
-  "train_val_stem_overlap": 0,
-  "train_test_stem_overlap": 0,
-  "val_test_stem_overlap": 0,
-  "sequence_cross_split_leakage": false,
-  "sequence_distribution": {
-    "seq_20250216": {
-      "val": 3
-    },
-    "seq_20250219": {
-      "val": 60
-    },
-    "seq_20250223": {
-      "train": 39
-    },
-    "vlcsnap_numeric": {
-      "train": 348
-    },
-    "vlcsnap_2025-02-18_17h": {
-      "val": 123
-    },
-    "vlcsnap_2025-02-18_18h": {
-      "train": 243
-    },
-    "vlcsnap_2025-02-18_23h": {
-      "test": 213
-    },
-    "vlcsnap_2025-02-19_13h": {
-      "test": 55
-    },
-    "vlcsnap_2025-02-19_14h": {
-      "train": 474
-    },
-    "vlcsnap_2025-02-19_15h": {
-      "val": 115
-    },
-    "vlcsnap_2025-02-19_16h": {
-      "test": 32
-    },
-    "vlcsnap_2025-02-19_17h": {
-      "train": 83
-    },
-    "vlcsnap_2025-02-26_20h": {
-      "train": 216
-    }
+  "group_aware": true,
+  "cross_split_group_leakage": false,
+  "group_distribution": {
+    "capture_20250216": "val",
+    "capture_20250219": "val",
+    "capture_20250223": "train",
+    "vlcsnap_2025-02-18_17h": "val",
+    "vlcsnap_2025-02-18_18h": "train",
+    "vlcsnap_2025-02-18_23h": "test",
+    "vlcsnap_2025-02-19_13h": "test",
+    "vlcsnap_2025-02-19_14h": "train",
+    "vlcsnap_2025-02-19_15h": "val",
+    "vlcsnap_2025-02-19_16h": "test",
+    "vlcsnap_2025-02-19_17h": "train",
+    "vlcsnap_2025-02-26_20h": "train",
+    "vlcsnap_2025-03-16_15h": "train",
+    "vlcsnap_unsequenced": "train"
   },
   "image_counts": {
-    "train": 1403,
-    "val": 301,
-    "test": 300,
-    "total_clean": 2004
+    "train": 1401,
+    "val": 298,
+    "test": 300
   },
   "object_counts": {
     "train": {
-      "0": 892,
-      "1": 1844,
-      "2": 659
+      "0": 890,
+      "1": 1841,
+      "2": 657
     },
     "val": {
-      "2": 94,
-      "0": 258,
-      "1": 394
+      "2": 92,
+      "0": 256,
+      "1": 387
     },
     "test": {
       "2": 201,

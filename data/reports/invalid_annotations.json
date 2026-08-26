@@ -1,12 +1,389 @@
 {
-  "invalid_annotations_count": 1,
-  "clipped_coordinates_count": 63,
-  "invalid_annotations": [
+  "invalid_or_repaired_annotations_count": 64,
+  "annotations": [
     {
       "file": "vlcsnap-00058.txt",
-      "line_index": 1,
-      "reason": "Invalid dimension: width=0.003125, height=0.0",
+      "line": 2,
+      "reason": "width and height must be positive",
       "content": "1 0.639062 0.786111 0.003125 0.000000"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h38m20s232.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.836719 0.781945 0.329687 0.208333"
+    },
+    {
+      "file": "20250223_144821.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.417969 0.600000 0.226562 0.805556"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h41m45s164.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "2 0.958594 0.686111 0.110938 0.077778"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h41m45s164.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "2 0.931250 0.581945 0.162500 0.063889"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h06m28s723.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.099219 0.647222 0.201563 0.122222"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h04m32s301.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.067187 0.441666 0.134375 0.066667"
+    },
+    {
+      "file": "20250223_144154.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.225000 0.413889 0.456250 0.483334"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h40m57s113.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.559375 0.784722 0.893750 0.313889"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h47m04s939.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.071094 0.626389 0.151562 0.141666"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h04m50s312.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.089843 0.615277 0.182813 0.208333"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-23h13m29s907.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "2 0.087500 0.683334 0.178126 0.094445"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h11m23s453.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.055468 0.562500 0.110937 0.086112"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-14h49m03s416.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.936719 0.758333 0.126563 0.122222"
+    },
+    {
+      "file": "20250219_164813.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.287500 0.736111 0.581250 0.505556"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h04m29s066.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.089843 0.613889 0.182813 0.238889"
+    },
+    {
+      "file": "vlcsnap-00205.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.098438 0.602778 0.203125 0.077778"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h47m13s411.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.192968 0.586111 0.385937 0.294444"
+    },
+    {
+      "file": "20250223_144304.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.592187 0.706944 0.537501 0.591667"
+    },
+    {
+      "file": "20250223_144145.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.303906 0.700000 0.610938 0.588888"
+    },
+    {
+      "file": "20250223_144019.txt",
+      "line": 4,
+      "reason": "coordinates clipped",
+      "content": "1 0.320312 0.659722 0.640625 0.669444"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h30m26s925.txt",
+      "line": 4,
+      "reason": "coordinates clipped",
+      "content": "1 0.089062 0.652778 0.181251 0.194444"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-23h26m05s423.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.886718 0.652778 0.257813 0.161111"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-17h09m28s277.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.072656 0.729167 0.145313 0.175000"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-23h25m16s322.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.889844 0.727778 0.226562 0.150000"
+    },
+    {
+      "file": "20250223_144911.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.500000 0.609722 1.000000 0.786111"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h42m13s186.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.927344 0.795833 0.148437 0.147222"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h40m24s413.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "2 0.917188 0.895833 0.165625 0.186111"
+    },
+    {
+      "file": "20250216_164541.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.432031 0.879167 0.098438 0.247222"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-23h14m04s766.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "2 0.942187 0.738889 0.121875 0.133334"
+    },
+    {
+      "file": "20250223_104750.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "0 0.710156 0.881945 0.579688 0.236111"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h30m24s122.txt",
+      "line": 6,
+      "reason": "coordinates clipped",
+      "content": "1 0.074219 0.705556 0.154687 0.072223"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-14h29m25s660.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "0 0.964063 0.784722 0.081249 0.097222"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h04m45s733.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.075781 0.640278 0.154688 0.180556"
+    },
+    {
+      "file": "20250223_143908.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.670312 0.827778 0.350001 0.350000"
+    },
+    {
+      "file": "20250223_143908.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.585156 0.708333 0.526562 0.594445"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h36m00s346.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.125000 0.676389 0.253126 0.247222"
+    },
+    {
+      "file": "vlcsnap-00188.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.103906 0.706944 0.207813 0.119445"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h10m25s907.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.259375 0.702778 0.521875 0.127778"
+    },
+    {
+      "file": "20250219_170258.txt",
+      "line": 7,
+      "reason": "coordinates clipped",
+      "content": "1 0.704688 0.695833 0.265625 0.613889"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-14h17m45s679.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "2 0.053125 0.700000 0.121874 0.038888"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h33m23s476.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "2 0.939063 0.847222 0.121875 0.100000"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h36m39s333.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.085156 0.768056 0.170313 0.236111"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h04m19s949.txt",
+      "line": 5,
+      "reason": "coordinates clipped",
+      "content": "1 0.126562 0.613889 0.253125 0.311111"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-18h42m14s982.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.912500 0.772222 0.178124 0.222222"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-14h29m23s045.txt",
+      "line": 4,
+      "reason": "coordinates clipped",
+      "content": "1 0.908594 0.675000 0.182813 0.144444"
+    },
+    {
+      "file": "20250223_144948.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.334375 0.566667 0.671875 0.861111"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h34m50s947.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.839844 0.787500 0.329687 0.186112"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h40m55s588.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.501563 0.794444 0.999999 0.233333"
+    },
+    {
+      "file": "20250219_164848.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.873438 0.719445 0.256249 0.227777"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-14h18m13s117.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "2 0.964063 0.768056 0.071875 0.063889"
+    },
+    {
+      "file": "vlcsnap-00170.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.040625 0.773611 0.084375 0.091666"
+    },
+    {
+      "file": "vlcsnap-2025-02-18-17h02m07s200.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.145312 0.705556 0.293750 0.172223"
+    },
+    {
+      "file": "20250223_144012.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.297656 0.648612 0.595313 0.686111"
+    },
+    {
+      "file": "vlcsnap-00102.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.142187 0.756944 0.284375 0.125000"
+    },
+    {
+      "file": "vlcsnap-2025-02-19-14h28m52s076.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.883594 0.804167 0.235937 0.213889"
+    },
+    {
+      "file": "20250223_144906.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.404687 0.630555 0.815625 0.755555"
+    },
+    {
+      "file": "20250223_144121.txt",
+      "line": 7,
+      "reason": "coordinates clipped",
+      "content": "1 0.500000 0.541667 1.000000 0.916667"
+    },
+    {
+      "file": "20250223_144352.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "0 0.936719 0.313889 0.126563 0.144444"
+    },
+    {
+      "file": "20250223_144352.txt",
+      "line": 4,
+      "reason": "coordinates clipped",
+      "content": "1 0.421094 0.680556 0.845313 0.633333"
+    },
+    {
+      "file": "20250223_144310.txt",
+      "line": 4,
+      "reason": "coordinates clipped",
+      "content": "0 0.762500 0.888889 0.196876 0.227778"
+    },
+    {
+      "file": "20250223_143917.txt",
+      "line": 1,
+      "reason": "coordinates clipped",
+      "content": "1 0.448438 0.727778 0.359375 0.550000"
+    },
+    {
+      "file": "20250219_164754.txt",
+      "line": 3,
+      "reason": "coordinates clipped",
+      "content": "1 0.283593 0.481944 0.573437 0.330555"
+    },
+    {
+      "file": "vlcsnap-2025-02-26-20h42m15s464.txt",
+      "line": 2,
+      "reason": "coordinates clipped",
+      "content": "1 0.140625 0.697222 0.287500 0.172222"
     }
   ]
 }

@@ -1,6 +1,6 @@
 batch: 16
 cache: false
-data_yaml: d:\Digital_Image_Processing\data\processed\preprocessed\retrain_v1\dataset.yaml
+data_yaml: data/processed/road_damage_detection/preprocessed/retrain_v1/dataset.yaml
 device: cpu
 epochs: 10
 exist_ok: true

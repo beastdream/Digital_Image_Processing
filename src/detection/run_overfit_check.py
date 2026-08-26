@@ -5,7 +5,7 @@ from ultralytics import YOLO
 
 def run_overfit_check():
     base_dir = r"d:\Digital_Image_Processing"
-    data_yaml = os.path.join(base_dir, "data", "processed", "detection", "dataset.yaml")
+    data_yaml = os.path.join(base_dir, "data", "processed", "road_damage_detection", "dataset.yaml")
     exp_dir = os.path.join(base_dir, "experiments", "yolo", "debug_overfit")
     os.makedirs(exp_dir, exist_ok=True)
 

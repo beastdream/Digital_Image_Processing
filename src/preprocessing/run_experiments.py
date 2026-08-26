@@ -10,7 +10,7 @@ from src.preprocessing.pipeline import ImagePreprocessingPipeline
 
 def run_experiment_suite():
     base_dir = r"d:\Digital_Image_Processing"
-    proc_dir = os.path.join(base_dir, "data", "processed", "detection")
+    proc_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
     exp_configs_dir = os.path.join(base_dir, "configs", "experiments")
     experiments_output_base = os.path.join(base_dir, "experiments")
 
