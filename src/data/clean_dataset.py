@@ -126,19 +126,30 @@ def run_dataset_cleaning(root: str | Path | None = None) -> dict:
     (reports_dir / "dataset_validation.json").write_text(json.dumps(validation, indent=2), encoding="utf-8")
     hashes = defaultdict(list)
     for image in valid_images: hashes[_md5(image)].append(image)
-    invalid, duplicates, conflicts, labels, retained = [], {}, [], {}, []
+    invalid, duplicates, conflicts, labels, retained, label_cache = [], {}, [], {}, [], {}
     for digest, paths in sorted(hashes.items()):
-        paths = sorted(paths); canonical = paths[0]; canonical_lines = _read_labels(raw_labels / f"{canonical.stem}.txt", canonical.name, invalid)
-        labels[canonical.stem] = canonical_lines; retained.append(canonical)
-        if len(paths) > 1:
-            signatures = {path.name: label_signature(_read_labels(raw_labels / f"{path.stem}.txt", path.name, invalid)) for path in paths}
-            duplicates[digest] = {"kept_image": canonical.name, "duplicate_images": [p.name for p in paths[1:]], "total_duplicates": len(paths)}
-            if len(set(signatures.values())) > 1:
-                # Identical pixels with divergent boxes have no defensible canonical
-                # label. Exclude the whole conflict group instead of silently choosing.
-                conflicts.append({"md5": digest, "images": [p.name for p in paths], "annotation_signatures": {name: list(sig) for name, sig in signatures.items()}, "action": "excluded_from_dataset"})
-                retained.pop(); labels.pop(canonical.stem)
-    (reports_dir / "duplicates.json").write_text(json.dumps({"duplicate_groups_count": len(duplicates), "total_excluded_images": len(valid_images)-len(retained), "duplicate_groups": duplicates, "annotation_conflicts": conflicts}, indent=2), encoding="utf-8")
+        paths = sorted(paths)
+        annotations = {}
+        for path in paths:
+            if path.stem not in label_cache:
+                label_cache[path.stem] = _read_labels(raw_labels / f"{path.stem}.txt", path.name, invalid)
+            annotations[path.name] = label_cache[path.stem]
+        signatures = {name: label_signature(lines) for name, lines in annotations.items()}
+        if len(set(signatures.values())) == 1:
+            canonical = paths[0]
+            labels[canonical.stem] = annotations[canonical.name]
+            retained.append(canonical)
+            if len(paths) > 1:
+                duplicates[digest] = {"hash": digest, "images": [p.name for p in paths],
+                                      "kept_image": canonical.name, "removed_images": [p.name for p in paths[1:]],
+                                      "status": "deduplicated_same_annotation"}
+        else:
+            # No filename-order rule is allowed to resolve a label disagreement.
+            conflicts.append({"hash": digest, "images": [p.name for p in paths],
+                              "annotations": annotations, "status": "manual_review_required",
+                              "action": "excluded_from_processed_dataset"})
+    (reports_dir / "duplicates.json").write_text(json.dumps({"hash_algorithm": "MD5", "duplicate_groups_count": len(duplicates), "deduplicated_images": sum(len(item["removed_images"]) for item in duplicates.values()), "duplicate_groups": duplicates}, indent=2), encoding="utf-8")
+    (reports_dir / "duplicate_annotation_conflicts.json").write_text(json.dumps({"hash_algorithm": "MD5", "conflict_groups_count": len(conflicts), "excluded_images": sum(len(item["images"]) for item in conflicts), "conflicts": conflicts}, indent=2), encoding="utf-8")
     annotation_summary = Counter(item["action"] for item in invalid)
     (reports_dir / "invalid_annotations.json").write_text(json.dumps({"epsilon": 1e-5, "total_flagged": len(invalid), "clipped_count": annotation_summary["clipped"], "excluded_count": annotation_summary["excluded"], "annotations": invalid}, indent=2), encoding="utf-8")
     groups = defaultdict(list)
