@@ -1,0 +1,15 @@
+# Dataset build and leakage-audit configuration for static road images.
+near_duplicate:
+  enabled: true
+  method: phash
+  threshold: 8
+
+split:
+  ratios:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  stratification:
+    image_weight: 1.0
+    class_weight: 1.0
+    warning_percentage_points: 15.0

@@ -71,14 +71,15 @@ def format_yolo_box(box: tuple[int, float, float, float, float]) -> str:
 
 def group_key(filename: str) -> str:
     stem = Path(filename).stem
-    # Both `vlcsnap-YYYY-MM-DD-15h...` and `vlcsnap_YYYY-MM-DD_15h...`
-    # occur in the supplied captures.
-    match = re.match(r"vlcsnap[-_](\d{4}-\d{2}-\d{2})[-_](\d{2})h", stem, re.I)
+    # Hours are not independent recordings: all captures from a dated session
+    # are grouped together unless metadata later provides a finer source ID.
+    match = re.match(r"vlcsnap[-_](\d{4}-\d{2}-\d{2})[-_]\d{2}h", stem, re.I)
     if match:
-        return f"vlcsnap_{match.group(1)}_{match.group(2)}h"
+        return f"session_{match.group(1)}"
     match = re.match(r"(\d{8})(?:[_-]|$)", stem)
     if match:
-        return f"capture_{match.group(1)}"
+        date = match.group(1)
+        return f"session_{date[:4]}-{date[4:6]}-{date[6:]}"
     return "vlcsnap_unsequenced" if re.match(r"vlcsnap-\d+", stem, re.I) else f"file_{stem}"
 
 def label_signature(lines: Iterable[str]) -> tuple[str, ...]:

@@ -30,8 +30,9 @@ class TestDatasetUtils(unittest.TestCase):
             validate_yolo_box(parse_yolo_line("1 0.5 0.5 0 0.2"))
 
     def test_capture_groups_are_stable(self):
-        self.assertEqual(group_key("vlcsnap-2025-02-19-14h41m29s105.jpg"), "vlcsnap_2025-02-19_14h")
-        self.assertEqual(group_key("20250223_143826.jpg"), "capture_20250223")
+        self.assertEqual(group_key("vlcsnap-2025-02-19-14h41m29s105.jpg"), "session_2025-02-19")
+        self.assertEqual(group_key("vlcsnap-2025-02-19-15h00m00s000.jpg"), "session_2025-02-19")
+        self.assertEqual(group_key("20250223_143826.jpg"), "session_2025-02-23")
 
 
 if __name__ == "__main__":
