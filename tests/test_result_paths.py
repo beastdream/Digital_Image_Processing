@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 
 from src.utils.result_paths import (
+    class_balance_dir,
     experiment_evaluation_dir,
     latest_predictions_dir,
     preprocessing_visualization_dir,
@@ -17,6 +18,7 @@ def test_canonical_result_paths(tmp_path: Path) -> None:
     assert latest_predictions_dir(tmp_path) == tmp_path / "results/predictions/latest"
     assert experiment_evaluation_dir("A_raw", tmp_path) == tmp_path / "results/evaluations/A_raw"
     assert preprocessing_visualization_dir(tmp_path) == tmp_path / "results/preprocessing/visualizations"
+    assert class_balance_dir(tmp_path) == tmp_path / "results/analysis/class_balance"
 
 
 def test_reset_directory_replaces_only_guarded_child(tmp_path: Path) -> None:

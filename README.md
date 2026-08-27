@@ -127,28 +127,85 @@ predicted class/confidence/`xyxy` box. To deliberately replace a custom output,
 pass both `--output results/predictions/<name>` and `--clean-output`; guarded
 cleanup rejects locations outside `results/predictions/`.
 
-## Output layout
+## Results directory
 
-Training models and generated reports have deliberately separate roots:
+The generated-result layout has one purpose for each directory:
 
 ```text
-experiments/yolo/<experiment>/     model and training artifacts (including weights/)
 results/
-  predictions/latest/             replaceable quick image predictions
-  evaluations/latest/             replaceable quick evaluation
-  evaluations/A_raw/ ... F_combined/  final experiment evaluations
-  experiments/                     comparison CSV/JSON/Markdown reports
-  preprocessing/visualizations/   preprocessing sample grids
-  analysis/class_balance/          imbalance and bbox reports
-  legacy/                          manually retained older results
+  predictions/latest/
+  evaluations/latest/
+  evaluations/<experiment>/
+  experiments/
+  preprocessing/visualizations/
+  analysis/class_balance/
+  legacy/
 ```
 
+- `results/predictions/latest/` is the quick prediction test output. Every new
+  default prediction run replaces it completely, so stale images cannot remain.
+- `results/evaluations/latest/` is the most recent manual evaluation and is
+  likewise replaced by the next default manual evaluation.
+- `results/evaluations/<experiment>/` stores evaluation artifacts for each fair
+  experiment, such as `A_raw` through `F_combined`. A runner replaces only the
+  current experiment's directory.
+- `results/experiments/` contains comparison tables and scientific-conclusion
+  artifacts: `experiment_results.csv`, `experiment_analysis.json`,
+  `experiment_analysis.md`, and the manually reviewed `visual_inspection.csv`.
+- `results/preprocessing/visualizations/` contains generated grids showing
+  Original, Resize, Denoise, CLAHE, Brightness, and Final stages. A new
+  visualization run replaces the previous grids.
+- `results/analysis/class_balance/` contains class-balance and bbox-size
+  analysis in JSON, Markdown, and CSV formats.
+- `results/legacy/` preserves outputs created before the directory refactor;
+  legacy artifacts are not treated as current or final evidence.
+
+### `experiments/yolo/` versus `results/`
+
+These roots are intentionally different and must not be used interchangeably.
+`experiments/yolo/<name>/` contains the trained model and training artifacts,
+including `weights/best.pt`, `weights/last.pt`, `args.yaml`,
+`experiment_config.yaml`, and reproducibility metadata. For example,
+`experiments/yolo/A_raw/weights/best.pt` is a model.
+
+`results/` contains only prediction, evaluation, visualization, comparison, and
+analysis outputs. For example, `results/evaluations/A_raw/metrics.json` is the
+evaluation result for that model; it is not a model or training artifact.
+Cleanup under `results/` never targets `experiments/yolo/` or its weights.
+
 `python -m src.detection.evaluate --model ...` writes to
-`results/evaluations/latest/` unless `--output` is supplied. Training always
-remains under `experiments/yolo/`; result cleanup never targets that tree or the
-`results/` root itself. The final preprocessing runner resets only the current
-experiment's `results/evaluations/<experiment>/` folder before evaluating it,
-so evaluation artifacts from the other experiments remain untouched.
+`results/evaluations/latest/` unless `--output` is supplied.
+
+Class-balance and bbox-size analysis writes its JSON, Markdown, and CSV artifacts
+to `results/analysis/class_balance/`. Dataset integrity and validation reports
+remain with the processed dataset under
+`data/processed/road_damage_detection/reports/`; they are not migrated into
+`results/`.
+
+To migrate an older generated-results layout once, run:
+
+```powershell
+python -m src.utils.organize_results --migrate
+```
+
+Preview every planned operation without changing the filesystem:
+
+```powershell
+python -m src.utils.organize_results --migrate --dry-run
+```
+
+Initialize missing canonical directories without deleting or replacing any
+existing content:
+
+```powershell
+python -m src.utils.organize_results --init
+```
+
+The migration is idempotent and never treats unknown `results/yolo/` runs as
+final experiments. It preserves them under `results/legacy/yolo/`, moves direct
+legacy prediction images to `results/legacy/predictions_previous/`, and handles
+old preprocessing visualizations without overwriting existing files. It does
+not access training weights, datasets, configs, source code, or tests.
 
 Training invokes the independent processed-dataset validator and is blocked if
 `reports/post_processing_validation.json` is not `PASSED`. Visual sanity
