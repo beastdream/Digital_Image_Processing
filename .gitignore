@@ -32,9 +32,13 @@ experiments/yolo/
 *.pth
 *.onnx
 
-# Generated results
-results/yolo/
-results/preprocessing_visualizations/
+# Generated binary result artifacts. Small CSV/JSON/Markdown reports remain trackable.
+results/**/*.jpg
+results/**/*.jpeg
+results/**/*.png
+results/**/*.npy
+results/**/*.npz
+results/**/val_run/
 
 # Python cache / tests
 .pytest_cache/

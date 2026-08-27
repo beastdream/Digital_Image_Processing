@@ -4,14 +4,16 @@ import cv2
 import numpy as np
 import yaml
 from typing import List
+from pathlib import Path
 
 from src.preprocessing.pipeline import ImagePreprocessingPipeline
+from src.data.dataset_utils import project_root
+from src.utils.result_paths import preprocessing_visualization_dir, results_root, reset_directory
 
 def visualize_preprocessing_samples():
-    base_dir = r"d:\Digital_Image_Processing"
+    base_dir = str(project_root())
     proc_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
-    output_dir = os.path.join(base_dir, "results", "preprocessing_visualizations")
-    os.makedirs(output_dir, exist_ok=True)
+    output_dir = reset_directory(preprocessing_visualization_dir(Path(base_dir)), results_root(Path(base_dir)))
 
     config_path = os.path.join(base_dir, "configs", "experiments", "full_preprocessing.yaml")
     pipeline = ImagePreprocessingPipeline(config_path)
@@ -114,7 +116,7 @@ def visualize_preprocessing_samples():
         grid = np.vstack([row1, row2])
 
         out_fname = f"sample_{idx+1:02d}_{split}_{os.path.splitext(fname)[0]}.jpg"
-        cv2.imwrite(os.path.join(output_dir, out_fname), grid)
+        cv2.imwrite(str(output_dir / out_fname), grid)
 
     print(f"Saved {len(sample_items)} visualization grids to {output_dir}")
 

@@ -1,0 +1,50 @@
+project:
+  seed: 42
+  output: experiments/yolo
+  results: results/experiments
+
+dataset:
+  source_yaml: data/processed/road_damage_detection/dataset.yaml
+  classes:
+    0: pothole
+    1: crack
+    2: manhole
+
+training:
+  model: yolov8n.pt
+  model_size: nano
+  epochs: 10
+  batch: 16
+  imgsz: 640
+  fraction: 1.0
+  debug_only: false
+  optimizer: Auto
+  learning_rate: 0.01
+  patience: 10
+  device: cpu
+  workers: 0
+  cache: false
+  degrees: 8.0
+  translate: 0.03
+  scale: 0.10
+  fliplr: 0.5
+  hsv_h: 0.01
+  hsv_s: 0.2
+  hsv_v: 0.15
+  mosaic: 0.0
+  mixup: 0.0
+  copy_paste: 0.0
+
+experiments:
+  - name: A_raw
+    preprocessing_config: configs/experiments/baseline.yaml
+  - name: B_gaussian
+    preprocessing_config: configs/experiments/gaussian_denoise.yaml
+  - name: C_median
+    preprocessing_config: configs/experiments/median_denoise.yaml
+  - name: D_clahe
+    preprocessing_config: configs/experiments/clahe.yaml
+  - name: E_brightness
+    preprocessing_config: configs/experiments/brightness.yaml
+  - name: F_combined
+    preprocessing_config: configs/experiments/full_preprocessing.yaml

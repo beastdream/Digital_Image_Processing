@@ -1,5 +1,5 @@
 # Experiment: Gaussian Denoising
-experiment_name: "gaussian_denoise"
+experiment_name: "B_gaussian"
 description: "Evaluates Gaussian Blur filter to smooth road surface noise."
 
 resize:

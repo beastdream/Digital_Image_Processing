@@ -1,0 +1,13 @@
+{
+  "experiment_name": "B_gaussian",
+  "description": "Evaluates Gaussian Blur filter to smooth road surface noise.",
+  "processed_samples": 20,
+  "avg_latency_ms": 8.54654312133789,
+  "pixel_stats": {
+    "mean_intensity": 0.48528420776128767,
+    "std_intensity": 0.1934406254440546,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-27 14:54:39"
+}

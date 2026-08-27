@@ -1,0 +1,4 @@
+split,pothole_0,crack_1,manhole_2,total_objects
+train,888,1636,741,3265
+val,156,493,89,738
+test,207,331,115,653

@@ -1,0 +1,25 @@
+augmentation:
+  enabled: false
+brightness:
+  enabled: false
+contrast:
+  clahe_clip_limit: 2.5
+  clahe_tile_grid_size:
+  - 8
+  - 8
+  enabled: true
+  method: clahe
+denoise:
+  enabled: false
+description: Evaluates CLAHE contrast enhancement for highlighting subtle asphalt
+  cracks and shadow area potholes.
+experiment_name: D_clahe
+normalization:
+  enabled: true
+  mode: pixel_scale
+resize:
+  enabled: true
+  mode: letterbox
+  target_size:
+  - 640
+  - 640

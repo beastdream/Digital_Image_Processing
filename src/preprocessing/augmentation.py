@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
 import random
+import math
 from typing import List, Tuple, Optional
+from src.data.dataset_utils import CLASS_NAMES
 
 class DataAugmenter:
     """
@@ -12,6 +14,20 @@ class DataAugmenter:
 
     def __init__(self, config: dict):
         self.config = config
+        self._validate_safe_ranges()
+
+    def _validate_safe_ranges(self) -> None:
+        """Reject settings likely to erase the fine texture of cracks/potholes."""
+        limits = {
+            "rotation.max_angle_deg": (self.config.get("rotation", {}).get("max_angle_deg", 0), 10),
+            "translation.translate_range": (max(abs(value) for value in self.config.get("translation", {}).get("translate_range", [0, 0])), 0.05),
+        }
+        scale = self.config.get("scaling", {}).get("scale_range", [1.0, 1.0])
+        if scale[0] < 0.9 or scale[1] > 1.1:
+            raise ValueError("Road-damage scaling must stay within [0.9, 1.1]")
+        for name, (value, maximum) in limits.items():
+            if abs(value) > maximum:
+                raise ValueError(f"Unsafe road-damage augmentation: {name} must be <= {maximum}")
 
     def apply(
         self,
@@ -57,12 +73,44 @@ class DataAugmenter:
                 bc_cfg.get("contrast_range", [0.8, 1.2])
             )
 
-        # 6. Blur & Noise
+        # 6. Mild gamma (photometric only: bbox and class are unchanged)
+        gamma_cfg = self.config.get("gamma", {})
+        if gamma_cfg.get("prob", 0.0) > 0 and random.random() < gamma_cfg["prob"]:
+            img_aug = self._gamma(img_aug, gamma_cfg.get("gamma_range", [0.9, 1.1]))
+
+        # 7. Optional blur/noise; disabled in the recommended road-damage config.
         bn_cfg = self.config.get("blur_noise", {})
         if bn_cfg.get("prob", 0.0) > 0 and random.random() < bn_cfg["prob"]:
             img_aug = self._blur_noise(img_aug, bn_cfg.get("blur_kernel", 3), bn_cfg.get("noise_std", 5.0))
 
-        return img_aug, bbox_aug
+        return img_aug, self._filter_valid_bboxes(bbox_aug)
+
+    @staticmethod
+    def _gamma(image: np.ndarray, gamma_range: List[float]) -> np.ndarray:
+        gamma = random.uniform(gamma_range[0], gamma_range[1])
+        if not 0.8 <= gamma <= 1.2:
+            raise ValueError("Road-damage gamma must stay within [0.8, 1.2]")
+        table = np.array([((value / 255.0) ** gamma) * 255.0 for value in range(256)], dtype=np.uint8)
+        return cv2.LUT(image, table)
+
+    @staticmethod
+    def _filter_valid_bboxes(bboxes: List[List[float]]) -> List[List[float]]:
+        """Keep only in-frame boxes; never remap a class or resurrect a dropped box."""
+        valid = []
+        for bbox in bboxes:
+            if len(bbox) != 5:
+                continue
+            class_id, xc, yc, width, height = bbox
+            if int(class_id) != class_id or int(class_id) not in CLASS_NAMES:
+                raise ValueError(f"Augmentation received unsupported class_id {class_id}")
+            values = (float(xc), float(yc), float(width), float(height))
+            if not all(math.isfinite(value) for value in values):
+                continue
+            xc, yc, width, height = values
+            xmin, ymin, xmax, ymax = xc - width / 2, yc - height / 2, xc + width / 2, yc + height / 2
+            if width > 0 and height > 0 and xmin >= 0 and ymin >= 0 and xmax <= 1 and ymax <= 1:
+                valid.append([int(class_id), xc, yc, width, height])
+        return valid
 
     def _horizontal_flip(
         self,

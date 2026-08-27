@@ -1,0 +1,20 @@
+augmentation:
+  enabled: false
+brightness:
+  brightness_factor: 1.15
+  enabled: true
+contrast:
+  enabled: false
+denoise:
+  enabled: false
+description: Evaluates brightness balancing under extreme sunlight/shadow road conditions.
+experiment_name: E_brightness
+normalization:
+  enabled: true
+  mode: pixel_scale
+resize:
+  enabled: true
+  mode: letterbox
+  target_size:
+  - 640
+  - 640

@@ -1,0 +1,34 @@
+{
+  "overall": {
+    "precision": 0.0004,
+    "recall": 0.0768,
+    "mAP50": 0.0,
+    "mAP50_95": 0.0
+  },
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_name": "Pothole",
+      "precision": 0.0005,
+      "recall": 0.1402,
+      "mAP50": 0.0001,
+      "mAP50_95": 0.0
+    },
+    {
+      "class_id": 1,
+      "class_name": "Crack",
+      "precision": 0.0008,
+      "recall": 0.0852,
+      "mAP50": 0.0001,
+      "mAP50_95": 0.0
+    },
+    {
+      "class_id": 2,
+      "class_name": "Manhole",
+      "precision": 0.0,
+      "recall": 0.005,
+      "mAP50": 0.0,
+      "mAP50_95": 0.0
+    }
+  ]
+}

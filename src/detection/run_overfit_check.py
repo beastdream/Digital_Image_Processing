@@ -2,9 +2,12 @@ import os
 import json
 import torch
 from ultralytics import YOLO
+from src.data.dataset_utils import project_root
+from src.utils.reproducibility import set_global_seed
 
 def run_overfit_check():
-    base_dir = r"d:\Digital_Image_Processing"
+    base_dir = str(project_root())
+    set_global_seed(42)
     data_yaml = os.path.join(base_dir, "data", "processed", "road_damage_detection", "dataset.yaml")
     exp_dir = os.path.join(base_dir, "experiments", "yolo", "debug_overfit")
     os.makedirs(exp_dir, exist_ok=True)
@@ -21,7 +24,7 @@ def run_overfit_check():
         epochs=20,
         imgsz=640,
         batch=8,
-        fraction=0.007,  # ~10 images
+        fraction=0.007,  # DEBUG ONLY: ~10 images; never use for final conclusions
         optimizer="Auto",
         lr0=0.01,
         patience=0,
@@ -43,7 +46,7 @@ def run_overfit_check():
         data=data_yaml,
         split="train",
         imgsz=640,
-        fraction=0.011,
+        fraction=0.011,  # DEBUG ONLY: diagnostic overfit check
         device="cpu",
         workers=0,
         verbose=False

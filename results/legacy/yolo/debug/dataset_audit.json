@@ -1,0 +1,65 @@
+{
+  "yaml_check": {
+    "nc": 3,
+    "names": {
+      "0": "pothole",
+      "1": "crack",
+      "2": "manhole"
+    },
+    "path": "D:/Digital_Image_Processing/data/processed/road_damage_detection",
+    "train": "images/train",
+    "val": "images/val",
+    "test": "images/test"
+  },
+  "file_counts": {
+    "train": {
+      "images": 1394,
+      "labels": 1394
+    },
+    "val": {
+      "images": 348,
+      "labels": 348
+    },
+    "test": {
+      "images": 257,
+      "labels": 257
+    }
+  },
+  "matching_check": {},
+  "overlap_check": {
+    "filename_overlap_train_val": 0,
+    "filename_overlap_train_test": 0,
+    "filename_overlap_val_test": 0,
+    "md5_overlap_train_val": 0,
+    "md5_overlap_train_test": 0,
+    "md5_overlap_val_test": 0,
+    "group_cross_split_leakage": {}
+  },
+  "label_validity": {
+    "invalid_class_ids": 0,
+    "out_of_bounds_coords": 0,
+    "non_positive_wh": 0,
+    "nan_inf_values": 0,
+    "malformed_lines": 0
+  },
+  "class_counts_per_split": {
+    "train": {
+      "0": 888,
+      "1": 1636,
+      "2": 741
+    },
+    "val": {
+      "0": 156,
+      "1": 493,
+      "2": 89
+    },
+    "test": {
+      "0": 207,
+      "1": 331,
+      "2": 115
+    }
+  },
+  "is_valid": true,
+  "errors": [],
+  "total_valid_objects": 4656
+}

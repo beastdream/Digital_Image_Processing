@@ -2,10 +2,12 @@ import os
 import unittest
 import numpy as np
 import yaml
+from unittest.mock import patch
 
 from src.preprocessing.pipeline import ImagePreprocessingPipeline
 from src.preprocessing.resize import letterbox_resize
 from src.preprocessing.normalize import normalize_image
+from src.preprocessing.augmentation import DataAugmenter
 from src.data.dataset_utils import project_root
 
 class TestImagePreprocessingPipeline(unittest.TestCase):
@@ -97,6 +99,34 @@ class TestImagePreprocessingPipeline(unittest.TestCase):
         # Original pixel y = 180 -> padded y = 180 + 140 = 320 -> normalized y = 320 / 640 = 0.5
         center_bbox = new_bboxes[0]
         self.assertAlmostEqual(center_bbox[2], 0.5, places=4)
+
+    def test_translation_can_produce_a_valid_negative_image(self):
+        augmenter = DataAugmenter({"enabled": True})
+        # A box close to the right edge translated one image-width right is
+        # entirely out of frame.  [] must remain [], never fall back to input.
+        with patch("src.preprocessing.augmentation.random.uniform", side_effect=[1.0, 0.0]):
+            _, boxes = augmenter._translation(self.dummy_img, [[2, 0.95, 0.5, 0.08, 0.2]], [1.0, 0.0])
+        self.assertEqual(boxes, [])
+
+    def test_augmentation_preserves_class_and_valid_geometry(self):
+        augmenter = DataAugmenter({"enabled": True, "horizontal_flip": {"prob": 1.0}})
+        _, boxes = augmenter.apply(self.dummy_img, [[1, 0.2, 0.5, 0.1, 0.2]], split="train")
+        self.assertEqual(boxes[0][0], 1)
+        _, xc, yc, width, height = boxes[0]
+        self.assertTrue(0 <= xc - width / 2 <= xc + width / 2 <= 1)
+        self.assertTrue(0 <= yc - height / 2 <= yc + height / 2 <= 1)
+
+    def test_gamma_is_photometric_and_preserves_labels(self):
+        augmenter = DataAugmenter({"enabled": True, "gamma": {"prob": 1.0, "gamma_range": [1.1, 1.1]}})
+        image, boxes = augmenter.apply(self.dummy_img, self.dummy_bboxes, split="train")
+        self.assertFalse(np.array_equal(image, self.dummy_img))
+        self.assertEqual(boxes, self.dummy_bboxes)
+
+    def test_unsafe_large_geometric_augmentation_is_rejected(self):
+        with self.assertRaises(ValueError):
+            DataAugmenter({"enabled": True, "rotation": {"max_angle_deg": 30}})
+        with self.assertRaises(ValueError):
+            DataAugmenter({"enabled": True, "scaling": {"scale_range": [0.7, 1.3]}})
 
 if __name__ == "__main__":
     unittest.main()

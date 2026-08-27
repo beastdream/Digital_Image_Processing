@@ -1,5 +1,5 @@
 # Experiment: Median Denoising
-experiment_name: "median_denoise"
+experiment_name: "C_median"
 description: "Evaluates Median Blur filter to remove salt-and-pepper road artifacts."
 
 resize:

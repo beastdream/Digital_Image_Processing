@@ -1,0 +1,25 @@
+augmentation:
+  enabled: false
+brightness:
+  brightness_factor: 1.0
+  enabled: false
+contrast:
+  enabled: false
+denoise:
+  enabled: false
+description: 'Reference baseline: raw valid RGB only; Ultralytics applies standard
+  letterbox and normalization.'
+experiment_name: A_raw
+normalization:
+  enabled: false
+  mode: none
+resize:
+  enabled: false
+  mode: letterbox
+  pad_color:
+  - 114
+  - 114
+  - 114
+  target_size:
+  - 640
+  - 640

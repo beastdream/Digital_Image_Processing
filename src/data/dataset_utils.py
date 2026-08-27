@@ -67,7 +67,9 @@ def clip_yolo_box(box: tuple[int, float, float, float, float]) -> tuple[int, flo
 
 def format_yolo_box(box: tuple[int, float, float, float, float]) -> str:
     class_id, xc, yc, width, height = box
-    return f"{class_id} {xc:.6f} {yc:.6f} {width:.6f} {height:.6f}"
+    # Eight decimals prevent a tolerance-corrected edge box from becoming
+    # out-of-bounds again through six-decimal rounding.
+    return f"{class_id} {xc:.8f} {yc:.8f} {width:.8f} {height:.8f}"
 
 def group_key(filename: str) -> str:
     stem = Path(filename).stem

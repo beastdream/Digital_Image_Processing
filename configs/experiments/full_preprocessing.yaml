@@ -1,6 +1,6 @@
 # Experiment: Full Preprocessing Pipeline
-experiment_name: "full_preprocessing"
-description: "Combines Letterbox Resize, Denoising, CLAHE, Brightness Adjustment, Normalization, and Training Augmentation."
+experiment_name: "F_combined"
+description: "Combines Gaussian denoising, CLAHE, and brightness. Training augmentation is controlled identically by yolo_training.yaml for every experiment."
 
 resize:
   enabled: true
@@ -29,23 +29,4 @@ normalization:
   mode: "pixel_scale"
 
 augmentation:
-  enabled: true
-  horizontal_flip:
-    prob: 0.5
-  rotation:
-    prob: 0.3
-    max_angle_deg: 8
-  scaling:
-    prob: 0.3
-    scale_range: [0.9, 1.1]
-  translation:
-    prob: 0.3
-    translate_range: [0.03, 0.03]
-  brightness_contrast:
-    prob: 0.3
-    brightness_range: [0.9, 1.1]
-    contrast_range: [0.9, 1.1]
-  blur_noise:
-    prob: 0.2
-    blur_kernel: 3
-    noise_std: 3.0
+  enabled: false

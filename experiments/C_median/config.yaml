@@ -1,0 +1,21 @@
+augmentation:
+  enabled: false
+brightness:
+  enabled: false
+contrast:
+  enabled: false
+denoise:
+  enabled: true
+  median_kernel: 3
+  method: median
+description: Evaluates Median Blur filter to remove salt-and-pepper road artifacts.
+experiment_name: C_median
+normalization:
+  enabled: true
+  mode: pixel_scale
+resize:
+  enabled: true
+  mode: letterbox
+  target_size:
+  - 640
+  - 640

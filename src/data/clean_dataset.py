@@ -10,6 +10,7 @@ import numpy as np
 from src.data.dataset_utils import (CLASS_NAMES, IMAGE_SUFFIXES, SPLITS, dataset_yaml_text,
                                     format_yolo_box, group_key, label_signature,
                                     parse_yolo_line, project_root, validate_yolo_box)
+from src.utils.reproducibility import set_global_seed
 
 def _md5(path: Path) -> str:
     digest = hashlib.md5()
@@ -164,6 +165,7 @@ def run_dataset_cleaning(root: str | Path | None = None, config_path: str | Path
     root_path = Path(root) if root else project_root()
     config_file = Path(config_path) if config_path else root_path / "configs/dataset_processing.yaml"
     config = yaml.safe_load(config_file.read_text(encoding="utf-8")) if config_file.exists() else {}
+    seed = set_global_seed(config.get("seed", 42))
     near_config = config.get("near_duplicate", {})
     near_enabled = near_config.get("enabled", config_file.exists())
     if near_config.get("method", "phash") != "phash":
@@ -269,7 +271,7 @@ def run_dataset_cleaning(root: str | Path | None = None, config_path: str | Path
     warning_points = float(config.get("split", {}).get("stratification", {}).get("warning_percentage_points", 15.0))
     target_ratios = config.get("split", {}).get("ratios", {"train": .70, "val": .15, "test": .15})
     (reports_dir / "split_statistics.json").write_text(json.dumps(_split_statistics(split_statistics, warning_points, target_ratios), indent=2), encoding="utf-8")
-    report = {"status": "PASSED", "group_aware": True, "cross_split_group_leakage": False, "group_distribution": {key: group_splits[key] for key in sorted(groups)}, "image_counts": {s: len(split_images[s]) for s in SPLITS}, "object_counts": {s: dict(counts[s]) for s in SPLITS}}
+    report = {"status": "PASSED", "seed": seed, "group_aware": True, "cross_split_group_leakage": False, "group_distribution": {key: group_splits[key] for key in sorted(groups)}, "image_counts": {s: len(split_images[s]) for s in SPLITS}, "object_counts": {s: dict(counts[s]) for s in SPLITS}}
     (reports_dir / "data_leakage_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     cross_split_near_duplicates = []
     for match in pre_split_near_matches:

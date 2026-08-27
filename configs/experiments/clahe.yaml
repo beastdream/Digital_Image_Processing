@@ -1,5 +1,5 @@
 # Experiment: Contrast Enhancement (CLAHE)
-experiment_name: "clahe"
+experiment_name: "D_clahe"
 description: "Evaluates CLAHE contrast enhancement for highlighting subtle asphalt cracks and shadow area potholes."
 
 resize:

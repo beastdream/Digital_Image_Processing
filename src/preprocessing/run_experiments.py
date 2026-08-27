@@ -7,20 +7,20 @@ import numpy as np
 from typing import Dict
 
 from src.preprocessing.pipeline import ImagePreprocessingPipeline
+from src.data.dataset_utils import project_root
 
 def run_experiment_suite():
-    base_dir = r"d:\Digital_Image_Processing"
+    base_dir = str(project_root())
     proc_dir = os.path.join(base_dir, "data", "processed", "road_damage_detection")
     exp_configs_dir = os.path.join(base_dir, "configs", "experiments")
     experiments_output_base = os.path.join(base_dir, "experiments")
 
     config_files = [
         "baseline.yaml",
-        "resize.yaml",
-        "denoising.yaml",
+        "gaussian_denoise.yaml",
+        "median_denoise.yaml",
         "clahe.yaml",
         "brightness.yaml",
-        "augmentation.yaml",
         "full_preprocessing.yaml"
     ]
 

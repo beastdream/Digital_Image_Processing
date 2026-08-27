@@ -1,0 +1,13 @@
+{
+  "experiment_name": "F_combined",
+  "description": "Combines Gaussian denoising, CLAHE, and brightness. Training augmentation is controlled identically by yolo_training.yaml for every experiment.",
+  "processed_samples": 20,
+  "avg_latency_ms": 19.620788097381592,
+  "pixel_stats": {
+    "mean_intensity": 0.5029766097664833,
+    "std_intensity": 0.20394855365157127,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-27 14:54:41"
+}

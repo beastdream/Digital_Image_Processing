@@ -36,18 +36,21 @@ augmentation:
     prob: 0.5
   rotation:
     prob: 0.3
-    max_angle_deg: 10
+    max_angle_deg: 8
   scaling:
     prob: 0.3
-    scale_range: [0.85, 1.15]
+    scale_range: [0.9, 1.1]
   translation:
     prob: 0.3
-    translate_range: [0.05, 0.05]
+    translate_range: [0.03, 0.03]
   brightness_contrast:
     prob: 0.4
-    brightness_range: [0.8, 1.2]
-    contrast_range: [0.8, 1.2]
-  blur_noise:
+    brightness_range: [0.9, 1.1]
+    contrast_range: [0.9, 1.1]
+  gamma:
     prob: 0.3
+    gamma_range: [0.9, 1.1]
+  blur_noise:
+    prob: 0.0
     blur_kernel: 3
     noise_std: 5.0

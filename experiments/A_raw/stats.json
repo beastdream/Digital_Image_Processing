@@ -1,0 +1,13 @@
+{
+  "experiment_name": "A_raw",
+  "description": "Reference baseline: raw valid RGB only; Ultralytics applies standard letterbox and normalization.",
+  "processed_samples": 20,
+  "avg_latency_ms": 1.4944076538085938,
+  "pixel_stats": {
+    "mean_intensity": 131.32878125000002,
+    "std_intensity": 63.55433959476251,
+    "min_pixel": 0.0,
+    "max_pixel": 255.0
+  },
+  "timestamp": "2026-08-27 14:54:39"
+}

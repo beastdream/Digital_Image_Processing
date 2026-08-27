@@ -1,0 +1,35 @@
+augmentation:
+  enabled: false
+brightness:
+  brightness_factor: 1.05
+  enabled: true
+contrast:
+  clahe_clip_limit: 2.0
+  clahe_tile_grid_size:
+  - 8
+  - 8
+  enabled: true
+  method: clahe
+denoise:
+  enabled: true
+  gaussian_kernel:
+  - 3
+  - 3
+  gaussian_sigma: 0.5
+  method: gaussian
+description: Combines Gaussian denoising, CLAHE, and brightness. Training augmentation
+  is controlled identically by yolo_training.yaml for every experiment.
+experiment_name: F_combined
+normalization:
+  enabled: true
+  mode: pixel_scale
+resize:
+  enabled: true
+  mode: letterbox
+  pad_color:
+  - 114
+  - 114
+  - 114
+  target_size:
+  - 640
+  - 640

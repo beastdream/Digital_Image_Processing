@@ -1,0 +1,13 @@
+{
+  "experiment_name": "C_median",
+  "description": "Evaluates Median Blur filter to remove salt-and-pepper road artifacts.",
+  "processed_samples": 20,
+  "avg_latency_ms": 8.701145648956299,
+  "pixel_stats": {
+    "mean_intensity": 0.48477880507707594,
+    "std_intensity": 0.19499145708978177,
+    "min_pixel": 0.0,
+    "max_pixel": 1.0
+  },
+  "timestamp": "2026-08-27 14:54:40"
+}

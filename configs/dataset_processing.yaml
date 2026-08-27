@@ -1,4 +1,5 @@
 # Dataset build and leakage-audit configuration for static road images.
+seed: 42
 near_duplicate:
   enabled: true
   method: phash

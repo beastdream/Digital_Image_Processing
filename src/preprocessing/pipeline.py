@@ -55,6 +55,7 @@ class ImagePreprocessingPipeline:
         curr_bboxes = [list(b) for b in bboxes] if bboxes is not None else None
 
         intermediates = {"original": curr_img.copy()}
+        bbox_intermediates = {"original": [list(box) for box in curr_bboxes] if curr_bboxes is not None else None}
         exec_meta = {"split": split, "steps_executed": []}
 
         # 1. Augmentation (Train split only)
@@ -64,6 +65,7 @@ class ImagePreprocessingPipeline:
             exec_meta["steps_executed"].append("augmentation")
             if return_intermediates:
                 intermediates["augmentation"] = curr_img.copy()
+                bbox_intermediates["augmentation"] = [list(box) for box in curr_bboxes]
 
         # 2. Resize
         resize_cfg = self.config.get("resize", {})
@@ -86,6 +88,7 @@ class ImagePreprocessingPipeline:
             exec_meta["steps_executed"].append(f"resize_{mode}")
             if return_intermediates:
                 intermediates["resize"] = curr_img.copy()
+                bbox_intermediates["resize"] = [list(box) for box in curr_bboxes] if curr_bboxes is not None else None
 
         # 3. Denoising
         denoise_cfg = self.config.get("denoise", {})
@@ -136,6 +139,7 @@ class ImagePreprocessingPipeline:
         # Save uint8 processed image for visual inspection / dataset saving
         if return_intermediates:
             intermediates["final_uint8"] = curr_img.copy()
+            bbox_intermediates["final_uint8"] = [list(box) for box in curr_bboxes] if curr_bboxes is not None else None
 
         # 6. Normalization
         norm_cfg = self.config.get("normalization", {})
@@ -150,5 +154,6 @@ class ImagePreprocessingPipeline:
 
         if return_intermediates:
             exec_meta["intermediates"] = intermediates
+            exec_meta["bbox_intermediates"] = bbox_intermediates
 
         return final_img, curr_bboxes, exec_meta

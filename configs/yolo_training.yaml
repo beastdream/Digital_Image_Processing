@@ -6,12 +6,15 @@ model_size: "nano"
 
 # Dataset
 data_yaml: "data/processed/road_damage_detection/dataset.yaml"
+preprocessing_config: "configs/experiments/baseline.yaml"
 
 # Hyperparameters
-imgsz: 320
+imgsz: 640
 epochs: 10
 batch: 16
-fraction: 0.5
+# Final comparison always uses the complete training split.
+fraction: 1.0
+debug_only: false
 optimizer: "Auto"
 learning_rate: 0.01
 patience: 10
@@ -27,6 +30,9 @@ fliplr: 0.5
 hsv_h: 0.01
 hsv_s: 0.2
 hsv_v: 0.15
+mosaic: 0.0
+mixup: 0.0
+copy_paste: 0.0
 
 # Hardware / Environment
 device: "cpu"
@@ -34,7 +40,7 @@ workers: 0
 
 # Output & Logging
 project: "experiments/yolo"
-name: "baseline"
+name: "A_raw"
 exist_ok: true
 save: true
 save_period: -1

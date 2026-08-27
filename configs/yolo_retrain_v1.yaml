@@ -4,7 +4,8 @@ data_yaml: data/processed/road_damage_detection/preprocessed/retrain_v1/dataset.
 device: cpu
 epochs: 10
 exist_ok: true
-fraction: 0.5
+fraction: 1.0
+debug_only: false
 imgsz: 320
 learning_rate: 0.01
 model_size: nano
