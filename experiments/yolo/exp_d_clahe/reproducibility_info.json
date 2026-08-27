@@ -1,0 +1,21 @@
+{
+  "training_config": {
+    "batch": 32,
+    "cache": false,
+    "data_yaml": "d:\\Digital_Image_Processing\\data\\processed\\preprocessed\\exp_d_clahe\\dataset.yaml",
+    "device": "cpu",
+    "epochs": 4,
+    "fraction": 0.15,
+    "imgsz": 320,
+    "learning_rate": 0.01,
+    "name": "exp_d_clahe",
+    "optimizer": "Auto",
+    "patience": 3,
+    "seed": 42,
+    "workers": 0
+  },
+  "seed": 42,
+  "device_used": "cpu",
+  "pytorch_version": "2.13.0+cpu",
+  "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+}

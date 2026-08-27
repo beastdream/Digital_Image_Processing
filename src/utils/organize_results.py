@@ -52,7 +52,7 @@ def _move_preserving_all(source: Path, destination: Path, root: Path, actions: l
     destination.parent.mkdir(parents=True, exist_ok=True)
     if not destination.exists():
         shutil.move(str(source), str(destination))
-        actions.append(f"Moved {source} -> {destination}")
+        actions.append(f"MOVE {_relative(source, root)} -> {_relative(destination, root)}")
         return
     if source.is_dir() and destination.is_dir():
         for child in list(source.iterdir()):
@@ -61,7 +61,7 @@ def _move_preserving_all(source: Path, destination: Path, root: Path, actions: l
         return
     collision = _collision_path(destination)
     shutil.move(str(source), str(collision))
-    actions.append(f"Preserved collision {source} -> {collision}")
+    actions.append(f"ARCHIVE {_relative(source, root)} -> {_relative(collision, root)}")
 
 
 def _has_content(path: Path) -> bool:
@@ -168,7 +168,7 @@ def migrate_results(root: Path | None = None) -> list[str]:
         if destination.exists():
             destination = _collision_path(destination)
         shutil.move(str(source), str(destination))
-        actions.append(f"Moved legacy class-balance artifact {source} -> {destination}")
+        actions.append(f"MOVE {_relative(source, root)} -> {_relative(destination, root)}")
 
     old_preprocessing = result_root / "preprocessing_visualizations"
     new_preprocessing = preprocessing_visualization_dir(root)
@@ -199,7 +199,7 @@ def migrate_results(root: Path | None = None) -> list[str]:
         for image in old_predictions:
             _move_preserving_all(image, previous / image.name, root, actions)
         latest_predictions_dir(root).mkdir(parents=True, exist_ok=True)
-        actions.append(f"Ensured current prediction directory: {latest_predictions_dir(root)}")
+        actions.append(f"CREATE {_relative(latest_predictions_dir(root), root)}")
 
     old_yolo = result_root / "yolo"
     if old_yolo.exists():

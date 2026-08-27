@@ -1,0 +1,6 @@
+{
+  "status": "COMPLETED",
+  "best_weights": "D:\\Digital_Image_Processing\\experiments\\yolo\\A_raw_smoke\\weights\\best.pt",
+  "last_weights": "D:\\Digital_Image_Processing\\experiments\\yolo\\A_raw_smoke\\weights\\last.pt",
+  "checkpoint_created": true
+}

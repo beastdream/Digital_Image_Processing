@@ -1,13 +1,15 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
 
 from src.detection.evaluate import (MATRIX_LABELS, analyze_confusions, extract_confusion_matrix,
-    extract_detection_metrics, prepare_evaluation_output, save_evaluation_artifacts)
+    extract_detection_metrics, log_evaluation_output, prepare_evaluation_output,
+    save_evaluation_artifacts)
 
 
 class TestEvaluationMetrics(unittest.TestCase):
@@ -105,6 +107,14 @@ class TestEvaluationMetrics(unittest.TestCase):
             self.assertTrue((other / "metrics.json").exists())
             with self.assertRaisesRegex(ValueError, "outside"):
                 prepare_evaluation_output(root / "experiments/yolo", clean_output=True, root=root)
+
+    def test_evaluation_logging_identifies_output_and_replacement(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "results/evaluations/A_raw"
+            with patch("builtins.print") as printer:
+                log_evaluation_output(output, replacing=True)
+            printer.assert_any_call(f"Evaluation output:\n{output}")
+            printer.assert_any_call("Replacing previous evaluation artifacts for A_raw.")
 
 
 if __name__ == "__main__":

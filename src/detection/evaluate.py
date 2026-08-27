@@ -30,6 +30,12 @@ def prepare_evaluation_output(
     return resolved
 
 
+def log_evaluation_output(output_dir: Path, replacing: bool) -> None:
+    print(f"Evaluation output:\n{output_dir}")
+    if replacing:
+        print(f"Replacing previous evaluation artifacts for {output_dir.name}.")
+
+
 def extract_detection_metrics(metrics) -> dict:
     """Extract overall and all three class metrics without dropping absent classes."""
     overall = {
@@ -154,6 +160,7 @@ def evaluate_yolo(
     experiment_config = load_experiment_config(model_path, experiment_config_path)
     validate_evaluation_dataset(data_path, experiment_config)
     full_output_dir = prepare_evaluation_output(output_dir, clean_output, base_dir)
+    log_evaluation_output(full_output_dir, output_dir is None or clean_output)
 
     print(f"Evaluating YOLO Model [{model_path}] on split '{split}' using data [{data_yaml}]...")
 

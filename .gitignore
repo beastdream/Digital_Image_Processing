@@ -1,13 +1,21 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
 *.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+htmlcov/
 
 # Virtual environment
 .venv/
 venv/
 env/
+ENV/
 
 # IDE
 .vscode/
@@ -23,9 +31,14 @@ data/raw/
 # Processed dataset
 data/processed/
 
-# YOLO training outputs
+# YOLO training outputs (keep small YAML/JSON reproducibility metadata visible)
 runs/
-experiments/yolo/
+experiments/yolo/**/weights/
+experiments/yolo/**/*.jpg
+experiments/yolo/**/*.jpeg
+experiments/yolo/**/*.png
+experiments/yolo/**/events.out.tfevents.*
+experiments/yolo/**/predictions.json
 
 # Model weights
 *.pt
@@ -33,17 +46,17 @@ experiments/yolo/
 *.onnx
 
 # Generated binary result artifacts. Small CSV/JSON/Markdown reports remain trackable.
+results/predictions/latest/
+results/ground_truth/latest/
+results/evaluations/latest/
+results/preprocessing/visualizations/
+results/legacy/
 results/**/*.jpg
 results/**/*.jpeg
 results/**/*.png
 results/**/*.npy
 results/**/*.npz
 results/**/val_run/
-
-# Python cache / tests
-.pytest_cache/
-.coverage
-htmlcov/
 
 # Logs
 *.log

@@ -6,6 +6,9 @@ import pytest
 from src.utils.result_paths import (
     class_balance_dir,
     experiment_evaluation_dir,
+    experiment_results_dir,
+    latest_ground_truth_dir,
+    latest_evaluation_dir,
     latest_predictions_dir,
     preprocessing_visualization_dir,
     reset_directory,
@@ -16,7 +19,10 @@ from src.preprocessing.visualize import visualize_preprocessing_samples
 
 def test_canonical_result_paths(tmp_path: Path) -> None:
     assert latest_predictions_dir(tmp_path) == tmp_path / "results/predictions/latest"
+    assert latest_ground_truth_dir(tmp_path) == tmp_path / "results/ground_truth/latest"
+    assert latest_evaluation_dir(tmp_path) == tmp_path / "results/evaluations/latest"
     assert experiment_evaluation_dir("A_raw", tmp_path) == tmp_path / "results/evaluations/A_raw"
+    assert experiment_results_dir(tmp_path) == tmp_path / "results/experiments"
     assert preprocessing_visualization_dir(tmp_path) == tmp_path / "results/preprocessing/visualizations"
     assert class_balance_dir(tmp_path) == tmp_path / "results/analysis/class_balance"
 
@@ -39,6 +45,12 @@ def test_reset_directory_refuses_root_and_outside_path(tmp_path: Path) -> None:
         reset_directory(root, root)
     with pytest.raises(ValueError, match="outside"):
         reset_directory(tmp_path / "experiments/yolo", root)
+    external = tmp_path / "arbitrary_external_folder"
+    external.mkdir()
+    (external / "must_survive.txt").write_text("keep", encoding="utf-8")
+    with pytest.raises(ValueError, match="outside"):
+        reset_directory(external, root)
+    assert (external / "must_survive.txt").read_text(encoding="utf-8") == "keep"
 
 
 def test_reset_directory_refuses_real_project_roots() -> None:

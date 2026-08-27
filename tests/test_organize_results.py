@@ -39,11 +39,12 @@ def test_old_yolo_tree_moves_wholly_to_legacy_and_preserves_collisions(tmp_path:
     _write(tmp_path / "results/legacy/yolo/baseline/metrics.json", "existing")
     _write(tmp_path / "results/yolo/baseline/metrics.json", "old")
     _write(tmp_path / "results/yolo/debug/report.json", "debug")
-    migrate_results(tmp_path)
+    actions = migrate_results(tmp_path)
     legacy = tmp_path / "results/legacy/yolo"
     assert (legacy / "baseline/metrics.json").read_text() == "existing"
     assert (legacy / "baseline/metrics.legacy_1.json").read_text() == "old"
     assert (legacy / "debug/report.json").read_text() == "debug"
+    assert any(action.startswith("ARCHIVE ") for action in actions)
     assert not (tmp_path / "results/yolo").exists()
     assert migrate_results(tmp_path) == []
 
@@ -92,6 +93,12 @@ def test_clean_layout_prints_required_idempotent_message(tmp_path: Path, capsys)
     (tmp_path / "results").mkdir()
     assert main(["--migrate"], root=tmp_path) == 0
     assert capsys.readouterr().out.strip() == "Results layout is already organized. No migration required."
+
+
+def test_migration_cli_logs_move_actions_clearly(tmp_path: Path, capsys) -> None:
+    _write(tmp_path / "results/yolo/baseline/metrics.json", "metric")
+    assert main(["--migrate"], root=tmp_path) == 0
+    assert "- MOVE results/yolo -> results/legacy/yolo" in capsys.readouterr().out
 
 
 def _snapshot(root: Path) -> list[tuple[str, str, bytes | None]]:

@@ -1,0 +1,40 @@
+schema_version: 1
+name: A_raw
+classes:
+  0: pothole
+  1: crack
+  2: manhole
+preprocessing:
+  experiment_name: A_raw
+  description: 'Reference baseline: raw valid RGB only; Ultralytics applies standard
+    letterbox and normalization.'
+  resize:
+    enabled: false
+    mode: letterbox
+    target_size:
+    - 640
+    - 640
+    pad_color:
+    - 114
+    - 114
+    - 114
+  denoise:
+    enabled: false
+  contrast:
+    enabled: false
+  brightness:
+    enabled: false
+    brightness_factor: 1.0
+  normalization:
+    enabled: false
+    mode: none
+  augmentation:
+    enabled: false
+training:
+  model: yolov8n.pt
+  imgsz: 640
+  epochs: 10
+  batch: 16
+  seed: 42
+  fraction: 1.0
+training_data_yaml: D:\Digital_Image_Processing\data\processed\road_damage_detection\dataset.yaml

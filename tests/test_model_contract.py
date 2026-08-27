@@ -2,7 +2,7 @@ import tempfile
 import unittest
 import io
 import json
-from contextlib import redirect_stderr
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -98,12 +98,17 @@ class TestModelPreprocessingContract(unittest.TestCase):
             cv2.imwrite(str(source), raw)
             decoded = cv2.imread(str(source))
             expected, _ = preprocess_for_inference(decoded, load_experiment_config("unused.pt", metadata_path))
+            custom_output = root / "out"
+            custom_output.mkdir()
+            existing = custom_output / "existing.txt"
+            existing.write_text("preserve", encoding="utf-8")
             with patch("src.detection.predict.YOLO", _FakeYOLO):
-                count = run_prediction("arbitrary_model_name.pt", str(source), str(root / "out"),
+                count = run_prediction("arbitrary_model_name.pt", str(source), str(custom_output),
                                        max_images=1, experiment_config_path=str(metadata_path))
             self.assertEqual(count, 1)
             np.testing.assert_array_equal(_FakeYOLO.last_source, expected)
             self.assertFalse(np.array_equal(_FakeYOLO.last_source, decoded))
+            self.assertEqual(existing.read_text(encoding="utf-8"), "preserve")
             summary = json.loads((root / "out/prediction_summary.json").read_text(encoding="utf-8"))
             self.assertEqual(summary["processed_images"], 1)
             self.assertEqual(summary["images"], [{"filename": "input.jpg", "detections": []}])
@@ -121,7 +126,9 @@ class TestModelPreprocessingContract(unittest.TestCase):
             latest = root / "results/predictions/latest"
             latest.mkdir(parents=True)
             (latest / "stale.jpg").write_bytes(b"old")
-            with patch("src.detection.predict.project_root", return_value=root), \
+            stdout = io.StringIO()
+            with redirect_stdout(stdout), \
+                    patch("src.detection.predict.project_root", return_value=root), \
                     patch("src.detection.predict.YOLO", _FakeDetectionYOLO):
                 count = run_prediction("model.pt", str(source), max_images=1,
                                        experiment_config_path=str(metadata_path),
@@ -135,6 +142,12 @@ class TestModelPreprocessingContract(unittest.TestCase):
                 "class_id": 0, "class_name": "pothole", "confidence": 0.78,
                 "xyxy": [1, 2, 10, 12],
             })
+            log = stdout.getvalue()
+            self.assertIn("Prediction output policy: latest-run replacement", log)
+            self.assertIn(f"Clearing:\n{latest.resolve()}", log)
+            self.assertIn(f"Using model:\n{(root / 'model.pt').resolve()}", log)
+            self.assertIn("Processing:\n1 image(s)", log)
+            self.assertIn(f"Saved 1 prediction visualizations to:\n{latest.resolve()}", log)
 
     def test_custom_prediction_output_is_preserved_unless_clean_is_requested(self):
         with tempfile.TemporaryDirectory() as directory:

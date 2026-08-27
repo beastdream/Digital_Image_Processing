@@ -1,0 +1,5 @@
+{
+  "status": "FAILED",
+  "error": "Incomplete historical run: training produced neither weights/best.pt nor weights/last.pt.",
+  "checkpoint_created": false
+}

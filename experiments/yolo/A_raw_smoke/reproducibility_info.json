@@ -1,0 +1,87 @@
+{
+  "status": "COMPLETED",
+  "training_config": {
+    "model_weights": "yolov8n.pt",
+    "model_size": "nano",
+    "data_yaml": "data/processed/road_damage_detection/dataset.yaml",
+    "preprocessing_config": "configs/experiments/baseline.yaml",
+    "imgsz": 320,
+    "epochs": 1,
+    "batch": 4,
+    "fraction": 0.05,
+    "debug_only": true,
+    "optimizer": "Auto",
+    "learning_rate": 0.01,
+    "patience": 10,
+    "seed": 42,
+    "cache": false,
+    "degrees": 8.0,
+    "translate": 0.03,
+    "scale": 0.1,
+    "fliplr": 0.5,
+    "hsv_h": 0.01,
+    "hsv_s": 0.2,
+    "hsv_v": 0.15,
+    "mosaic": 0.0,
+    "mixup": 0.0,
+    "copy_paste": 0.0,
+    "device": "cpu",
+    "workers": 0,
+    "project": "experiments/yolo",
+    "name": "A_raw_smoke",
+    "exist_ok": true,
+    "save": true,
+    "save_period": -1,
+    "plots": true,
+    "verbose": true
+  },
+  "run_mode": "DEBUG ONLY",
+  "trained_on_full_dataset": false,
+  "seed": 42,
+  "device_used": "cpu",
+  "pytorch_version": "2.13.0+cpu",
+  "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "dataset_integrity": {
+    "status": "PASSED",
+    "data_yaml": "D:\\Digital_Image_Processing\\data\\processed\\road_damage_detection\\dataset.yaml",
+    "checks": {
+      "dataset_yaml": "PASSED",
+      "splits_and_annotations": "PASSED",
+      "duplicate_cross_split": "PASSED",
+      "capture_group_cross_split": "PASSED"
+    },
+    "statistics": {
+      "images": {
+        "train": 1394,
+        "val": 348,
+        "test": 257
+      },
+      "objects": {
+        "train": {
+          "pothole": 888,
+          "crack": 1636,
+          "manhole": 741
+        },
+        "val": {
+          "pothole": 156,
+          "crack": 493,
+          "manhole": 89
+        },
+        "test": {
+          "pothole": 207,
+          "crack": 331,
+          "manhole": 115
+        }
+      },
+      "total_images": 1999,
+      "total_objects": 4656
+    },
+    "duplicate_hash_groups": [],
+    "duplicate_stems": {},
+    "leaked_capture_groups": {},
+    "errors": []
+  },
+  "best_weights": "D:\\Digital_Image_Processing\\experiments\\yolo\\A_raw_smoke\\weights\\best.pt",
+  "last_weights": "D:\\Digital_Image_Processing\\experiments\\yolo\\A_raw_smoke\\weights\\last.pt",
+  "checkpoint_created": true
+}

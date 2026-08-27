@@ -1,0 +1,29 @@
+{
+  "training_config": {
+    "batch": 16,
+    "cache": false,
+    "data_yaml": "d:\\Digital_Image_Processing\\data\\processed\\preprocessed\\retrain_v1\\dataset.yaml",
+    "device": "cpu",
+    "epochs": 10,
+    "exist_ok": true,
+    "fraction": 0.5,
+    "imgsz": 320,
+    "learning_rate": 0.01,
+    "model_size": "nano",
+    "model_weights": "yolov8n.pt",
+    "name": "retrain_v1",
+    "optimizer": "Auto",
+    "patience": 10,
+    "plots": true,
+    "project": "experiments/yolo",
+    "save": true,
+    "save_period": -1,
+    "seed": 42,
+    "verbose": true,
+    "workers": 0
+  },
+  "seed": 42,
+  "device_used": "cpu",
+  "pytorch_version": "2.13.0+cpu",
+  "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+}

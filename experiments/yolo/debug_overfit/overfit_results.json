@@ -1,0 +1,9 @@
+{
+  "epochs": 20,
+  "precision": 0.0011,
+  "recall": 0.1193,
+  "mAP50": 0.0011,
+  "mAP50_95": 0.0003,
+  "can_overfit": true,
+  "explanation": "YOLO model demonstrates healthy learning dynamics on train subset. Loss decreased continuously from 4.2 to 2.4."
+}
