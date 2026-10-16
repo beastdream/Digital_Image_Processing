@@ -1,0 +1,9 @@
+{
+  "experiment": "F_combined",
+  "preprocessing": "gaussian+clahe+brightness",
+  "timing_scope": "read image + preprocessing + model inference",
+  "read_image_ms": 4.155,
+  "preprocessing_ms": 17.783,
+  "inference_ms": 15.205,
+  "total_ms": 37.142
+}

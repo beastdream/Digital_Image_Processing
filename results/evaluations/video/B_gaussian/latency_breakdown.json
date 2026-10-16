@@ -1,0 +1,9 @@
+{
+  "experiment": "B_gaussian",
+  "preprocessing": "gaussian",
+  "timing_scope": "read image + preprocessing + model inference",
+  "read_image_ms": 4.344,
+  "preprocessing_ms": 3.237,
+  "inference_ms": 11.715,
+  "total_ms": 19.296
+}

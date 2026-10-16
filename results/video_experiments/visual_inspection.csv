@@ -1,0 +1,7 @@
+experiment,status,reviewed_images,bbox_alignment,texture_preservation,representative_failures,reviewer
+A_raw,PENDING,0,,,,
+B_gaussian,PENDING,0,,,,
+C_median,PENDING,0,,,,
+D_clahe,PENDING,0,,,,
+E_brightness,PENDING,0,,,,
+F_combined,PENDING,0,,,,

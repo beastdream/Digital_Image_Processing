@@ -1,0 +1,99 @@
+{
+  "overall": {
+    "precision": 0.8974,
+    "recall": 0.8198,
+    "mAP50": 0.8969,
+    "mAP50_95": 0.4876
+  },
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_name": "pothole",
+      "precision": 0.8974,
+      "recall": 0.8198,
+      "mAP50": 0.8969,
+      "mAP50_95": 0.4876
+    },
+    {
+      "class_id": 1,
+      "class_name": "crack",
+      "precision": 0.0,
+      "recall": 0.0,
+      "mAP50": 0.0,
+      "mAP50_95": 0.0
+    },
+    {
+      "class_id": 2,
+      "class_name": "manhole",
+      "precision": 0.0,
+      "recall": 0.0,
+      "mAP50": 0.0,
+      "mAP50_95": 0.0
+    }
+  ],
+  "confusion_matrix": {
+    "orientation": "rows=predicted, columns=actual",
+    "labels": [
+      "pothole",
+      "crack",
+      "manhole",
+      "background"
+    ],
+    "counts": [
+      [
+        225.0,
+        0.0,
+        0.0,
+        47.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        31.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "important_confusions": {
+      "pothole_to_manhole": {
+        "actual": "pothole",
+        "predicted": "manhole",
+        "count": 0,
+        "rate_over_actual": 0.0,
+        "actual_instances": 256
+      },
+      "manhole_to_pothole": {
+        "actual": "manhole",
+        "predicted": "pothole",
+        "count": 0,
+        "rate_over_actual": 0.0,
+        "actual_instances": 0
+      },
+      "crack_to_background": {
+        "actual": "crack",
+        "predicted": "background",
+        "count": 0,
+        "rate_over_actual": 0.0,
+        "actual_instances": 0
+      },
+      "pothole_to_background": {
+        "actual": "pothole",
+        "predicted": "background",
+        "count": 31,
+        "rate_over_actual": 0.121094,
+        "actual_instances": 256
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "experiment": "A_raw",
+  "preprocessing": "raw",
+  "timing_scope": "read image + preprocessing + model inference",
+  "read_image_ms": 3.824,
+  "preprocessing_ms": 0.428,
+  "inference_ms": 10.454,
+  "total_ms": 14.705
+}
