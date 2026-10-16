@@ -16,7 +16,7 @@ from ultralytics import YOLO
 
 from src.data.dataset_utils import CLASS_NAMES, project_root
 from src.data.training_integrity import run_dataset_integrity_check
-from src.detection.checkpoint_validator import validate_training_checkpoints
+from src.detection.checkpoint_validator import resumable_checkpoint, validate_training_checkpoints
 from src.detection.model_contract import write_experiment_config
 from src.utils.reproducibility import set_global_seed
 
@@ -118,6 +118,7 @@ def train_yolo(
     *,
     overwrite_incomplete: bool = False,
     smoke_test: bool = False,
+    resume: bool = False,
 ) -> str:
     base_dir = project_root()
     full_cfg_path = base_dir / config_path if not os.path.isabs(config_path) else Path(config_path)
@@ -125,6 +126,8 @@ def train_yolo(
 
     if exp_name_override:
         cfg["name"] = exp_name_override
+    if resume and (smoke_test or overwrite_incomplete):
+        raise ValueError("--resume cannot be combined with --smoke-test or --overwrite-incomplete")
     if smoke_test:
         # In-memory overrides only: the source YAML remains the final-run config.
         cfg.update({"epochs": 1, "fraction": 0.05, "imgsz": 320,
@@ -169,8 +172,16 @@ def train_yolo(
     project_dir = project_value if project_value.is_absolute() else base_dir / project_value
     exp_name = cfg.get("name", "baseline")
     exp_dir = project_dir / exp_name
-    _prepare_experiment_directory(exp_dir, overwrite_incomplete)
-    _write_status(exp_dir, status="RUNNING", checkpoint_created=False)
+    checkpoint = None
+    if resume:
+        checkpoint = resumable_checkpoint(exp_dir)
+        if checkpoint is None:
+            raise FileNotFoundError(f"Nothing to resume in {exp_dir}: no last.pt, or the run is already complete")
+        print(f"RESUMING interrupted run from:\n{checkpoint}\n"
+              "Ultralytics restores the epoch, optimizer state, and training arguments stored in last.pt.")
+    else:
+        _prepare_experiment_directory(exp_dir, overwrite_incomplete)
+    _write_status(exp_dir, status="RUNNING", checkpoint_created=checkpoint is not None)
 
     print("=== YOLO TRAINING START ===")
     print(f"Experiment: {exp_name}")
@@ -204,8 +215,12 @@ def train_yolo(
     print("Effective Ultralytics training arguments:")
     print(json.dumps(effective_training_args, indent=2, default=str))
     try:
-        model = YOLO(model_weights)
-        results = model.train(**effective_training_args)
+        if checkpoint is not None:
+            model = YOLO(str(checkpoint))
+            results = model.train(resume=True)
+        else:
+            model = YOLO(model_weights)
+            results = model.train(**effective_training_args)
         trainer = getattr(model, "trainer", None)
         returned_save_dir = getattr(trainer, "save_dir", "UNAVAILABLE")
         print("=== YOLO TRAINING RETURNED ===")
@@ -257,9 +272,11 @@ def main(argv: list[str] | None = None) -> int:
                         help="Archive an existing run without best.pt and restart the same name")
     parser.add_argument("--smoke-test", action="store_true",
                         help="Run one small debug epoch without modifying the YAML config")
+    parser.add_argument("--resume", action="store_true",
+                        help="Continue an interrupted run from its weights/last.pt")
     args = parser.parse_args(argv)
     train_yolo(args.config, args.name, overwrite_incomplete=args.overwrite_incomplete,
-               smoke_test=args.smoke_test)
+               smoke_test=args.smoke_test, resume=args.resume)
     return 0
 
 

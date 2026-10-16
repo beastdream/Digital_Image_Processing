@@ -27,7 +27,7 @@ from src.utils.result_paths import (
 
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png"}
 VIDEO_SUFFIXES = {".mp4", ".avi", ".mov", ".mkv", ".wmv", ".webm", ".m4v"}
-VIDEO_ERROR = "Video input is not supported in the current image-only project."
+VIDEO_ERROR = "Video files are not images: use --video or --source for video prediction."
 
 
 def resolve_prediction_assets(model_path: str | None = None, experiment_dir: str | None = None,
@@ -268,13 +268,15 @@ def run_prediction(
     return len(image_summaries)
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Road-damage prediction for static images only")
+    parser = argparse.ArgumentParser(description="Road-damage prediction for images, videos, and webcam")
     model_group = parser.add_mutually_exclusive_group(required=False)
     model_group.add_argument("--model", type=str, help="Path to best.pt (loads co-located experiment_config.yaml)")
     model_group.add_argument("--experiment", type=str, help="Experiment directory containing weights/best.pt and experiment_config.yaml")
     source_group = parser.add_mutually_exclusive_group(required=True)
     source_group.add_argument("--image", type=str, help="Single .jpg/.jpeg/.png image")
-    source_group.add_argument("--source", type=str, help="Single image or folder of images")
+    source_group.add_argument("--source", type=str,
+                              help="Image, folder of images, video file, folder of videos, or webcam index")
+    source_group.add_argument("--video", type=str, help="Video file, folder of videos, or webcam index (e.g. 0)")
     parser.add_argument("--output", type=str, default=None,
                         help="Custom output directory (default: reset results/predictions/latest)")
     parser.add_argument("--clean-output", action="store_true",
@@ -284,6 +286,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--experiment-config", type=str, default=None)
     parser.add_argument("--side-by-side", action="store_true",
                         help="With --show-ground-truth, render separate GT and prediction panels")
+    video_group = parser.add_argument_group("video options")
+    video_group.add_argument("--frame-step", type=int, default=1, help="Run the model on every N-th frame")
+    video_group.add_argument("--max-frames", type=int, default=None, help="Stop each video after N frames")
+    video_group.add_argument("--max-videos", type=int, default=None, help="Limit videos taken from a folder")
+    video_group.add_argument("--min-track-frames", type=int, default=3,
+                             help="Frames a track needs before it counts as a confirmed object")
+    video_group.add_argument("--frame-size", type=int, default=640,
+                             help="Downscale frames to this longest side before preprocessing (0 keeps source)")
+    video_group.add_argument("--no-save-video", action="store_true",
+                             help="Only write video_summary.json (faster batch evaluation)")
+    video_group.add_argument("--display", action="store_true", help="Show a live preview window (q quits)")
+    video_group.add_argument("--save-frame-detections", action="store_true",
+                             help="Store every processed frame's detections in video_summary.json")
     display_group = parser.add_mutually_exclusive_group()
     display_group.add_argument("--show-ground-truth", action="store_true",
                                help="Draw real dataset annotations alongside model predictions")
@@ -291,8 +306,24 @@ def main(argv: list[str] | None = None) -> int:
                                help="Draw only real dataset annotations without loading YOLO")
     args = parser.parse_args(argv)
 
-    source = args.image or args.source
+    source = args.image or args.source or args.video
     try:
+        from src.detection.video_predict import is_video_source, run_video_prediction
+        if args.video or (args.source and is_video_source(args.source)):
+            if args.ground_truth_only or args.side_by_side:
+                parser.error("--ground-truth-only and --side-by-side are image-only options")
+            if not args.model and not args.experiment:
+                parser.error("Specify exactly one of --model or --experiment")
+            weights, experiment_config = resolve_prediction_assets(args.model, args.experiment)
+            metadata = args.experiment_config or (str(experiment_config) if experiment_config else None)
+            run_video_prediction(
+                str(weights), source, args.output, args.conf, metadata, args.clean_output,
+                Path(args.experiment).name if args.experiment else None, frame_step=args.frame_step,
+                max_frames=args.max_frames, max_videos=args.max_videos,
+                show_ground_truth=args.show_ground_truth, min_track_frames=args.min_track_frames,
+                display=args.display, save_frame_detections=args.save_frame_detections,
+                frame_size=args.frame_size or None, save_video=not args.no_save_video)
+            return 0
         # Validate image-only input before loading a potentially expensive model.
         collect_image_paths(source, args.max_images)
         if args.side_by_side and not args.show_ground_truth:

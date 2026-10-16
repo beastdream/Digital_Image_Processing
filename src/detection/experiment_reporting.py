@@ -44,9 +44,11 @@ def benchmark_loaded_model(model, experiment_config: dict, image_paths: list[Pat
     return {key: float(np.mean([sample[key] for sample in measured])) for key in measured[0]}
 
 
-def measure_end_to_end_latency(model_path: str, imgsz: int, max_images: int = 50, warmup: int = 5) -> dict[str, float]:
+def measure_end_to_end_latency(model_path: str, imgsz: int, max_images: int = 50, warmup: int = 5,
+                               image_dir: Path | None = None) -> dict[str, float]:
+    """Benchmark on raw (un-preprocessed) test images of the source dataset."""
     model, contract = YOLO(model_path), load_experiment_config(model_path)
-    image_dir = project_root() / "data/processed/road_damage_detection/images/test"
+    image_dir = image_dir or project_root() / "data/processed/road_damage_detection/images/test"
     images = sorted(path for path in image_dir.iterdir() if path.suffix.lower() in {".jpg", ".jpeg", ".png"})[:max_images]
     return benchmark_loaded_model(model, contract, images, imgsz, warmup)
 

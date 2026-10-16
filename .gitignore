@@ -61,3 +61,17 @@ results/**/val_run/
 # Logs
 *.log
 *.tmp
+
+# Colab transfer archives
+colab_package.zip
+colab_results.zip
+
+# Video pipeline outputs (models stay out of git; small CSV/JSON/MD reports remain trackable)
+experiments/yolo_video*/**/*.jpg
+experiments/yolo_video*/**/*.png
+experiments/yolo_video*/**/events.out.tfevents.*
+experiments/yolo_video*/**/*.log
+results/predictions/video_latest/
+results/predictions/video_eval/
+results/**/*.mp4
+colab_out/

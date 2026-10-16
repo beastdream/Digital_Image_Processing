@@ -246,7 +246,10 @@ class TestTrainingLifecycle(unittest.TestCase):
     def test_cli_forwards_new_flags(self):
         with patch("src.detection.train.train_yolo") as trainer:
             self.assertEqual(main(["--config", "x.yaml", "--name", "A_raw", "--overwrite-incomplete", "--smoke-test"]), 0)
-        trainer.assert_called_once_with("x.yaml", "A_raw", overwrite_incomplete=True, smoke_test=True)
+        trainer.assert_called_once_with("x.yaml", "A_raw", overwrite_incomplete=True, smoke_test=True, resume=False)
+        with patch("src.detection.train.train_yolo") as trainer:
+            self.assertEqual(main(["--config", "x.yaml", "--name", "A_raw", "--resume"]), 0)
+        trainer.assert_called_once_with("x.yaml", "A_raw", overwrite_incomplete=False, smoke_test=False, resume=True)
 
 
 class TestConfigDrivenExperimentSuite(unittest.TestCase):

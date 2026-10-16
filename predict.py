@@ -1,4 +1,4 @@
-"""Image-only road-damage prediction entry point."""
+"""Road-damage prediction entry point for images, videos, and webcam."""
 from src.detection.predict import main
 
 

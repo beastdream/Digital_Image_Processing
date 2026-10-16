@@ -24,9 +24,19 @@ def _sha256(path: Path) -> str:
 
 
 def _source_split_fingerprint(source_dir: Path) -> str:
-    """Fingerprint split membership, labels, and source image bytes."""
+    """Fingerprint split membership, labels, and source image bytes.
+
+    Only images and ``.txt`` labels count: Ultralytics writes ``labels/*.cache``
+    during training, which must not trigger a rebuild. The machine-specific
+    ``path:`` line of dataset.yaml is ignored so the version is portable.
+    """
     digest = hashlib.sha256()
-    for path in [source_dir / "dataset.yaml", *sorted(path for folder in (source_dir / "images", source_dir / "labels") for path in folder.rglob("*") if path.is_file())]:
+    yaml_lines = (source_dir / "dataset.yaml").read_text(encoding="utf-8").splitlines()
+    digest.update("\n".join(line for line in yaml_lines if not line.startswith("path:")).encode())
+    files = sorted(
+        path for path in (*(source_dir / "images").rglob("*"), *(source_dir / "labels").rglob("*.txt"))
+        if path.is_file() and (path.suffix.lower() in IMAGE_SUFFIXES or path.suffix == ".txt"))
+    for path in files:
         digest.update(path.relative_to(source_dir).as_posix().encode())
         digest.update(_sha256(path).encode())
     return digest.hexdigest()
@@ -41,14 +51,16 @@ def _read_boxes(label_path: Path) -> list[list[float]]:
     return [[int(parts[0]), *map(float, parts[1:])] for raw in label_path.read_text(encoding="utf-8").splitlines() if (parts := raw.split())]
 
 
-def materialize_preprocessed_dataset(config_path: str | Path, experiment_name: str | None = None, seed: int = 42, root_dir: str | Path | None = None) -> Path:
+def materialize_preprocessed_dataset(config_path: str | Path, experiment_name: str | None = None, seed: int = 42, root_dir: str | Path | None = None,
+                                     source_yaml: str | Path | None = None) -> Path:
     root = Path(root_dir) if root_dir else project_root(); config_path = Path(config_path)
     set_global_seed(seed)
     if not config_path.is_absolute(): config_path = root / config_path
     config = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
     name = experiment_name or config.get("experiment_name", config_path.stem)
-    source_dir = root / "data/processed/road_damage_detection"
-    source_yaml = source_dir / "dataset.yaml"
+    source_yaml = Path(source_yaml) if source_yaml else root / "data/processed/road_damage_detection/dataset.yaml"
+    if not source_yaml.is_absolute(): source_yaml = root / source_yaml
+    source_dir = source_yaml.parent
     if not source_yaml.exists():
         raise FileNotFoundError(f"Build the base processed dataset first: {source_yaml}")
     source_fingerprint = _source_split_fingerprint(source_dir)

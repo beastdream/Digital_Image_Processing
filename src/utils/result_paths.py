@@ -19,6 +19,10 @@ def latest_predictions_dir(root: Path | None = None) -> Path:
     return predictions_root(root) / "latest"
 
 
+def latest_video_predictions_dir(root: Path | None = None) -> Path:
+    return predictions_root(root) / "video_latest"
+
+
 def ground_truth_root(root: Path | None = None) -> Path:
     return results_root(root) / "ground_truth"
 

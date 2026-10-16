@@ -201,8 +201,9 @@ def main() -> None:
     parser.add_argument("--visual", default=str(default_output / "visual_inspection.csv"))
     parser.add_argument("--output", default=str(default_output))
     parser.add_argument("--create-visual-template", action="store_true")
+    parser.add_argument("--suite", default="configs/preprocessing_experiments.yaml")
     args = parser.parse_args(); root = project_root()
-    expected_experiments = [name for name, _ in suite_experiments(load_experiment_suite(root=root))]
+    expected_experiments = [name for name, _ in suite_experiments(load_experiment_suite(args.suite, root=root))]
     results, visual, output = (Path(args.results), Path(args.visual), Path(args.output))
     results = results if results.is_absolute() else root / results
     visual = visual if visual.is_absolute() else root / visual

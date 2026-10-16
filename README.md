@@ -1,4 +1,4 @@
-# Road damage detection (static images)
+# Road damage detection (images and video)
 
 The project detects exactly three classes: `0=pothole`, `1=crack`, and
 `2=manhole`. Class IDs are fixed across every stage.
@@ -208,13 +208,13 @@ The report does not automatically enable weighted sampling, oversampling, or
 class-specific augmentation; those changes require supporting per-class metric
 evidence. A high small-object share at 320 produces an explicit warning.
 
-`predict.py` accepts only static `.jpg`, `.jpeg`, and `.png` inputs, either as a
+For images, `predict.py` accepts `.jpg`, `.jpeg`, and `.png` inputs, either as a
 single `--image`/`--source` path or a folder passed to `--source`. It validates
 every selected image, draws `pothole`, `crack`, or `manhole` with confidence,
 and saves the annotated images under `results/predictions/latest/` by default.
 Each default quick prediction run safely replaces only that `latest` directory;
-an explicit `--output` directory is never recursively deleted. Direct
-video input is rejected because video handling is outside this image-only project.
+an explicit `--output` directory is never recursively deleted. `--image` rejects
+video files; videos go through `--video` or `--source` (see below).
 
 Every prediction run also writes `prediction_summary.json` beside the annotated
 images with the resolved model path, experiment name (when `--experiment` is
@@ -222,6 +222,122 @@ used), confidence threshold, fixed class map, processed-image count, and each
 predicted class/confidence/`xyxy` box. To deliberately replace a custom output,
 pass both `--output results/predictions/<name>` and `--clean-output`; guarded
 cleanup rejects locations outside `results/predictions/`.
+
+## Video detection
+
+`predict.py` also accepts a video file, a folder of videos, or a webcam index.
+`--source` routes to video mode automatically when it points at a video (or a
+folder holding videos and no images); `--video` forces it.
+
+```powershell
+python predict.py --experiment experiments/yolo_video/A_raw --video "D:/Pothole Videos/pothole_video/test/rgb/0081.mp4"
+python predict.py --experiment experiments/yolo_video/A_raw --video "D:/Pothole Videos/pothole_video/test/rgb" --max-videos 5 --show-ground-truth
+python predict.py --experiment experiments/yolo_video/A_raw --video 0 --display
+```
+
+Each frame is first downscaled to `--frame-size` (default 640, the size of the
+extracted training frames, so Gaussian/Median/CLAHE act at the trained scale),
+then goes through the model's stored preprocessing contract exactly like image
+prediction. What video adds over single images:
+
+- **Tracking** (`src/detection/video_tracking.py`): a deterministic IoU tracker
+  gives every physical object one `#ID` across frames.
+- **Temporal class voting**: a track's class is the confidence-weighted vote over
+  all of its frames, so a single frame flickering between `pothole` and
+  `manhole` does not change the decision.
+- **Unique object counts**: tracks seen in at least `--min-track-frames`
+  (default 3) processed frames are counted once per class; shorter tracks are
+  reported as unconfirmed noise.
+
+Video options: `--frame-step N` runs the model on every N-th frame (boxes are
+held in between), `--max-frames`, `--max-videos`, `--display` (live window, `q`
+quits; required with `--max-frames` for a webcam), and `--save-frame-detections`.
+
+Output goes to `results/predictions/video_latest/` (replaced each default run):
+`pred_<video>.mp4` plus `video_summary.json` with fps, processing speed,
+per-class unique counts, and every confirmed track (voted class, vote shares,
+first/last time in seconds). With `--show-ground-truth`, a video under
+`.../rgb/<clip>.mp4` automatically uses `.../mask/<clip>.mp4` as ground truth:
+mask regions become green `GT` boxes and the summary reports frame-level
+TP/FP/FN, precision, and recall at IoU 0.5, both for raw per-frame classes and
+for track-voted classes.
+
+### Pothole video dataset and preprocessing suite
+
+The pothole video dataset (`<split>/rgb/*.mp4` with matching `<split>/mask/*.mp4`
+segmentation masks) is converted into a YOLO detection dataset, then the same
+six preprocessing experiments (A_raw ... F_combined, identical training
+settings) run on it:
+
+```powershell
+python -m src.data.build_video_frame_dataset --source "D:/Pothole Videos/pothole_video" --frame-step 24
+python -m src.detection.run_preprocessing_experiments --suite configs/video_preprocessing_experiments.yaml
+python -m src.detection.analyze_experiment_results --suite configs/video_preprocessing_experiments.yaml --results results/video_experiments/experiment_results.csv --visual results/video_experiments/visual_inspection.csv --output results/video_experiments
+```
+
+Models go to `experiments/yolo_video/<experiment>/`, evaluations to
+`results/evaluations/video/<experiment>/`, and the comparison table and
+analysis to `results/video_experiments/`. Latency is measured on the raw test
+frames. The suite resumes after an interruption: a run that already has
+`best.pt`, `last.pt`, and `experiment_config.yaml` is evaluated again but not
+retrained, and an incomplete run is archived and restarted.
+
+#### Visual inspection and video-level evaluation
+
+```powershell
+python -m src.detection.visual_inspection_grid --suite configs/video_preprocessing_experiments.yaml
+python -m src.detection.evaluate_video_suite --suite configs/video_preprocessing_experiments.yaml --videos "D:/Pothole Videos/pothole_video/test/rgb"
+```
+
+The first command writes ten review sheets (seeded sample of test frames) to
+`results/video_experiments/visual_inspection/`: ground truth, then every
+experiment's prediction drawn on its own preprocessed input, with TP/FP/FN per
+panel (`panels.csv`). After reviewing them, complete
+`results/video_experiments/visual_inspection.csv` (status `COMPLETE`,
+`reviewed_images` 10, notes, reviewer) and rerun `analyze_experiment_results`
+with `--suite configs/video_preprocessing_experiments.yaml` and the
+`results/video_experiments/` paths shown above.
+
+The second command scores every model frame by frame on all test clips
+against their masks and writes `video_tracking_results.csv`. `raw_*` counts
+every per-frame detection; `tracked_*` keeps only detections whose track
+lasted at least three frames, measured offline after each clip. For this
+pothole-only data, class voting cannot change a label, so tracking helps only
+by removing short-lived false positives; voting matters for a 3-class model.
+
+#### Running the suite on Google Colab (GPU)
+
+CPU training takes about two hours per experiment; a Colab T4 runs the whole
+suite in under an hour with the same code, seed, and training settings
+(only `device` changes).
+
+```powershell
+python -m src.utils.package_for_colab
+```
+
+Upload the resulting `colab_package.zip` (code + frame dataset, ~250 MB) to
+`MyDrive/Digital_Image_Processing/`, open `colab/run_video_experiments.ipynb`
+in Colab, select a T4 GPU runtime, and run all cells. Models and results are
+written to `MyDrive/Digital_Image_Processing/outputs/`, so after a disconnect
+"Run all" resumes the suite. The last cell creates `colab_results.zip`; to use
+it locally:
+
+```powershell
+Rename-Item experiments\yolo_video yolo_video_cpu_old
+Expand-Archive colab_results.zip -DestinationPath colab_out
+Move-Item colab_out\yolo_video experiments\yolo_video
+Copy-Item colab_out\results\* results\ -Recurse -Force
+```
+
+Latency columns from a Colab run are GPU timings.
+
+`--frame-step 24` keeps two frames per two-second clip (744 / 248 / 246
+train / val / test frames); neighbouring frames are near-identical, so this
+halves CPU training time at little cost. Every N-th frame is saved (resized to 640 on the longest side) and every
+connected mask region becomes one `pothole` box. The source split is kept per
+clip, so frames of one video never appear in two splits. The dataset contains
+only potholes; the fixed 3-class map is kept so the model works with every
+other command, but it cannot learn `crack` or `manhole` from this data.
 
 ## Visualizing ground truth vs predictions
 

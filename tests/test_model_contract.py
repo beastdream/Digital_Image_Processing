@@ -218,7 +218,7 @@ class TestModelPreprocessingContract(unittest.TestCase):
                 (root / name).write_bytes(b"placeholder")
             self.assertEqual([path.name for path in collect_image_paths(root)], ["a.jpg", "b.png"])
 
-    def test_direct_video_source_returns_required_image_only_error(self):
+    def test_image_collector_redirects_video_files_to_video_mode(self):
         with tempfile.TemporaryDirectory() as directory:
             video = Path(directory) / "road.mp4"
             video.write_bytes(b"not a real video")
@@ -242,7 +242,7 @@ class TestModelPreprocessingContract(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Invalid or unreadable image"):
                 read_valid_image(image)
 
-    def test_cli_reports_video_error_before_attempting_model_load(self):
+    def test_image_flag_rejects_video_before_attempting_model_load(self):
         with tempfile.TemporaryDirectory() as directory:
             video = Path(directory) / "road.mp4"
             video.write_bytes(b"video")
