@@ -1,0 +1,10 @@
+# Versions used to train and test the project (Python 3.13).
+# Install PyTorch first if you want a specific CPU/CUDA build: https://pytorch.org/get-started/locally/
+ultralytics==8.4.135
+torch>=2.0
+torchvision>=0.15
+numpy>=2.0
+opencv-python>=4.8
+PyYAML>=6.0
+matplotlib>=3.8
+pytest>=8.0

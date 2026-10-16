@@ -21,6 +21,29 @@ Ultralytics' standard letterbox/normalization and `imgsz=640`. Gaussian,
 Median, CLAHE, and brightness are excluded from this baseline. All preprocessing
 comparison experiments use `imgsz=640` so their metrics remain comparable.
 
+## Setup after cloning
+
+Git holds code, configs, and small result files only. Model weights, datasets,
+and generated images/videos are not in the repository.
+
+```powershell
+pip install -r requirements.txt
+python -m pytest -q
+```
+
+To run predictions, copy the trained models from the team's shared Google
+Drive folder `Digital_Image_Processing/outputs/yolo_video/<experiment>/weights/`
+into `experiments/yolo_video/<experiment>/weights/` (each folder needs
+`best.pt`; `experiment_config.yaml` is already in git). Then:
+
+```powershell
+python predict.py --experiment experiments/yolo_video/A_raw --video "path/to/video.mp4" --display
+```
+
+To rebuild the dataset or retrain, download the pothole video dataset
+(`pothole_video/<split>/rgb|mask/*.mp4`) and follow
+[Pothole video dataset and preprocessing suite](#pothole-video-dataset-and-preprocessing-suite).
+
 ## Commands
 
 Run from the repository root:
