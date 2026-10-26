@@ -1,0 +1,165 @@
+{
+  "model": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\experiments\\yolo_video\\A_raw\\weights\\best.pt",
+  "experiment": "A_raw",
+  "confidence_threshold": 0.25,
+  "classes": {
+    "0": "pothole",
+    "1": "crack",
+    "2": "manhole"
+  },
+  "processed_videos": 1,
+  "unique_objects_by_class": {
+    "pothole": 6,
+    "crack": 0,
+    "manhole": 0
+  },
+  "videos": [
+    {
+      "source": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\results\\predictions\\download_video_test\\pred_Download.mp4",
+      "output_video": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\results\\predictions\\my_video\\pred_pred_Download.mp4",
+      "fps": 30.0,
+      "frames_read": 2481,
+      "frames_processed": 104,
+      "frame_step": 24,
+      "frame_size": 640,
+      "duration_s": 82.7,
+      "processing_fps": 263.23,
+      "mean_inference_ms": 49.35,
+      "min_track_frames": 3,
+      "unique_objects_by_class": {
+        "pothole": 6,
+        "crack": 0,
+        "manhole": 0
+      },
+      "confirmed_tracks": [
+        {
+          "track_id": 1,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 7,
+          "first_frame": 24,
+          "last_frame": 288,
+          "mean_confidence": 0.4943,
+          "best_confidence": 0.6713,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            6,
+            360,
+            628
+          ],
+          "first_seen_s": 0.8,
+          "last_seen_s": 9.6
+        },
+        {
+          "track_id": 2,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 89,
+          "first_frame": 24,
+          "last_frame": 2472,
+          "mean_confidence": 0.5591,
+          "best_confidence": 0.781,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            272,
+            334,
+            635
+          ],
+          "first_seen_s": 0.8,
+          "last_seen_s": 82.4
+        },
+        {
+          "track_id": 3,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 3,
+          "first_frame": 24,
+          "last_frame": 72,
+          "mean_confidence": 0.2951,
+          "best_confidence": 0.3182,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            9,
+            290,
+            419
+          ],
+          "first_seen_s": 0.8,
+          "last_seen_s": 2.4
+        },
+        {
+          "track_id": 4,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 27,
+          "first_frame": 576,
+          "last_frame": 1488,
+          "mean_confidence": 0.4042,
+          "best_confidence": 0.6646,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            8,
+            360,
+            258
+          ],
+          "first_seen_s": 19.2,
+          "last_seen_s": 49.6
+        },
+        {
+          "track_id": 6,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 4,
+          "first_frame": 1776,
+          "last_frame": 1848,
+          "mean_confidence": 0.3179,
+          "best_confidence": 0.3352,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            8,
+            360,
+            265
+          ],
+          "first_seen_s": 59.2,
+          "last_seen_s": 61.6
+        },
+        {
+          "track_id": 7,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 13,
+          "first_frame": 2184,
+          "last_frame": 2472,
+          "mean_confidence": 0.8908,
+          "best_confidence": 0.9096,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            2,
+            360,
+            265
+          ],
+          "first_seen_s": 72.8,
+          "last_seen_s": 82.4
+        }
+      ],
+      "unconfirmed_track_count": 1
+    }
+  ]
+}

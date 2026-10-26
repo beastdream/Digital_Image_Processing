@@ -1,0 +1,60 @@
+{
+  "model": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\experiments\\yolo_video\\A_raw\\weights\\best.pt",
+  "experiment": "A_raw",
+  "confidence_threshold": 0.25,
+  "processed_images": 1,
+  "classes": {
+    "0": "pothole",
+    "1": "crack",
+    "2": "manhole"
+  },
+  "mode": "prediction_with_ground_truth",
+  "images": [
+    {
+      "filename": "0000_134071635329628559.jpg",
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "pothole",
+          "confidence": 0.725698,
+          "xyxy": [
+            7,
+            0,
+            3678,
+            2160
+          ]
+        }
+      ],
+      "image": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\results\\predictions\\.roadscan_uploads\\08726680020549789a8d48b6cb05e3d8\\input\\0000_134071635329628559.jpg",
+      "ground_truth": [],
+      "predictions": [
+        {
+          "class_id": 0,
+          "class_name": "pothole",
+          "confidence": 0.725698,
+          "xyxy": [
+            7,
+            0,
+            3678,
+            2160
+          ]
+        }
+      ]
+    }
+  ],
+  "image": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\results\\predictions\\.roadscan_uploads\\08726680020549789a8d48b6cb05e3d8\\input\\0000_134071635329628559.jpg",
+  "ground_truth": [],
+  "predictions": [
+    {
+      "class_id": 0,
+      "class_name": "pothole",
+      "confidence": 0.725698,
+      "xyxy": [
+        7,
+        0,
+        3678,
+        2160
+      ]
+    }
+  ]
+}

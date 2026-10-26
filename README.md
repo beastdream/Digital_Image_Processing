@@ -21,6 +21,7 @@ Ultralytics' standard letterbox/normalization and `imgsz=640`. Gaussian,
 Median, CLAHE, and brightness are excluded from this baseline. All preprocessing
 comparison experiments use `imgsz=640` so their metrics remain comparable.
 
+
 ## Setup after cloning
 
 Git holds code, configs, and small result files only. Model weights, datasets,
@@ -59,6 +60,32 @@ python -m src.detection.analyze_class_balance --metrics results/evaluations/A_ra
 python -m src.detection.analyze_experiment_results --create-visual-template
 ```
 
+<<<<<<< HEAD
+=======
+### Local web interface
+
+Start the RoadScan interface from the repository root with the project
+environment active:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+python web\server.py
+```
+
+Open `http://127.0.0.1:8000` in a browser. The server listens on the local
+machine only; keep its terminal open while using the interface and press
+`Ctrl+C` to stop it. Uploaded prediction files are limited to 1 GiB. Each run
+writes to a new directory under `results\predictions\roadscan\`, preserving
+previous output. Evaluation runs use a new directory under
+`results\evaluations\roadscan\`.
+
+The interface reads experiment and evaluation reports from the existing
+pipeline outputs. A missing report is shown as unavailable rather than
+replaced with sample numbers. Video models trained from the current video
+dataset learn pothole only; crack and manhole counts are not evidence of
+video-model performance.
+
+>>>>>>> da7e1cd4 (Cap nhat code)
 ### Safe baseline training workflow
 
 Step 1 — run a short end-to-end smoke test. These overrides apply only at
@@ -304,7 +331,6 @@ analysis to `results/video_experiments/`. Latency is measured on the raw test
 frames. The suite resumes after an interruption: a run that already has
 `best.pt`, `last.pt`, and `experiment_config.yaml` is evaluated again but not
 retrained, and an incomplete run is archived and restarted.
-
 #### Visual inspection and video-level evaluation
 
 ```powershell

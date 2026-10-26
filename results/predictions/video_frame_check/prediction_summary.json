@@ -1,0 +1,116 @@
+{
+  "model": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\experiments\\yolo_video\\A_raw\\weights\\best.pt",
+  "experiment": "A_raw",
+  "confidence_threshold": 0.25,
+  "processed_images": 1,
+  "classes": {
+    "0": "pothole",
+    "1": "crack",
+    "2": "manhole"
+  },
+  "mode": "prediction_with_ground_truth",
+  "images": [
+    {
+      "filename": "test_0081_f0024.jpg",
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "pothole",
+          "confidence": 0.775497,
+          "xyxy": [
+            76,
+            3,
+            344,
+            303
+          ]
+        }
+      ],
+      "image": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\data\\processed\\pothole_video_frames\\images\\test\\test_0081_f0024.jpg",
+      "ground_truth": [
+        {
+          "class_id": 0,
+          "class_name": "pothole",
+          "xyxy": [
+            136,
+            0,
+            327,
+            300
+          ]
+        }
+      ],
+      "predictions": [
+        {
+          "class_id": 0,
+          "class_name": "pothole",
+          "confidence": 0.775497,
+          "xyxy": [
+            76,
+            3,
+            344,
+            303
+          ]
+        }
+      ],
+      "comparison": {
+        "pothole": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0
+        },
+        "crack": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        "manhole": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      }
+    }
+  ],
+  "image": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\data\\processed\\pothole_video_frames\\images\\test\\test_0081_f0024.jpg",
+  "ground_truth": [
+    {
+      "class_id": 0,
+      "class_name": "pothole",
+      "xyxy": [
+        136,
+        0,
+        327,
+        300
+      ]
+    }
+  ],
+  "predictions": [
+    {
+      "class_id": 0,
+      "class_name": "pothole",
+      "confidence": 0.775497,
+      "xyxy": [
+        76,
+        3,
+        344,
+        303
+      ]
+    }
+  ],
+  "comparison": {
+    "pothole": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0
+    },
+    "crack": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "manhole": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    }
+  }
+}

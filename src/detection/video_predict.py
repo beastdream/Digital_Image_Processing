@@ -138,6 +138,7 @@ def _precision_recall(counts: dict) -> dict:
     return result
 
 
+<<<<<<< HEAD
 def _track_filtered_counts(scored_frames: list[tuple[list[dict], list[dict]]], tracker: IoUTracker,
                            min_track_frames: int) -> dict:
     """Offline re-score keeping only detections whose whole track was confirmed.
@@ -153,6 +154,8 @@ def _track_filtered_counts(scored_frames: list[tuple[list[dict], list[dict]]], t
     return counts
 
 
+=======
+>>>>>>> da7e1cd4 (Cap nhat code)
 def process_video(model, source: Path | int, experiment_config: dict, output_path: Path | None, *,
                   conf: float = 0.25, frame_step: int = 1, max_frames: int | None = None,
                   mask_path: Path | None = None, min_track_frames: int = 3, iou_threshold: float = 0.3,
@@ -167,7 +170,10 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
     frame_index = processed = 0
     last_detections: list[dict] = []
     frame_records, raw_counts, voted_counts = [], {}, {}
+<<<<<<< HEAD
     scored_frames: list[tuple[list[dict], list[dict]]] = []
+=======
+>>>>>>> da7e1cd4 (Cap nhat code)
     started = time.perf_counter()
     inference_seconds = 0.0
     try:
@@ -195,7 +201,10 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
                     voted = [{**item, "class_id": item["track_class_id"]} for item in last_detections]
                     _add_counts(raw_counts, compare_detections(ground_truth, last_detections))
                     _add_counts(voted_counts, compare_detections(ground_truth, voted))
+<<<<<<< HEAD
                     scored_frames.append((ground_truth, voted))
+=======
+>>>>>>> da7e1cd4 (Cap nhat code)
                     record["ground_truth"] = ground_truth
                 if save_frame_detections:
                     frame_records.append(record)
@@ -241,8 +250,12 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
         summary["ground_truth_video"] = str(mask_path)
         summary["frame_level_comparison"] = {
             "iou_threshold": 0.5, "raw_per_frame": _precision_recall(raw_counts),
+<<<<<<< HEAD
             "track_voted": _precision_recall(voted_counts),
             "track_filtered": _precision_recall(_track_filtered_counts(scored_frames, tracker, min_track_frames))}
+=======
+            "track_voted": _precision_recall(voted_counts)}
+>>>>>>> da7e1cd4 (Cap nhat code)
     if save_frame_detections:
         summary["frames"] = frame_records
     return summary
@@ -266,7 +279,11 @@ def run_video_prediction(weights_path: str, source: str, output_dir: str | None 
                          max_frames: int | None = None, max_videos: int | None = None,
                          show_ground_truth: bool = False, min_track_frames: int = 3,
                          display: bool = False, save_frame_detections: bool = False,
+<<<<<<< HEAD
                          frame_size: int | None = DEFAULT_FRAME_SIZE, save_video: bool = True) -> dict:
+=======
+                         frame_size: int | None = DEFAULT_FRAME_SIZE) -> dict:
+>>>>>>> da7e1cd4 (Cap nhat code)
     root = project_root()
     if not 0.0 <= conf <= 1.0:
         raise ValueError("Confidence threshold must be between 0 and 1")
@@ -299,7 +316,11 @@ def run_video_prediction(weights_path: str, source: str, output_dir: str | None 
             print(f"Warning: no mask video found for {item}; ground-truth comparison skipped")
         print(f"Processing {item} ...")
         video_summary = process_video(
+<<<<<<< HEAD
             model, item, experiment_config, output / f"pred_{name}.mp4" if save_video else None, conf=conf, frame_step=frame_step,
+=======
+            model, item, experiment_config, output / f"pred_{name}.mp4", conf=conf, frame_step=frame_step,
+>>>>>>> da7e1cd4 (Cap nhat code)
             max_frames=max_frames, mask_path=mask, min_track_frames=min_track_frames, display=display,
             save_frame_detections=save_frame_detections, frame_size=frame_size)
         totals.update(video_summary["unique_objects_by_class"])

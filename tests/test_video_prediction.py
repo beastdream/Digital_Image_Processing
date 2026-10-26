@@ -205,6 +205,7 @@ def test_frames_are_downscaled_to_training_frame_size(tmp_path: Path, monkeypatc
     capture = cv2.VideoCapture(summary["videos"][0]["output_video"])
     assert (capture.get(cv2.CAP_PROP_FRAME_WIDTH), capture.get(cv2.CAP_PROP_FRAME_HEIGHT)) == (48, 48)
     capture.release()
+<<<<<<< HEAD
 
 
 def test_track_filter_drops_only_short_lived_false_positives() -> None:
@@ -233,3 +234,5 @@ def test_video_suite_row_pools_counts_across_videos() -> None:
     assert (row["raw_tp"], row["raw_fp"], row["raw_fn"]) == (17, 3, 3)
     assert row["raw_precision"] == 0.85 and row["tracked_precision"] == round(17 / 18, 4)
     assert row["frames"] == 20 and row["unconfirmed_tracks"] == 4
+=======
+>>>>>>> da7e1cd4 (Cap nhat code)

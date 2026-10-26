@@ -1,0 +1,3742 @@
+{
+  "model": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\experiments\\yolo_video\\A_raw\\weights\\best.pt",
+  "experiment": "A_raw",
+  "confidence_threshold": 0.25,
+  "classes": {
+    "0": "pothole",
+    "1": "crack",
+    "2": "manhole"
+  },
+  "processed_videos": 1,
+  "unique_objects_by_class": {
+    "pothole": 6,
+    "crack": 0,
+    "manhole": 0
+  },
+  "videos": [
+    {
+      "source": "C:\\Users\\Admin\\Downloads\\Download.mp4",
+      "output_video": "C:\\Nam4\\Xulianh\\Digital_Image_Processing-main\\results\\predictions\\download_video_test\\pred_Download.mp4",
+      "fps": 30.0,
+      "frames_read": 2481,
+      "frames_processed": 104,
+      "frame_step": 24,
+      "frame_size": 640,
+      "duration_s": 82.7,
+      "processing_fps": 37.69,
+      "mean_inference_ms": 235.19,
+      "min_track_frames": 3,
+      "unique_objects_by_class": {
+        "pothole": 6,
+        "crack": 0,
+        "manhole": 0
+      },
+      "confirmed_tracks": [
+        {
+          "track_id": 1,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 94,
+          "first_frame": 0,
+          "last_frame": 2472,
+          "mean_confidence": 0.6329,
+          "best_confidence": 0.901,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            1,
+            350,
+            263
+          ],
+          "first_seen_s": 0.0,
+          "last_seen_s": 82.4
+        },
+        {
+          "track_id": 2,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 3,
+          "first_frame": 24,
+          "last_frame": 72,
+          "mean_confidence": 0.5799,
+          "best_confidence": 0.5985,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            19,
+            254,
+            173,
+            404
+          ],
+          "first_seen_s": 0.8,
+          "last_seen_s": 2.4
+        },
+        {
+          "track_id": 4,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 3,
+          "first_frame": 120,
+          "last_frame": 216,
+          "mean_confidence": 0.5404,
+          "best_confidence": 0.739,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            6,
+            360,
+            497
+          ],
+          "first_seen_s": 4.0,
+          "last_seen_s": 7.2
+        },
+        {
+          "track_id": 5,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 93,
+          "first_frame": 120,
+          "last_frame": 2472,
+          "mean_confidence": 0.4581,
+          "best_confidence": 0.598,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            308,
+            329,
+            634
+          ],
+          "first_seen_s": 4.0,
+          "last_seen_s": 82.4
+        },
+        {
+          "track_id": 7,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 4,
+          "first_frame": 648,
+          "last_frame": 744,
+          "mean_confidence": 0.6172,
+          "best_confidence": 0.6638,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            24,
+            263,
+            146,
+            393
+          ],
+          "first_seen_s": 21.6,
+          "last_seen_s": 24.8
+        },
+        {
+          "track_id": 8,
+          "class_id": 0,
+          "class_name": "pothole",
+          "frames_seen": 9,
+          "first_frame": 984,
+          "last_frame": 1296,
+          "mean_confidence": 0.3118,
+          "best_confidence": 0.3867,
+          "class_votes": {
+            "pothole": 1.0
+          },
+          "last_xyxy": [
+            0,
+            13,
+            360,
+            422
+          ],
+          "first_seen_s": 32.8,
+          "last_seen_s": 43.2
+        }
+      ],
+      "unconfirmed_track_count": 4,
+      "frames": [
+        {
+          "frame": 0,
+          "time_s": 0.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.463214,
+              "xyxy": [
+                0,
+                4,
+                360,
+                236
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 24,
+          "time_s": 0.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.702574,
+              "xyxy": [
+                0,
+                3,
+                360,
+                222
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.565259,
+              "xyxy": [
+                19,
+                254,
+                174,
+                404
+              ],
+              "track_id": 2,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 48,
+          "time_s": 1.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.692717,
+              "xyxy": [
+                0,
+                4,
+                360,
+                222
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.575927,
+              "xyxy": [
+                19,
+                254,
+                174,
+                404
+              ],
+              "track_id": 2,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 72,
+          "time_s": 2.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.708854,
+              "xyxy": [
+                0,
+                4,
+                360,
+                222
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.598518,
+              "xyxy": [
+                19,
+                254,
+                173,
+                404
+              ],
+              "track_id": 2,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 96,
+          "time_s": 3.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.447069,
+              "xyxy": [
+                0,
+                5,
+                360,
+                300
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.309353,
+              "xyxy": [
+                206,
+                247,
+                295,
+                328
+              ],
+              "track_id": 3,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 120,
+          "time_s": 4.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.511427,
+              "xyxy": [
+                0,
+                3,
+                360,
+                262
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.488114,
+              "xyxy": [
+                0,
+                2,
+                360,
+                445
+              ],
+              "track_id": 4,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.348515,
+              "xyxy": [
+                0,
+                426,
+                360,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 144,
+          "time_s": 4.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.73905,
+              "xyxy": [
+                0,
+                0,
+                360,
+                457
+              ],
+              "track_id": 4,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.331614,
+              "xyxy": [
+                0,
+                426,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 168,
+          "time_s": 5.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.693976,
+              "xyxy": [
+                0,
+                6,
+                360,
+                259
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.522274,
+              "xyxy": [
+                0,
+                422,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 192,
+          "time_s": 6.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.608979,
+              "xyxy": [
+                0,
+                5,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.420423,
+              "xyxy": [
+                0,
+                423,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 216,
+          "time_s": 7.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.394106,
+              "xyxy": [
+                0,
+                6,
+                360,
+                497
+              ],
+              "track_id": 4,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 240,
+          "time_s": 8.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.732377,
+              "xyxy": [
+                0,
+                5,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.340323,
+              "xyxy": [
+                0,
+                415,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 264,
+          "time_s": 8.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.721771,
+              "xyxy": [
+                0,
+                5,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.33879,
+              "xyxy": [
+                0,
+                412,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 288,
+          "time_s": 9.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.498648,
+              "xyxy": [
+                0,
+                5,
+                360,
+                242
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 312,
+          "time_s": 10.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.427238,
+              "xyxy": [
+                0,
+                5,
+                360,
+                245
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.39469,
+              "xyxy": [
+                0,
+                416,
+                360,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 336,
+          "time_s": 11.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.667029,
+              "xyxy": [
+                0,
+                5,
+                360,
+                240
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.363146,
+              "xyxy": [
+                0,
+                408,
+                360,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 360,
+          "time_s": 12.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.660799,
+              "xyxy": [
+                0,
+                5,
+                360,
+                240
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.36948,
+              "xyxy": [
+                0,
+                409,
+                360,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 384,
+          "time_s": 12.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.743732,
+              "xyxy": [
+                0,
+                5,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.403625,
+              "xyxy": [
+                0,
+                416,
+                360,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 408,
+          "time_s": 13.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.353964,
+              "xyxy": [
+                0,
+                410,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.280951,
+              "xyxy": [
+                0,
+                6,
+                360,
+                514
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 432,
+          "time_s": 14.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.567684,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.276592,
+              "xyxy": [
+                0,
+                5,
+                360,
+                246
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 456,
+          "time_s": 15.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.515595,
+              "xyxy": [
+                0,
+                419,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.468915,
+              "xyxy": [
+                0,
+                6,
+                360,
+                242
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 480,
+          "time_s": 16.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.557504,
+              "xyxy": [
+                0,
+                416,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.306041,
+              "xyxy": [
+                0,
+                5,
+                360,
+                245
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 504,
+          "time_s": 16.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.56191,
+              "xyxy": [
+                0,
+                416,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.30204,
+              "xyxy": [
+                0,
+                5,
+                360,
+                245
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 528,
+          "time_s": 17.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.509213,
+              "xyxy": [
+                0,
+                417,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.360698,
+              "xyxy": [
+                0,
+                5,
+                360,
+                244
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 552,
+          "time_s": 18.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.509559,
+              "xyxy": [
+                0,
+                417,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.367599,
+              "xyxy": [
+                0,
+                5,
+                360,
+                244
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 576,
+          "time_s": 19.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.403233,
+              "xyxy": [
+                0,
+                12,
+                360,
+                448
+              ],
+              "track_id": 6,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.378056,
+              "xyxy": [
+                0,
+                415,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.31066,
+              "xyxy": [
+                0,
+                5,
+                360,
+                246
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 600,
+          "time_s": 20.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.502153,
+              "xyxy": [
+                0,
+                5,
+                360,
+                242
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 624,
+          "time_s": 20.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.732039,
+              "xyxy": [
+                0,
+                5,
+                360,
+                236
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.273791,
+              "xyxy": [
+                0,
+                413,
+                360,
+                636
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 648,
+          "time_s": 21.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.638309,
+              "xyxy": [
+                23,
+                281,
+                147,
+                412
+              ],
+              "track_id": 7,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.390602,
+              "xyxy": [
+                0,
+                5,
+                360,
+                247
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.341725,
+              "xyxy": [
+                0,
+                417,
+                360,
+                631
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 672,
+          "time_s": 22.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.663843,
+              "xyxy": [
+                23,
+                281,
+                147,
+                413
+              ],
+              "track_id": 7,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.415563,
+              "xyxy": [
+                0,
+                5,
+                360,
+                247
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.333178,
+              "xyxy": [
+                0,
+                417,
+                360,
+                631
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 696,
+          "time_s": 23.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.704746,
+              "xyxy": [
+                0,
+                5,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.39506,
+              "xyxy": [
+                0,
+                399,
+                360,
+                637
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 720,
+          "time_s": 24.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.719684,
+              "xyxy": [
+                0,
+                5,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.578388,
+              "xyxy": [
+                25,
+                264,
+                146,
+                393
+              ],
+              "track_id": 7,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.415673,
+              "xyxy": [
+                0,
+                418,
+                360,
+                631
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 744,
+          "time_s": 24.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.724721,
+              "xyxy": [
+                0,
+                5,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.588162,
+              "xyxy": [
+                24,
+                263,
+                146,
+                393
+              ],
+              "track_id": 7,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.347716,
+              "xyxy": [
+                0,
+                418,
+                360,
+                631
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 768,
+          "time_s": 25.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.748764,
+              "xyxy": [
+                0,
+                5,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.486863,
+              "xyxy": [
+                0,
+                417,
+                360,
+                631
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 792,
+          "time_s": 26.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.743348,
+              "xyxy": [
+                0,
+                5,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.477126,
+              "xyxy": [
+                0,
+                418,
+                360,
+                631
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 816,
+          "time_s": 27.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.722897,
+              "xyxy": [
+                0,
+                5,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.542805,
+              "xyxy": [
+                0,
+                417,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 840,
+          "time_s": 28.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.720584,
+              "xyxy": [
+                0,
+                6,
+                360,
+                236
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.422205,
+              "xyxy": [
+                0,
+                419,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 864,
+          "time_s": 28.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.729459,
+              "xyxy": [
+                0,
+                5,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.504339,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 888,
+          "time_s": 29.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.71629,
+              "xyxy": [
+                0,
+                6,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.520502,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 912,
+          "time_s": 30.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.71346,
+              "xyxy": [
+                0,
+                6,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.511129,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 936,
+          "time_s": 31.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.712986,
+              "xyxy": [
+                0,
+                6,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.519818,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 960,
+          "time_s": 32.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.718383,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.439928,
+              "xyxy": [
+                0,
+                413,
+                360,
+                637
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 984,
+          "time_s": 32.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.624432,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.366554,
+              "xyxy": [
+                0,
+                415,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.355172,
+              "xyxy": [
+                0,
+                23,
+                360,
+                416
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.2953,
+              "xyxy": [
+                0,
+                209,
+                360,
+                411
+              ],
+              "track_id": 9,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1008,
+          "time_s": 33.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.66639,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.410565,
+              "xyxy": [
+                0,
+                414,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.363215,
+              "xyxy": [
+                0,
+                70,
+                360,
+                399
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1032,
+          "time_s": 34.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.670949,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.368934,
+              "xyxy": [
+                0,
+                414,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1056,
+          "time_s": 35.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.673572,
+              "xyxy": [
+                0,
+                6,
+                360,
+                255
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.38241,
+              "xyxy": [
+                0,
+                411,
+                360,
+                638
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1080,
+          "time_s": 36.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.697975,
+              "xyxy": [
+                0,
+                6,
+                360,
+                254
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.463958,
+              "xyxy": [
+                0,
+                414,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1104,
+          "time_s": 36.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.638644,
+              "xyxy": [
+                0,
+                6,
+                360,
+                244
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.401653,
+              "xyxy": [
+                0,
+                413,
+                360,
+                637
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1128,
+          "time_s": 37.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.682289,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.463636,
+              "xyxy": [
+                0,
+                413,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.260184,
+              "xyxy": [
+                0,
+                32,
+                360,
+                425
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1152,
+          "time_s": 38.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.687132,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.479475,
+              "xyxy": [
+                0,
+                413,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1176,
+          "time_s": 39.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.689202,
+              "xyxy": [
+                0,
+                6,
+                360,
+                256
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.470535,
+              "xyxy": [
+                0,
+                413,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.252482,
+              "xyxy": [
+                0,
+                30,
+                360,
+                420
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1200,
+          "time_s": 40.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.693763,
+              "xyxy": [
+                0,
+                6,
+                360,
+                256
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.468834,
+              "xyxy": [
+                0,
+                413,
+                360,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.264641,
+              "xyxy": [
+                0,
+                9,
+                360,
+                422
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1224,
+          "time_s": 40.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.667792,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.482157,
+              "xyxy": [
+                0,
+                413,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.323674,
+              "xyxy": [
+                0,
+                14,
+                360,
+                422
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1248,
+          "time_s": 41.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.674247,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.499261,
+              "xyxy": [
+                0,
+                413,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.307472,
+              "xyxy": [
+                0,
+                23,
+                360,
+                427
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.251854,
+              "xyxy": [
+                0,
+                155,
+                360,
+                426
+              ],
+              "track_id": 10,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1272,
+          "time_s": 42.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.679944,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.48449,
+              "xyxy": [
+                0,
+                414,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.386675,
+              "xyxy": [
+                0,
+                22,
+                360,
+                425
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.259916,
+              "xyxy": [
+                0,
+                162,
+                360,
+                423
+              ],
+              "track_id": 10,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1296,
+          "time_s": 43.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.655386,
+              "xyxy": [
+                0,
+                6,
+                360,
+                257
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.489031,
+              "xyxy": [
+                0,
+                413,
+                360,
+                637
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.292698,
+              "xyxy": [
+                0,
+                13,
+                360,
+                422
+              ],
+              "track_id": 8,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1320,
+          "time_s": 44.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.476064,
+              "xyxy": [
+                0,
+                387,
+                360,
+                640
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.37543,
+              "xyxy": [
+                0,
+                5,
+                360,
+                307
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1344,
+          "time_s": 44.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.435745,
+              "xyxy": [
+                0,
+                6,
+                360,
+                306
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.401244,
+              "xyxy": [
+                0,
+                388,
+                360,
+                640
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1368,
+          "time_s": 45.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.68108,
+              "xyxy": [
+                0,
+                5,
+                360,
+                243
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.594692,
+              "xyxy": [
+                0,
+                416,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1392,
+          "time_s": 46.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.687974,
+              "xyxy": [
+                0,
+                5,
+                360,
+                242
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.584423,
+              "xyxy": [
+                0,
+                416,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1416,
+          "time_s": 47.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.675144,
+              "xyxy": [
+                0,
+                6,
+                360,
+                240
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.432279,
+              "xyxy": [
+                0,
+                402,
+                360,
+                638
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1440,
+          "time_s": 48.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.691201,
+              "xyxy": [
+                0,
+                6,
+                360,
+                241
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.474021,
+              "xyxy": [
+                0,
+                415,
+                360,
+                636
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1464,
+          "time_s": 48.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.693007,
+              "xyxy": [
+                0,
+                6,
+                360,
+                241
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.473063,
+              "xyxy": [
+                0,
+                415,
+                360,
+                636
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1488,
+          "time_s": 49.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.694869,
+              "xyxy": [
+                0,
+                6,
+                360,
+                240
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.507289,
+              "xyxy": [
+                0,
+                417,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1512,
+          "time_s": 50.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.656169,
+              "xyxy": [
+                0,
+                6,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.561316,
+              "xyxy": [
+                0,
+                416,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1536,
+          "time_s": 51.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.692667,
+              "xyxy": [
+                0,
+                6,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.464072,
+              "xyxy": [
+                0,
+                417,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1560,
+          "time_s": 52.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.65305,
+              "xyxy": [
+                0,
+                6,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.459875,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1584,
+          "time_s": 52.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.691566,
+              "xyxy": [
+                0,
+                6,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.525934,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1608,
+          "time_s": 53.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.647371,
+              "xyxy": [
+                0,
+                6,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.477472,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1632,
+          "time_s": 54.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.669981,
+              "xyxy": [
+                0,
+                6,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.492347,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1656,
+          "time_s": 55.2,
+          "detections": []
+        },
+        {
+          "frame": 1680,
+          "time_s": 56.0,
+          "detections": []
+        },
+        {
+          "frame": 1704,
+          "time_s": 56.8,
+          "detections": []
+        },
+        {
+          "frame": 1728,
+          "time_s": 57.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.662083,
+              "xyxy": [
+                0,
+                6,
+                360,
+                239
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.481635,
+              "xyxy": [
+                0,
+                418,
+                360,
+                632
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1752,
+          "time_s": 58.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.656367,
+              "xyxy": [
+                0,
+                6,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.558002,
+              "xyxy": [
+                0,
+                417,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1776,
+          "time_s": 59.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.714389,
+              "xyxy": [
+                0,
+                6,
+                360,
+                238
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.598039,
+              "xyxy": [
+                0,
+                417,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1800,
+          "time_s": 60.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.756266,
+              "xyxy": [
+                0,
+                6,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.480799,
+              "xyxy": [
+                0,
+                416,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1824,
+          "time_s": 60.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.758946,
+              "xyxy": [
+                0,
+                6,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.484271,
+              "xyxy": [
+                0,
+                416,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1848,
+          "time_s": 61.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.762921,
+              "xyxy": [
+                0,
+                6,
+                360,
+                237
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.45577,
+              "xyxy": [
+                0,
+                416,
+                360,
+                633
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1872,
+          "time_s": 62.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.477944,
+              "xyxy": [
+                0,
+                460,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.304801,
+              "xyxy": [
+                0,
+                0,
+                360,
+                515
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1896,
+          "time_s": 63.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.474336,
+              "xyxy": [
+                0,
+                460,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1920,
+          "time_s": 64.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.470159,
+              "xyxy": [
+                0,
+                460,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1944,
+          "time_s": 64.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.482644,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.306258,
+              "xyxy": [
+                0,
+                2,
+                360,
+                196
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1968,
+          "time_s": 65.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.485347,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.262524,
+              "xyxy": [
+                0,
+                2,
+                360,
+                196
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 1992,
+          "time_s": 66.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.483605,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.307022,
+              "xyxy": [
+                0,
+                2,
+                360,
+                196
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2016,
+          "time_s": 67.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.475968,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2040,
+          "time_s": 68.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.508058,
+              "xyxy": [
+                0,
+                453,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.362388,
+              "xyxy": [
+                0,
+                2,
+                360,
+                195
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2064,
+          "time_s": 68.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.486436,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.291764,
+              "xyxy": [
+                0,
+                2,
+                360,
+                196
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2088,
+          "time_s": 69.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.480882,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2112,
+          "time_s": 70.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.485594,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2136,
+          "time_s": 71.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.475076,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.396199,
+              "xyxy": [
+                0,
+                2,
+                360,
+                195
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2160,
+          "time_s": 72.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.481336,
+              "xyxy": [
+                0,
+                454,
+                360,
+                639
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.276414,
+              "xyxy": [
+                0,
+                2,
+                360,
+                196
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2184,
+          "time_s": 72.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.898692,
+              "xyxy": [
+                0,
+                1,
+                349,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.281191,
+              "xyxy": [
+                0,
+                288,
+                334,
+                636
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2208,
+          "time_s": 73.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.898605,
+              "xyxy": [
+                0,
+                1,
+                349,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.345628,
+              "xyxy": [
+                0,
+                311,
+                328,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2232,
+          "time_s": 74.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.898219,
+              "xyxy": [
+                0,
+                1,
+                349,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.32656,
+              "xyxy": [
+                0,
+                312,
+                328,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2256,
+          "time_s": 75.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.893879,
+              "xyxy": [
+                0,
+                1,
+                349,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.427665,
+              "xyxy": [
+                0,
+                307,
+                331,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2280,
+          "time_s": 76.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.896663,
+              "xyxy": [
+                0,
+                1,
+                349,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.489349,
+              "xyxy": [
+                0,
+                306,
+                326,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2304,
+          "time_s": 76.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.896694,
+              "xyxy": [
+                0,
+                1,
+                349,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.432127,
+              "xyxy": [
+                0,
+                306,
+                329,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2328,
+          "time_s": 77.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.897491,
+              "xyxy": [
+                0,
+                1,
+                348,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.527382,
+              "xyxy": [
+                0,
+                308,
+                326,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2352,
+          "time_s": 78.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.892405,
+              "xyxy": [
+                0,
+                1,
+                350,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.475959,
+              "xyxy": [
+                0,
+                305,
+                328,
+                635
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2376,
+          "time_s": 79.2,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.892142,
+              "xyxy": [
+                0,
+                1,
+                350,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.507151,
+              "xyxy": [
+                0,
+                310,
+                329,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2400,
+          "time_s": 80.0,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.893362,
+              "xyxy": [
+                0,
+                1,
+                350,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.52439,
+              "xyxy": [
+                0,
+                308,
+                327,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2424,
+          "time_s": 80.8,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.895539,
+              "xyxy": [
+                0,
+                1,
+                350,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.541965,
+              "xyxy": [
+                0,
+                306,
+                328,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2448,
+          "time_s": 81.6,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.899069,
+              "xyxy": [
+                0,
+                1,
+                350,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.443039,
+              "xyxy": [
+                0,
+                303,
+                328,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        },
+        {
+          "frame": 2472,
+          "time_s": 82.4,
+          "detections": [
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.90103,
+              "xyxy": [
+                0,
+                1,
+                350,
+                263
+              ],
+              "track_id": 1,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            },
+            {
+              "class_id": 0,
+              "class_name": "pothole",
+              "confidence": 0.483015,
+              "xyxy": [
+                0,
+                308,
+                329,
+                634
+              ],
+              "track_id": 5,
+              "track_class_id": 0,
+              "track_class_name": "pothole"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

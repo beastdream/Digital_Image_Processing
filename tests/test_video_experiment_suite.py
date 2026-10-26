@@ -87,6 +87,7 @@ def test_ultralytics_label_cache_and_machine_path_do_not_change_dataset_version(
     assert _source_split_fingerprint(source) == before
     (source / "labels/train/a.txt").write_text("0 0.4 0.5 0.5 0.5\n", encoding="utf-8")
     assert _source_split_fingerprint(source) != before
+<<<<<<< HEAD
 
 
 def test_review_sample_is_seeded_and_grid_keeps_panel_size(tmp_path: Path) -> None:
@@ -97,3 +98,5 @@ def test_review_sample_is_seeded_and_grid_keeps_panel_size(tmp_path: Path) -> No
     assert first == sample_images(tmp_path, 10, seed=42) and len(set(first)) == 10
     panels = [_panel(np.zeros((100, 50, 3), np.uint8), f"p{index}") for index in range(7)]
     assert _grid(panels).shape == (2 * (PANEL_SIZE + HEADER), 4 * PANEL_SIZE, 3)
+=======
+>>>>>>> da7e1cd4 (Cap nhat code)
