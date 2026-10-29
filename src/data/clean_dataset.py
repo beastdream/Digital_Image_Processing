@@ -42,35 +42,77 @@ def _read_labels(path: Path, image_name: str, report: list[dict]) -> list[str]:
     return cleaned
 
 def _assign_groups(groups: dict[str, list[str]], labels: dict[str, list[str]], split_config: dict) -> dict[str, str]:
-    """Exhaustively stratify complete sessions by image and 3-class object vectors."""
+    """Stratify complete capture groups by image count and 3-class object vectors.
+
+    Up to 12 groups are searched exhaustively. Larger datasets (e.g. one group per
+    original photo and its augmentations) use a deterministic greedy assignment,
+    largest groups first, followed by single-group moves while the score improves.
+    Groups are never split, so no capture or augmentation leaks across splits.
+    """
     ratios = split_config.get("ratios", {"train": .70, "val": .15, "test": .15})
     if set(ratios) != set(SPLITS) or abs(sum(ratios.values()) - 1.0) > 1e-6:
         raise ValueError("split.ratios must define train/val/test and sum to 1")
     settings = split_config.get("stratification", {})
     image_weight, class_weight = float(settings.get("image_weight", 1.0)), float(settings.get("class_weight", 1.0))
     keys = sorted(groups)
-    if len(keys) > 12:
-        raise ValueError("More than 12 groups requires a scalable stratifier; refusing an unsafe image-level fallback")
     total_images = sum(len(files) for files in groups.values())
     total_classes = Counter(int(line.split()[0]) for files in groups.values() for name in files for line in labels[Path(name).stem])
     targets_images = {split: total_images * ratios[split] for split in SPLITS}
     targets_classes = {split: {cid: total_classes[cid] * ratios[split] for cid in CLASS_NAMES} for split in SPLITS}
     vectors = {key: Counter(int(line.split()[0]) for name in groups[key] for line in labels[Path(name).stem]) for key in keys}
-    best_score, best_assignment = float("inf"), None
-    for allocation in product(SPLITS, repeat=len(keys)):
-        if set(allocation) != set(SPLITS):
-            continue
-        image_counts = Counter(); class_counts = {split: Counter() for split in SPLITS}
-        for key, split in zip(keys, allocation):
-            image_counts[split] += len(groups[key]); class_counts[split].update(vectors[key])
-        image_error = sum(((image_counts[split] - targets_images[split]) / max(targets_images[split], 1)) ** 2 for split in SPLITS)
-        class_error = sum(((class_counts[split][cid] - targets_classes[split][cid]) / max(targets_classes[split][cid], 1)) ** 2 for split in SPLITS for cid in CLASS_NAMES)
-        score = image_weight * image_error + class_weight * class_error
-        if score < best_score:
-            best_score, best_assignment = score, dict(zip(keys, allocation))
-    if best_assignment is None:
+
+    def split_error(split: str, images: int, classes: Counter) -> float:
+        image_error = ((images - targets_images[split]) / max(targets_images[split], 1)) ** 2
+        class_error = sum(((classes[cid] - targets_classes[split][cid]) / max(targets_classes[split][cid], 1)) ** 2
+                          for cid in CLASS_NAMES)
+        return image_weight * image_error + class_weight * class_error
+
+    if len(keys) <= 12:
+        best_score, best_assignment = float("inf"), None
+        for allocation in product(SPLITS, repeat=len(keys)):
+            if set(allocation) != set(SPLITS):
+                continue
+            image_counts = Counter(); class_counts = {split: Counter() for split in SPLITS}
+            for key, split in zip(keys, allocation):
+                image_counts[split] += len(groups[key]); class_counts[split].update(vectors[key])
+            score = sum(split_error(split, image_counts[split], class_counts[split]) for split in SPLITS)
+            if score < best_score:
+                best_score, best_assignment = score, dict(zip(keys, allocation))
+        if best_assignment is None:
+            raise RuntimeError("Could not assign complete groups to all three splits")
+        return best_assignment
+
+    image_counts = Counter(); class_counts = {split: Counter() for split in SPLITS}
+    assignment: dict[str, str] = {}
+
+    def move_delta(key: str, source: str | None, target: str) -> float:
+        size, vector = len(groups[key]), vectors[key]
+        delta = split_error(target, image_counts[target] + size, class_counts[target] + vector)             - split_error(target, image_counts[target], class_counts[target])
+        if source is not None:
+            delta += split_error(source, image_counts[source] - size, class_counts[source] - vector)                 - split_error(source, image_counts[source], class_counts[source])
+        return delta
+
+    def place(key: str, source: str | None, target: str) -> None:
+        if source is not None:
+            image_counts[source] -= len(groups[key]); class_counts[source] -= vectors[key]
+        image_counts[target] += len(groups[key]); class_counts[target].update(vectors[key])
+        assignment[key] = target
+
+    for key in sorted(keys, key=lambda item: (-len(groups[item]), -sum(vectors[item].values()), item)):
+        place(key, None, min(SPLITS, key=lambda split: (move_delta(key, None, split), SPLITS.index(split))))
+    for _ in range(20):
+        improved = False
+        for key in keys:
+            source = assignment[key]
+            target = min(SPLITS, key=lambda split: (move_delta(key, source, split) if split != source else 0.0,
+                                                    SPLITS.index(split)))
+            if target != source and move_delta(key, source, target) < -1e-12:
+                place(key, source, target); improved = True
+        if not improved:
+            break
+    if set(assignment.values()) != set(SPLITS):
         raise RuntimeError("Could not assign complete groups to all three splits")
-    return best_assignment
+    return assignment
 
 def _phash(image_path: Path) -> int:
     """64-bit perceptual hash using DCT on a grayscale 32×32 thumbnail."""

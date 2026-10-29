@@ -1,0 +1,9 @@
+{
+  "experiment": "D_clahe",
+  "preprocessing": "clahe",
+  "timing_scope": "read image + preprocessing + model inference",
+  "read_image_ms": 3.38,
+  "preprocessing_ms": 12.16,
+  "inference_ms": 13.683,
+  "total_ms": 29.224
+}

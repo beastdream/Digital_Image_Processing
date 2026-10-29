@@ -1,7 +1,7 @@
 task: detect
 mode: train
 model: yolov8n.pt
-data: D:\Digital_Image_Processing\data\processed\road_damage_detection\dataset.yaml
+data: /content/project/data/processed/road_damage_detection/dataset.yaml
 epochs: 10
 time: null
 patience: 10
@@ -10,9 +10,9 @@ imgsz: 640
 save: true
 save_period: -1
 cache: false
-device: cpu
-workers: 0
-project: D:\Digital_Image_Processing\experiments\yolo
+device: '0'
+workers: 2
+project: /content/project/experiments/yolo
 name: A_raw
 exist_ok: true
 pretrained: true
@@ -32,7 +32,7 @@ profile: false
 freeze: null
 multi_scale: 0.0
 compile: false
-channels_last: false
+channels_last: null
 overlap_mask: true
 mask_ratio: 4
 dropout: 0.0
@@ -113,4 +113,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: tracktrack.yaml
-save_dir: D:\Digital_Image_Processing\experiments\yolo\A_raw
+save_dir: /content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/A_raw

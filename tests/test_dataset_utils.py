@@ -34,6 +34,27 @@ class TestDatasetUtils(unittest.TestCase):
         self.assertEqual(group_key("vlcsnap-2025-02-19-15h00m00s000.jpg"), "session_2025-02-19")
         self.assertEqual(group_key("20250223_143826.jpg"), "session_2025-02-23")
 
+    def test_road_hazards_augmentations_share_one_group_across_source_splits(self):
+        keys = {group_key(name) for name in ("rh_train_1001.jpg", "rh_train_1001_aug_flip.jpg",
+                                             "rh_valid_1001_aug_vertical_flip.jpg",
+                                             "rh_train_1001_aug_brightness_contrast.jpg",
+                                             "rh_train_1001_augmented.jpg")}
+        self.assertEqual(keys, {"rh_1001"})
+        self.assertNotEqual(group_key("rh_train_1002_aug_flip.jpg"), "rh_1001")
+        self.assertEqual(group_key("train_0001_f0000.jpg"), "file_train_0001_f0000")
+
+
+    def test_formatted_border_boxes_always_validate(self):
+        import random
+        rng = random.Random(0)
+        for _ in range(20000):
+            left, right = sorted(rng.random() for _ in range(2))
+            box = (1, (left + 1.0) / 2, 0.5, 1.0 - left, 0.4)  # touches the right edge
+            corrected, _ = validate_yolo_box(box)
+            line = format_yolo_box(corrected)
+            self.assertEqual(validate_yolo_box(parse_yolo_line(line))[1], "valid", line)
+        self.assertEqual(format_yolo_box((0, 0.5, 0.5, 0.2, 0.3)), "0 0.50000000 0.50000000 0.20000000 0.30000000")
+
 
 if __name__ == "__main__":
     unittest.main()

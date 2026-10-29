@@ -86,6 +86,30 @@ def open_capture(source: Path | int) -> cv2.VideoCapture:
     return capture
 
 
+# Browsers play H.264 ("avc1") but not OpenCV's default MPEG-4 Part 2 ("mp4v").
+# mp4v stays as a fallback for OpenCV builds without an H.264 encoder.
+OUTPUT_CODECS = ("avc1", "mp4v")
+
+
+def open_video_writer(path: Path, fps: float, width: int, height: int) -> tuple[cv2.VideoWriter, str]:
+    """Open an MP4 writer with the first codec this OpenCV build supports."""
+    for codec in OUTPUT_CODECS:
+        writer = cv2.VideoWriter(str(path), cv2.VideoWriter_fourcc(*codec), fps, (width, height))
+        if writer.isOpened():
+            return writer, codec
+        writer.release()
+    raise RuntimeError(f"Cannot create output video with codecs {OUTPUT_CODECS}: {path}")
+
+
+def even_frame(frame):
+    """H.264 needs even dimensions; pad one edge pixel row/column when required."""
+    height, width = frame.shape[:2]
+    pad_bottom, pad_right = height % 2, width % 2
+    if pad_bottom or pad_right:
+        frame = cv2.copyMakeBorder(frame, 0, pad_bottom, 0, pad_right, cv2.BORDER_REPLICATE)
+    return frame
+
+
 def detections_from_result(result) -> list[dict]:
     detections = []
     for box in result.boxes:
@@ -138,7 +162,6 @@ def _precision_recall(counts: dict) -> dict:
     return result
 
 
-<<<<<<< HEAD
 def _track_filtered_counts(scored_frames: list[tuple[list[dict], list[dict]]], tracker: IoUTracker,
                            min_track_frames: int) -> dict:
     """Offline re-score keeping only detections whose whole track was confirmed.
@@ -154,8 +177,6 @@ def _track_filtered_counts(scored_frames: list[tuple[list[dict], list[dict]]], t
     return counts
 
 
-=======
->>>>>>> da7e1cd4 (Cap nhat code)
 def process_video(model, source: Path | int, experiment_config: dict, output_path: Path | None, *,
                   conf: float = 0.25, frame_step: int = 1, max_frames: int | None = None,
                   mask_path: Path | None = None, min_track_frames: int = 3, iou_threshold: float = 0.3,
@@ -167,13 +188,11 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
     fps = capture.get(cv2.CAP_PROP_FPS) or DEFAULT_WEBCAM_FPS
     tracker = IoUTracker(iou_threshold=iou_threshold, max_missed=max_missed)
     writer = None
+    codec = None
     frame_index = processed = 0
     last_detections: list[dict] = []
     frame_records, raw_counts, voted_counts = [], {}, {}
-<<<<<<< HEAD
     scored_frames: list[tuple[list[dict], list[dict]]] = []
-=======
->>>>>>> da7e1cd4 (Cap nhat code)
     started = time.perf_counter()
     inference_seconds = 0.0
     try:
@@ -201,10 +220,7 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
                     voted = [{**item, "class_id": item["track_class_id"]} for item in last_detections]
                     _add_counts(raw_counts, compare_detections(ground_truth, last_detections))
                     _add_counts(voted_counts, compare_detections(ground_truth, voted))
-<<<<<<< HEAD
                     scored_frames.append((ground_truth, voted))
-=======
->>>>>>> da7e1cd4 (Cap nhat code)
                     record["ground_truth"] = ground_truth
                 if save_frame_detections:
                     frame_records.append(record)
@@ -215,12 +231,11 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
             draw_hud(model_input, frame_index, fps,
                      summarize_tracks(tracker, min_track_frames)["unique_objects_by_class"])
             if output_path is not None:
+                output_frame = even_frame(model_input)
                 if writer is None:
-                    height, width = model_input.shape[:2]
-                    writer = cv2.VideoWriter(str(output_path), cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height))
-                    if not writer.isOpened():
-                        raise RuntimeError(f"Cannot create output video: {output_path}")
-                writer.write(model_input)
+                    height, width = output_frame.shape[:2]
+                    writer, codec = open_video_writer(output_path, fps, width, height)
+                writer.write(output_frame)
             if display:
                 cv2.imshow("Road damage detection (q to quit)", model_input)
                 if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -240,6 +255,7 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
     elapsed = time.perf_counter() - started
     summary = {
         "source": str(source), "output_video": str(output_path) if output_path else None,
+        "output_codec": codec,
         "fps": round(fps, 3), "frames_read": frame_index, "frames_processed": processed,
         "frame_step": frame_step, "frame_size": frame_size, "duration_s": round(frame_index / fps, 3),
         "processing_fps": round(frame_index / elapsed, 2) if elapsed else None,
@@ -250,12 +266,8 @@ def process_video(model, source: Path | int, experiment_config: dict, output_pat
         summary["ground_truth_video"] = str(mask_path)
         summary["frame_level_comparison"] = {
             "iou_threshold": 0.5, "raw_per_frame": _precision_recall(raw_counts),
-<<<<<<< HEAD
             "track_voted": _precision_recall(voted_counts),
             "track_filtered": _precision_recall(_track_filtered_counts(scored_frames, tracker, min_track_frames))}
-=======
-            "track_voted": _precision_recall(voted_counts)}
->>>>>>> da7e1cd4 (Cap nhat code)
     if save_frame_detections:
         summary["frames"] = frame_records
     return summary
@@ -279,11 +291,7 @@ def run_video_prediction(weights_path: str, source: str, output_dir: str | None 
                          max_frames: int | None = None, max_videos: int | None = None,
                          show_ground_truth: bool = False, min_track_frames: int = 3,
                          display: bool = False, save_frame_detections: bool = False,
-<<<<<<< HEAD
                          frame_size: int | None = DEFAULT_FRAME_SIZE, save_video: bool = True) -> dict:
-=======
-                         frame_size: int | None = DEFAULT_FRAME_SIZE) -> dict:
->>>>>>> da7e1cd4 (Cap nhat code)
     root = project_root()
     if not 0.0 <= conf <= 1.0:
         raise ValueError("Confidence threshold must be between 0 and 1")
@@ -316,11 +324,7 @@ def run_video_prediction(weights_path: str, source: str, output_dir: str | None 
             print(f"Warning: no mask video found for {item}; ground-truth comparison skipped")
         print(f"Processing {item} ...")
         video_summary = process_video(
-<<<<<<< HEAD
             model, item, experiment_config, output / f"pred_{name}.mp4" if save_video else None, conf=conf, frame_step=frame_step,
-=======
-            model, item, experiment_config, output / f"pred_{name}.mp4", conf=conf, frame_step=frame_step,
->>>>>>> da7e1cd4 (Cap nhat code)
             max_frames=max_frames, mask_path=mask, min_track_frames=min_track_frames, display=display,
             save_frame_detections=save_frame_detections, frame_size=frame_size)
         totals.update(video_summary["unique_objects_by_class"])

@@ -1,4 +1,6 @@
 {
-  "status": "RUNNING",
-  "checkpoint_created": false
+  "status": "COMPLETED",
+  "best_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/A_raw/weights/best.pt",
+  "last_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/A_raw/weights/last.pt",
+  "checkpoint_created": true
 }

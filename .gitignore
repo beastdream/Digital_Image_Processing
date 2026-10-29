@@ -75,3 +75,11 @@ results/predictions/video_latest/
 results/predictions/video_eval/
 results/**/*.mp4
 colab_out/
+
+# Web interface runs, local demos, and archived local training attempts
+results/predictions/roadscan/
+results/predictions/.roadscan_uploads/
+results/predictions/demo_check/
+results/demo_videos/
+experiments/yolo/*_old_incomplete/
+experiments/yolo_video_cpu_old/

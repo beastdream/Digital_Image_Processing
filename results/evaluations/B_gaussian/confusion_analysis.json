@@ -1,0 +1,39 @@
+{
+  "orientation": "rows=predicted, columns=actual",
+  "labels": [
+    "pothole",
+    "crack",
+    "manhole",
+    "background"
+  ],
+  "important_confusions": {
+    "pothole_to_manhole": {
+      "actual": "pothole",
+      "predicted": "manhole",
+      "count": 0,
+      "rate_over_actual": 0.0,
+      "actual_instances": 223
+    },
+    "manhole_to_pothole": {
+      "actual": "manhole",
+      "predicted": "pothole",
+      "count": 1,
+      "rate_over_actual": 0.008772,
+      "actual_instances": 114
+    },
+    "crack_to_background": {
+      "actual": "crack",
+      "predicted": "background",
+      "count": 37,
+      "rate_over_actual": 0.246667,
+      "actual_instances": 150
+    },
+    "pothole_to_background": {
+      "actual": "pothole",
+      "predicted": "background",
+      "count": 76,
+      "rate_over_actual": 0.340807,
+      "actual_instances": 223
+    }
+  }
+}

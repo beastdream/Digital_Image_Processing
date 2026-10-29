@@ -1,0 +1,5 @@
+predicted\actual,pothole,crack,manhole,background
+pothole,0.636771,0,0.035088,0.54375
+crack,0.013453,0.64,0,0.2625
+manhole,0.004484,0,0.912281,0.19375
+background,0.345291,0.36,0.052632,0

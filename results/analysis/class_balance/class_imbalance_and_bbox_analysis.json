@@ -8,66 +8,66 @@
     "large": "area >= 96^2 px"
   },
   "class_imbalance": {
-    "level": "HIGH",
+    "level": "MODERATE",
     "basis": "training split object counts",
-    "largest_to_smallest_ratio": 2.2078,
-    "overall_largest_to_smallest_ratio": 2.6032,
-    "total_objects": 4656,
+    "largest_to_smallest_ratio": 1.9623,
+    "overall_largest_to_smallest_ratio": 1.9604,
+    "total_objects": 3237,
     "per_split_objects": {
       "train": {
-        "pothole": 888,
-        "crack": 1636,
-        "manhole": 741
+        "pothole": 1040,
+        "crack": 694,
+        "manhole": 530
       },
       "val": {
-        "pothole": 156,
-        "crack": 493,
-        "manhole": 89
+        "pothole": 223,
+        "crack": 149,
+        "manhole": 114
       },
       "test": {
-        "pothole": 207,
-        "crack": 331,
-        "manhole": 115
+        "pothole": 223,
+        "crack": 150,
+        "manhole": 114
       }
     },
     "class_frequency_and_performance": {
       "pothole": {
         "class_id": 0,
-        "objects": 1251,
-        "frequency": 0.268686,
-        "train_objects": 888,
-        "train_frequency": 0.271975,
+        "objects": 1486,
+        "frequency": 0.459067,
+        "train_objects": 1040,
+        "train_frequency": 0.459364,
         "evaluation": {
-          "precision": 0.0,
-          "recall": 0.0093,
-          "mAP50": 0.0,
-          "mAP50_95": 0.0
+          "precision": 0.6997,
+          "recall": 0.5695,
+          "mAP50": 0.6064,
+          "mAP50_95": 0.2768
         }
       },
       "crack": {
         "class_id": 1,
-        "objects": 2460,
-        "frequency": 0.528351,
-        "train_objects": 1636,
-        "train_frequency": 0.501072,
+        "objects": 993,
+        "frequency": 0.306766,
+        "train_objects": 694,
+        "train_frequency": 0.306537,
         "evaluation": {
-          "precision": 0.0019,
-          "recall": 0.2481,
-          "mAP50": 0.0007,
-          "mAP50_95": 0.0002
+          "precision": 0.6474,
+          "recall": 0.5333,
+          "mAP50": 0.5273,
+          "mAP50_95": 0.1525
         }
       },
       "manhole": {
         "class_id": 2,
-        "objects": 945,
-        "frequency": 0.202964,
-        "train_objects": 741,
-        "train_frequency": 0.226953,
+        "objects": 758,
+        "frequency": 0.234167,
+        "train_objects": 530,
+        "train_frequency": 0.234099,
         "evaluation": {
-          "precision": 0.0,
-          "recall": 0.0,
-          "mAP50": 0.0,
-          "mAP50_95": 0.0
+          "precision": 0.9132,
+          "recall": 0.8684,
+          "mAP50": 0.9607,
+          "mAP50_95": 0.6153
         }
       }
     },
@@ -76,336 +76,310 @@
   "bbox_statistics_by_imgsz": {
     "320": {
       "overall": {
-        "count": 4656,
+        "count": 3237,
         "width_px": {
-          "min": 1.5,
-          "p25": 20.5,
-          "median": 30.5,
-          "p75": 46.5,
-          "max": 320.0,
-          "mean": 39.534
+          "min": 7.792,
+          "p25": 79.859,
+          "median": 127.407,
+          "p75": 189.63,
+          "max": 316.053,
+          "mean": 135.196
         },
         "height_px": {
-          "min": 2.5,
-          "p25": 9.0,
-          "median": 14.0,
-          "p75": 23.625,
-          "max": 179.5,
-          "mean": 18.643
+          "min": 3.172,
+          "p25": 42.328,
+          "median": 74.545,
+          "p75": 125.659,
+          "max": 318.61,
+          "mean": 88.259
         },
         "area_px2": {
-          "min": 3.75,
-          "p25": 204.001,
-          "median": 419.874,
-          "p75": 1001.058,
-          "max": 52799.99,
-          "mean": 1088.686
+          "min": 39.399,
+          "p25": 3682.637,
+          "median": 10028.201,
+          "p75": 21451.553,
+          "max": 73557.992,
+          "mean": 14151.726
         },
         "size_counts": {
-          "small": 3516,
-          "medium": 1081,
-          "large": 59
+          "small": 372,
+          "medium": 1174,
+          "large": 1691
         },
         "size_frequency": {
-          "small": 0.755155,
-          "medium": 0.232174,
-          "large": 0.012672
+          "small": 0.114921,
+          "medium": 0.362681,
+          "large": 0.522397
         }
       },
       "per_class": {
         "pothole": {
-          "count": 1251,
+          "count": 1486,
           "width_px": {
-            "min": 2.5,
-            "p25": 16.0,
-            "median": 22.5,
-            "p75": 33.0,
-            "max": 230.0,
-            "mean": 27.382
+            "min": 7.792,
+            "p25": 49.891,
+            "median": 102.676,
+            "p75": 163.386,
+            "max": 308.953,
+            "mean": 113.696
           },
           "height_px": {
-            "min": 2.5,
-            "p25": 7.0,
-            "median": 10.0,
-            "p75": 14.0,
-            "max": 115.0,
-            "mean": 12.243
+            "min": 3.172,
+            "p25": 22.276,
+            "median": 53.06,
+            "p75": 89.379,
+            "max": 273.016,
+            "mean": 61.389
           },
           "area_px2": {
-            "min": 11.249,
-            "p25": 112.498,
-            "median": 218.75,
-            "p75": 443.249,
-            "max": 22539.967,
-            "mean": 482.092
+            "min": 39.399,
+            "p25": 1167.689,
+            "median": 5422.83,
+            "p75": 14479.357,
+            "max": 61394.501,
+            "mean": 9402.097
           },
           "size_counts": {
-            "small": 1148,
-            "medium": 97,
-            "large": 6
+            "small": 344,
+            "medium": 575,
+            "large": 567
           },
           "size_frequency": {
-            "small": 0.917666,
-            "medium": 0.077538,
-            "large": 0.004796
+            "small": 0.231494,
+            "medium": 0.386945,
+            "large": 0.381561
           }
         },
         "crack": {
-          "count": 2460,
+          "count": 993,
           "width_px": {
-            "min": 1.5,
-            "p25": 25.0,
-            "median": 39.5,
-            "p75": 60.5,
-            "max": 320.0,
-            "mean": 49.804
+            "min": 17.15,
+            "p25": 98.095,
+            "median": 170.582,
+            "p75": 229.966,
+            "max": 316.053,
+            "mean": 162.472
           },
           "height_px": {
-            "min": 2.5,
-            "p25": 14.0,
-            "median": 21.0,
-            "p75": 32.0,
-            "max": 179.5,
-            "mean": 25.132
+            "min": 8.296,
+            "p25": 72.24,
+            "median": 128.959,
+            "p75": 170.441,
+            "max": 318.61,
+            "mean": 129.666
           },
           "area_px2": {
-            "min": 3.75,
-            "p25": 377.495,
-            "median": 799.498,
-            "p75": 1711.751,
-            "max": 52799.99,
-            "mean": 1684.66
+            "min": 511.441,
+            "p25": 8466.963,
+            "median": 19562.086,
+            "p75": 31377.54,
+            "max": 73557.992,
+            "mean": 21631.958
           },
           "size_counts": {
-            "small": 1447,
-            "medium": 960,
-            "large": 53
+            "small": 22,
+            "medium": 239,
+            "large": 732
           },
           "size_frequency": {
-            "small": 0.588211,
-            "medium": 0.390244,
-            "large": 0.021545
+            "small": 0.022155,
+            "medium": 0.240685,
+            "large": 0.73716
           }
         },
         "manhole": {
-          "count": 945,
+          "count": 758,
           "width_px": {
-            "min": 5.0,
-            "p25": 20.5,
-            "median": 27.5,
-            "p75": 35.0,
-            "max": 117.5,
-            "mean": 28.886
+            "min": 41.086,
+            "p25": 100.332,
+            "median": 135.116,
+            "p75": 177.355,
+            "max": 296.623,
+            "mean": 141.61
           },
           "height_px": {
-            "min": 2.5,
-            "p25": 7.0,
-            "median": 9.5,
-            "p75": 12.0,
-            "max": 42.0,
-            "mean": 10.22
+            "min": 14.956,
+            "p25": 51.044,
+            "median": 73.709,
+            "p75": 114.986,
+            "max": 290.676,
+            "mean": 86.692
           },
           "area_px2": {
-            "min": 21.001,
-            "p25": 150.499,
-            "median": 262.499,
-            "p75": 431.245,
-            "max": 4153.5,
-            "mean": 340.279
+            "min": 763.888,
+            "p25": 5526.054,
+            "median": 9944.135,
+            "p75": 20088.908,
+            "max": 69762.241,
+            "mean": 13663.704
           },
           "size_counts": {
-            "small": 921,
-            "medium": 24,
-            "large": 0
+            "small": 6,
+            "medium": 360,
+            "large": 392
           },
           "size_frequency": {
-            "small": 0.974603,
-            "medium": 0.025397,
-            "large": 0.0
+            "small": 0.007916,
+            "medium": 0.474934,
+            "large": 0.51715
           }
         }
       }
     },
     "640": {
       "overall": {
-        "count": 4656,
+        "count": 3237,
         "width_px": {
-          "min": 3.0,
-          "p25": 41.0,
-          "median": 61.0,
-          "p75": 93.0,
-          "max": 640.0,
-          "mean": 79.067
+          "min": 15.585,
+          "p25": 159.718,
+          "median": 254.815,
+          "p75": 379.26,
+          "max": 632.107,
+          "mean": 270.391
         },
         "height_px": {
-          "min": 5.0,
-          "p25": 18.0,
-          "median": 28.0,
-          "p75": 47.25,
-          "max": 359.0,
-          "mean": 37.285
+          "min": 6.343,
+          "p25": 84.656,
+          "median": 149.091,
+          "p75": 251.319,
+          "max": 637.219,
+          "mean": 176.518
         },
         "area_px2": {
-          "min": 15.001,
-          "p25": 816.003,
-          "median": 1679.497,
-          "p75": 4004.232,
-          "max": 211199.962,
-          "mean": 4354.746
+          "min": 157.598,
+          "p25": 14730.547,
+          "median": 40112.806,
+          "p75": 85806.211,
+          "max": 294231.967,
+          "mean": 56606.905
         },
         "size_counts": {
-          "small": 1511,
-          "medium": 2679,
-          "large": 466
+          "small": 111,
+          "medium": 457,
+          "large": 2669
         },
         "size_frequency": {
-          "small": 0.324527,
-          "medium": 0.575387,
-          "large": 0.100086
+          "small": 0.034291,
+          "medium": 0.14118,
+          "large": 0.824529
         }
       },
       "per_class": {
         "pothole": {
-          "count": 1251,
+          "count": 1486,
           "width_px": {
-            "min": 5.0,
-            "p25": 32.0,
-            "median": 45.0,
-            "p75": 66.0,
-            "max": 459.999,
-            "mean": 54.764
+            "min": 15.585,
+            "p25": 99.782,
+            "median": 205.353,
+            "p75": 326.772,
+            "max": 617.906,
+            "mean": 227.393
           },
           "height_px": {
-            "min": 5.0,
-            "p25": 14.0,
-            "median": 20.0,
-            "p75": 28.0,
-            "max": 230.0,
-            "mean": 24.487
+            "min": 6.343,
+            "p25": 44.551,
+            "median": 106.12,
+            "p75": 178.759,
+            "max": 546.032,
+            "mean": 122.778
           },
           "area_px2": {
-            "min": 44.997,
-            "p25": 449.993,
-            "median": 874.999,
-            "p75": 1772.995,
-            "max": 90159.868,
-            "mean": 1928.366
+            "min": 157.598,
+            "p25": 4670.755,
+            "median": 21691.322,
+            "p75": 57917.428,
+            "max": 245578.002,
+            "mean": 37608.389
           },
           "size_counts": {
-            "small": 716,
-            "medium": 506,
-            "large": 29
+            "small": 111,
+            "medium": 373,
+            "large": 1002
           },
           "size_frequency": {
-            "small": 0.572342,
-            "medium": 0.404476,
-            "large": 0.023181
+            "small": 0.074697,
+            "medium": 0.251009,
+            "large": 0.674293
           }
         },
         "crack": {
-          "count": 2460,
+          "count": 993,
           "width_px": {
-            "min": 3.0,
-            "p25": 50.0,
-            "median": 79.0,
-            "p75": 121.0,
-            "max": 640.0,
-            "mean": 99.607
+            "min": 34.3,
+            "p25": 196.191,
+            "median": 341.164,
+            "p75": 459.931,
+            "max": 632.107,
+            "mean": 324.944
           },
           "height_px": {
-            "min": 5.0,
-            "p25": 28.0,
-            "median": 42.0,
-            "p75": 64.0,
-            "max": 359.0,
-            "mean": 50.264
+            "min": 16.593,
+            "p25": 144.48,
+            "median": 257.919,
+            "p75": 340.882,
+            "max": 637.219,
+            "mean": 259.331
           },
           "area_px2": {
-            "min": 15.001,
-            "p25": 1509.981,
-            "median": 3197.992,
-            "p75": 6847.003,
-            "max": 211199.962,
-            "mean": 6738.64
+            "min": 2045.762,
+            "p25": 33867.853,
+            "median": 78248.345,
+            "p75": 125510.161,
+            "max": 294231.967,
+            "mean": 86527.831
           },
           "size_counts": {
-            "small": 333,
-            "medium": 1696,
-            "large": 431
+            "small": 0,
+            "medium": 55,
+            "large": 938
           },
           "size_frequency": {
-            "small": 0.135366,
-            "medium": 0.689431,
-            "large": 0.175203
+            "small": 0.0,
+            "medium": 0.055388,
+            "large": 0.944612
           }
         },
         "manhole": {
-          "count": 945,
+          "count": 758,
           "width_px": {
-            "min": 10.0,
-            "p25": 41.0,
-            "median": 55.0,
-            "p75": 70.0,
-            "max": 235.0,
-            "mean": 57.771
+            "min": 82.173,
+            "p25": 200.665,
+            "median": 270.233,
+            "p75": 354.709,
+            "max": 593.247,
+            "mean": 283.22
           },
           "height_px": {
-            "min": 5.0,
-            "p25": 14.0,
-            "median": 19.0,
-            "p75": 24.0,
-            "max": 84.0,
-            "mean": 20.44
+            "min": 29.912,
+            "p25": 102.088,
+            "median": 147.417,
+            "p75": 229.971,
+            "max": 581.352,
+            "mean": 173.383
           },
           "area_px2": {
-            "min": 84.006,
-            "p25": 601.997,
-            "median": 1049.994,
-            "p75": 1724.981,
-            "max": 16614.001,
-            "mean": 1361.116
+            "min": 3055.55,
+            "p25": 22104.218,
+            "median": 39776.538,
+            "p75": 80355.634,
+            "max": 279048.963,
+            "mean": 54654.815
           },
           "size_counts": {
-            "small": 462,
-            "medium": 477,
-            "large": 6
+            "small": 0,
+            "medium": 29,
+            "large": 729
           },
           "size_frequency": {
-            "small": 0.488889,
-            "medium": 0.504762,
-            "large": 0.006349
+            "small": 0.0,
+            "medium": 0.038259,
+            "large": 0.961741
           }
         }
       }
     }
   },
-  "evaluation_metrics_source": "D:\\Digital_Image_Processing\\results\\yolo\\baseline\\metrics.json",
+  "evaluation_metrics_source": "D:\\Digital_Image_Processing\\results\\evaluations\\A_raw\\metrics.json",
   "evaluation_metrics_note": "Metrics are copied from the supplied artifact. Confirm its experiment_config.yaml and final-run training args before using them to justify sampling changes.",
-  "warnings": [
-    {
-      "code": "MANY_SMALL_OBJECTS_AT_320",
-      "severity": "HIGH",
-      "message": "75.5% of objects are small at imgsz=320; avoid 320 for final training without a targeted recall study."
-    },
-    {
-      "code": "MANY_SMALL_POTHOLE_AT_320",
-      "severity": "HIGH",
-      "message": "91.8% of pothole objects are small at imgsz=320."
-    },
-    {
-      "code": "MANY_SMALL_CRACK_AT_320",
-      "severity": "HIGH",
-      "message": "58.8% of crack objects are small at imgsz=320."
-    },
-    {
-      "code": "MANY_SMALL_MANHOLE_AT_320",
-      "severity": "HIGH",
-      "message": "97.5% of manhole objects are small at imgsz=320."
-    },
-    {
-      "code": "CLASS_IMBALANCE",
-      "severity": "HIGH",
-      "message": "Largest/smallest class object-count ratio is 2.21x."
-    }
-  ]
+  "warnings": []
 }

@@ -68,11 +68,23 @@ def clip_yolo_box(box: tuple[int, float, float, float, float]) -> tuple[int, flo
 def format_yolo_box(box: tuple[int, float, float, float, float]) -> str:
     class_id, xc, yc, width, height = box
     # Eight decimals prevent a tolerance-corrected edge box from becoming
-    # out-of-bounds again through six-decimal rounding.
+    # out-of-bounds again through six-decimal rounding. A box touching the
+    # border can still overflow by ~1e-9 once centre and size are rounded
+    # separately, so only such boxes get their size floored against the centre.
+    xc, yc, width, height = (round(value, 8) for value in (xc, yc, width, height))
+    if xc - width / 2 < 0 or xc + width / 2 > 1:
+        width = math.floor(min(width, 2 * min(xc, 1 - xc)) * 1e8) / 1e8
+    if yc - height / 2 < 0 or yc + height / 2 > 1:
+        height = math.floor(min(height, 2 * min(yc, 1 - yc)) * 1e8) / 1e8
     return f"{class_id} {xc:.8f} {yc:.8f} {width:.8f} {height:.8f}"
 
 def group_key(filename: str) -> str:
     stem = Path(filename).stem
+    # Road Hazards import (import_road_hazards.py): an original image and all of
+    # its "_aug_*" variants, from either source split, are one capture group.
+    match = re.match(r"rh_(?:train|valid)_(.+?)(?:_aug_.+|_augmented)?$", stem)
+    if match:
+        return f"rh_{match.group(1)}"
     # Hours are not independent recordings: all captures from a dated session
     # are grouped together unless metadata later provides a finer source ID.
     match = re.match(r"vlcsnap[-_](\d{4}-\d{2}-\d{2})[-_]\d{2}h", stem, re.I)

@@ -1,0 +1,87 @@
+{
+  "status": "COMPLETED",
+  "training_config": {
+    "model_size": "nano",
+    "epochs": 10,
+    "batch": 16,
+    "imgsz": 640,
+    "fraction": 1.0,
+    "debug_only": false,
+    "optimizer": "Auto",
+    "learning_rate": 0.01,
+    "patience": 10,
+    "device": 0,
+    "workers": 2,
+    "cache": false,
+    "degrees": 8.0,
+    "translate": 0.03,
+    "scale": 0.1,
+    "fliplr": 0.5,
+    "hsv_h": 0.01,
+    "hsv_s": 0.2,
+    "hsv_v": 0.15,
+    "mosaic": 0.0,
+    "mixup": 0.0,
+    "copy_paste": 0.0,
+    "model_weights": "yolov8n.pt",
+    "seed": 42,
+    "project": "experiments/yolo",
+    "data_yaml": "/content/project/data/processed/road_damage_detection/preprocessed/F_combined_3d20363dc0/dataset.yaml",
+    "exist_ok": true,
+    "save": true,
+    "save_period": -1,
+    "plots": true,
+    "verbose": true,
+    "name": "F_combined",
+    "preprocessing_config": "configs/experiments/full_preprocessing.yaml"
+  },
+  "run_mode": "FINAL COMPARISON",
+  "trained_on_full_dataset": true,
+  "seed": 42,
+  "device_used": "0",
+  "pytorch_version": "2.11.0+cu130",
+  "python_version": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "dataset_integrity": {
+    "status": "PASSED",
+    "data_yaml": "/content/project/data/processed/road_damage_detection/preprocessed/F_combined_3d20363dc0/dataset.yaml",
+    "checks": {
+      "dataset_yaml": "PASSED",
+      "splits_and_annotations": "PASSED",
+      "duplicate_cross_split": "PASSED",
+      "capture_group_cross_split": "PASSED"
+    },
+    "statistics": {
+      "images": {
+        "train": 1814,
+        "val": 389,
+        "test": 389
+      },
+      "objects": {
+        "train": {
+          "pothole": 1040,
+          "crack": 694,
+          "manhole": 530
+        },
+        "val": {
+          "pothole": 223,
+          "crack": 149,
+          "manhole": 114
+        },
+        "test": {
+          "pothole": 223,
+          "crack": 150,
+          "manhole": 114
+        }
+      },
+      "total_images": 2592,
+      "total_objects": 3237
+    },
+    "duplicate_hash_groups": [],
+    "duplicate_stems": {},
+    "leaked_capture_groups": {},
+    "errors": []
+  },
+  "best_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/F_combined/weights/best.pt",
+  "last_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/F_combined/weights/last.pt",
+  "checkpoint_created": true
+}

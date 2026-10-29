@@ -1,0 +1,6 @@
+{
+  "status": "COMPLETED",
+  "best_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/C_median/weights/best.pt",
+  "last_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/C_median/weights/last.pt",
+  "checkpoint_created": true
+}

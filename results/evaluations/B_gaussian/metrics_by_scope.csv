@@ -1,0 +1,5 @@
+scope,class_id,class_name,precision,recall,mAP50,mAP50_95
+overall,,overall,0.7376,0.7126,0.7225,0.3614
+class,0,pothole,0.6734,0.5734,0.6119,0.2738
+class,1,crack,0.655,0.6267,0.5841,0.2106
+class,2,manhole,0.8842,0.9379,0.9715,0.5998

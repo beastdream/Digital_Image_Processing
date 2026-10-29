@@ -1,0 +1,9 @@
+{
+  "experiment": "C_median",
+  "preprocessing": "median",
+  "timing_scope": "read image + preprocessing + model inference",
+  "read_image_ms": 3.508,
+  "preprocessing_ms": 2.715,
+  "inference_ms": 10.726,
+  "total_ms": 16.948
+}

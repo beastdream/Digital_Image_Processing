@@ -1,0 +1,9 @@
+{
+  "experiment": "E_brightness",
+  "preprocessing": "brightness",
+  "timing_scope": "read image + preprocessing + model inference",
+  "read_image_ms": 3.56,
+  "preprocessing_ms": 6.654,
+  "inference_ms": 12.129,
+  "total_ms": 22.343
+}

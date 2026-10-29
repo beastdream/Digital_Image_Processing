@@ -1,0 +1,5 @@
+predicted\actual,pothole,crack,manhole,background
+pothole,135,3,0,78
+crack,4,111,0,62
+manhole,2,0,111,18
+background,82,36,3,0

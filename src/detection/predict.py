@@ -294,11 +294,8 @@ def main(argv: list[str] | None = None) -> int:
                              help="Frames a track needs before it counts as a confirmed object")
     video_group.add_argument("--frame-size", type=int, default=640,
                              help="Downscale frames to this longest side before preprocessing (0 keeps source)")
-<<<<<<< HEAD
     video_group.add_argument("--no-save-video", action="store_true",
                              help="Only write video_summary.json (faster batch evaluation)")
-=======
->>>>>>> da7e1cd4 (Cap nhat code)
     video_group.add_argument("--display", action="store_true", help="Show a live preview window (q quits)")
     video_group.add_argument("--save-frame-detections", action="store_true",
                              help="Store every processed frame's detections in video_summary.json")
@@ -325,11 +322,7 @@ def main(argv: list[str] | None = None) -> int:
                 max_frames=args.max_frames, max_videos=args.max_videos,
                 show_ground_truth=args.show_ground_truth, min_track_frames=args.min_track_frames,
                 display=args.display, save_frame_detections=args.save_frame_detections,
-<<<<<<< HEAD
                 frame_size=args.frame_size or None, save_video=not args.no_save_video)
-=======
-                frame_size=args.frame_size or None)
->>>>>>> da7e1cd4 (Cap nhat code)
             return 0
         # Validate image-only input before loading a potentially expensive model.
         collect_image_paths(source, args.max_images)

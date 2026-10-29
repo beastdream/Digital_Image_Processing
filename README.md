@@ -13,7 +13,7 @@ raw images + YOLO labels
   -> optional uint8 preprocessing / online training augmentation
   -> YOLO training
   -> evaluation on the held-out test split
-  -> static-image prediction
+  -> image / video / webcam prediction (web interface or predict.py)
 ```
 
 The primary reference experiment is **A_raw**: valid raw RGB images, with only
@@ -22,28 +22,83 @@ Median, CLAHE, and brightness are excluded from this baseline. All preprocessing
 comparison experiments use `imgsz=640` so their metrics remain comparable.
 
 
+## Model sets
+
+| Suite | Models | Data | Classes |
+|---|---|---|---|
+| Image (main) | `experiments/yolo/<experiment>/` | Road Hazards images (2,592 after cleaning) | pothole, crack, manhole (open) |
+| Video | `experiments/yolo_video/<experiment>/` | Pothole video frames (1,238) | pothole only |
+
+`<experiment>` is one of `A_raw`, `B_gaussian`, `C_median`, `D_clahe`,
+`E_brightness`, `F_combined`. Use the image suite for 3-class detection on
+images and videos; the video suite cannot detect cracks or manholes.
+
+Image dataset: "potholes, cracks and openmanholes (Road Hazards)" by Sabid
+Rahman, <https://www.kaggle.com/datasets/sabidrahman/pothole-cracks-and-openmanhole>,
+CC BY-NC-SA 4.0 (non-commercial; cite it in reports).
+
 ## Setup after cloning
 
-Git holds code, configs, and small result files only. Model weights, datasets,
-and generated images/videos are not in the repository.
+Git holds code, configs, and small result files (CSV/JSON/YAML) only. Model
+weights (`*.pt`), datasets (`data/`), and generated images/videos are not in
+the repository.
+
+**1. Code and dependencies**
 
 ```powershell
+git pull origin main
 pip install -r requirements.txt
 python -m pytest -q
 ```
 
-To run predictions, copy the trained models from the team's shared Google
-Drive folder `Digital_Image_Processing/outputs/yolo_video/<experiment>/weights/`
-into `experiments/yolo_video/<experiment>/weights/` (each folder needs
-`best.pt`; `experiment_config.yaml` is already in git). Then:
+**2. Models** (needed for prediction and the web interface). Download the
+team's shared Google Drive folder `Digital_Image_Processing/outputs/` and copy
+each `best.pt` next to the `experiment_config.yaml` already in git:
+
+| From Drive | To the repository |
+|---|---|
+| `outputs/yolo/<experiment>/weights/best.pt` | `experiments/yolo/<experiment>/weights/best.pt` |
+| `outputs/yolo_video/<experiment>/weights/best.pt` | `experiments/yolo_video/<experiment>/weights/best.pt` |
+
+`A_raw` alone is enough for a demo.
+
+**3. Run**
 
 ```powershell
-python predict.py --experiment experiments/yolo_video/A_raw --video "path/to/video.mp4" --display
+python web\server.py
+python predict.py --experiment experiments/yolo/A_raw --video "path/to/video.mp4" --display
 ```
 
-To rebuild the dataset or retrain, download the pothole video dataset
-(`pothole_video/<split>/rgb|mask/*.mp4`) and follow
-[Pothole video dataset and preprocessing suite](#pothole-video-dataset-and-preprocessing-suite).
+The web interface is at `http://127.0.0.1:8000`; choose "Bộ ảnh · 3 lớp" for
+3-class models.
+
+**4. Dataset** (only to view labelled test images or to retrain). Download and
+unzip the Kaggle dataset above, then:
+
+```powershell
+python -m src.data.import_road_hazards --source "<folder containing train and valid>"
+python -m src.data.clean_dataset
+```
+
+The import keeps one copy of byte-identical images and renames files so that
+an original and all of its `_aug_*`/`_augmented` variants form one capture
+group; the seeded group-aware split then reproduces the same 1,814 / 389 / 389
+train / val / test images on every machine. To retrain, follow
+[Running the suite on Google Colab](#running-the-suite-on-google-colab-gpu)
+with `--suite configs/preprocessing_experiments.yaml`.
+
+**Before every push**
+
+```powershell
+git pull origin main
+python -m pytest -q
+git grep -n "<<<<<<<"
+git status
+```
+
+Tests must pass, the conflict-marker search must print nothing, and
+`git status` must not list weights, datasets, videos, or web prediction runs
+(`results/predictions/roadscan/`).
 
 ## Commands
 
@@ -60,8 +115,6 @@ python -m src.detection.analyze_class_balance --metrics results/evaluations/A_ra
 python -m src.detection.analyze_experiment_results --create-visual-template
 ```
 
-<<<<<<< HEAD
-=======
 ### Local web interface
 
 Start the RoadScan interface from the repository root with the project
@@ -85,7 +138,6 @@ replaced with sample numbers. Video models trained from the current video
 dataset learn pothole only; crack and manhole counts are not evidence of
 video-model performance.
 
->>>>>>> da7e1cd4 (Cap nhat code)
 ### Safe baseline training workflow
 
 Step 1 — run a short end-to-end smoke test. These overrides apply only at
@@ -362,11 +414,15 @@ suite in under an hour with the same code, seed, and training settings
 
 ```powershell
 python -m src.utils.package_for_colab
+python -m src.utils.package_for_colab --suite configs/preprocessing_experiments.yaml
 ```
 
-Upload the resulting `colab_package.zip` (code + frame dataset, ~250 MB) to
-`MyDrive/Digital_Image_Processing/`, open `colab/run_video_experiments.ipynb`
-in Colab, select a T4 GPU runtime, and run all cells. Models and results are
+The first packs the video suite (frame dataset, ~250 MB); the second packs
+the 3-class image suite after `python -m src.data.clean_dataset` has built
+`data/processed/road_damage_detection`. Upload the resulting
+`colab_package.zip` to `MyDrive/Digital_Image_Processing/`, open
+`colab/run_video_experiments.ipynb` in Colab, set `SUITE` in step 2 to the
+same suite, select a T4 GPU runtime, and run all cells. Models and results are
 written to `MyDrive/Digital_Image_Processing/outputs/`, so after a disconnect
 "Run all" resumes the suite. The last cell creates `colab_results.zip`; to use
 it locally:

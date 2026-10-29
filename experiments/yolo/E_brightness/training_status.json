@@ -1,0 +1,6 @@
+{
+  "status": "COMPLETED",
+  "best_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/E_brightness/weights/best.pt",
+  "last_weights": "/content/drive/MyDrive/Digital_Image_Processing/outputs/yolo/E_brightness/weights/last.pt",
+  "checkpoint_created": true
+}

@@ -126,6 +126,22 @@ def _evaluation(suite: str, name: str) -> dict:
     }
 
 
+def _parse_byte_range(header: str | None, size: int) -> tuple[int, int] | str | None:
+    """Parse a single "bytes=start-end" Range header; None means send the whole file."""
+    match = re.fullmatch(r"bytes=(\d*)-(\d*)", (header or "").strip())
+    if not match or match.groups() == ("", ""):
+        return None
+    first, last = match.groups()
+    if first:
+        start, end = int(first), int(last) if last else size - 1
+    else:
+        start, end = max(0, size - int(last)), size - 1
+    end = min(end, size - 1)
+    if size == 0 or start > end:
+        return "invalid"
+    return start, end
+
+
 def _multipart(content_type: str, body: bytes) -> tuple[dict[str, str], list[tuple[str, str, bytes]]]:
     message = BytesParser(policy=policy.default).parsebytes(
         b"Content-Type: " + content_type.encode("latin-1") + b"\r\n"
@@ -317,14 +333,33 @@ class RoadScanHandler(SimpleHTTPRequestHandler):
             return
         content_type = mimetypes.guess_type(requested.name)[0] or "application/octet-stream"
         size = requested.stat().st_size
-        self.send_response(200)
+        # Browsers request videos in byte ranges (to read the MP4 index and to seek).
+        start, end = 0, size - 1
+        byte_range = _parse_byte_range(self.headers.get("Range"), size)
+        if byte_range == "invalid":
+            self.send_response(416)
+            self.send_header("Content-Range", f"bytes */{size}")
+            self.end_headers()
+            return
+        if byte_range:
+            start, end = byte_range
+            self.send_response(206)
+            self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+        else:
+            self.send_response(200)
         self.send_header("Content-Type", content_type)
-        self.send_header("Content-Length", str(size))
-        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Content-Length", str(end - start + 1))
+        self.send_header("Accept-Ranges", "bytes")
         self.end_headers()
         with requested.open("rb") as handle:
-            while chunk := handle.read(1024 * 1024):
-                self.wfile.write(chunk)
+            handle.seek(start)
+            remaining = end - start + 1
+            while remaining > 0 and (chunk := handle.read(min(1024 * 1024, remaining))):
+                try:
+                    self.wfile.write(chunk)
+                except (BrokenPipeError, ConnectionResetError):
+                    return  # the browser cancelled this range (normal while seeking)
+                remaining -= len(chunk)
 
     def do_POST(self) -> None:
         parsed = urlparse(self.path)

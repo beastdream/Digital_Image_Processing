@@ -16,9 +16,15 @@ const state = {
   jobs: { image: null, video: null, evaluation: null },
   polling: new Set(),
   renderVersion: 0,
-  comparisonSuite: "video",
-  evaluationSuite: "video",
+  comparisonSuite: "image",
+  evaluationSuite: "image",
+  // "image" = 3-class models (experiments/yolo), "video" = pothole-only models (experiments/yolo_video)
+  predictionSuite: "image",
 };
+
+function modelDir(suite = state.predictionSuite) {
+  return suite === "video" ? "experiments/yolo_video" : "experiments/yolo";
+}
 
 const app = document.getElementById("app");
 const breadcrumb = document.getElementById("breadcrumb-current");
@@ -189,11 +195,11 @@ function updatePreviewCommand(kind) {
   if (kind === "image") {
     const comparison = document.getElementById("image-gt")?.getAttribute("aria-pressed") === "true" ? " --show-ground-truth" : "";
     const side = document.getElementById("image-side")?.getAttribute("aria-pressed") === "true" ? " --side-by-side" : "";
-    command = `python predict.py --experiment experiments/yolo_video/${experiment} --source "${file}" --conf ${confidence} --max-images ${document.getElementById("image-max")?.value || 20}${comparison}${side}`;
+    command = `python predict.py --experiment ${modelDir()}/${experiment} --source "${file}" --conf ${confidence} --max-images ${document.getElementById("image-max")?.value || 20}${comparison}${side}`;
   } else {
     const source = state.videoSourceMode === "webcam" ? document.getElementById("camera-index")?.value || "0" : `"${file}"`;
     const frameLimit = state.videoSourceMode === "webcam" ? ` --max-frames ${document.getElementById("camera-frames")?.value || 300}` : "";
-    command = `python predict.py --experiment experiments/yolo_video/${experiment} --video ${source} --frame-step ${document.getElementById("video-step")?.value || 1} --frame-size ${document.getElementById("video-size")?.value || 640} --min-track-frames ${document.getElementById("video-track")?.value || 3}${frameLimit}`;
+    command = `python predict.py --experiment ${modelDir()}/${experiment} --video ${source} --frame-step ${document.getElementById("video-step")?.value || 1} --frame-size ${document.getElementById("video-size")?.value || 640} --min-track-frames ${document.getElementById("video-track")?.value || 3}${frameLimit}`;
   }
   target.textContent = command;
 }
@@ -257,12 +263,13 @@ function renderTimeline(tracks, duration) {
 }
 
 async function renderImagePage(renderVersion) {
-  const experiments = (await api("/api/experiments?suite=video")).experiments;
+  const experiments = (await api(`/api/experiments?suite=${state.predictionSuite}`)).experiments;
   if (renderVersion !== state.renderVersion) return;
   const selected = selectedExperiment("image", experiments);
   state.experiment.image = selected;
   const job = state.jobs.image;
-  app.innerHTML = `${heading("/")}
+  app.innerHTML = `${heading("/", suiteSwitcher(state.predictionSuite, "prediction"))}
+    ${state.predictionSuite === "video" ? videoScopeBanner() : ""}
     <div class="layout-two">
       <div class="stack">
         <section class="card card-pad">
@@ -275,7 +282,7 @@ async function renderImagePage(renderVersion) {
           ${toggle("Hiển thị song song", "Tách ảnh GT và dự đoán thành hai panel.", "image-side", false)}
           <button class="button primary button-full" id="run-image" ${experiments.length ? "" : "disabled"}>▶ <span>Chạy dự đoán ảnh</span></button>
           <p class="field-help">Lưu ý: chạy mặc định sẽ tạo thư mục kết quả mới, không xoá kết quả cũ.</p>
-          ${commandPreview("image-command", `python predict.py --experiment experiments/yolo_video/${selected || "A_raw"} --source "<chọn-ảnh>" --max-images 20 --show-ground-truth`)}
+          ${commandPreview("image-command", `python predict.py --experiment ${modelDir()}/${selected || "A_raw"} --source "<chọn-ảnh>" --max-images 20 --show-ground-truth`)}
           <div id="image-job">${statusMarkup(job, "image")}</div>
         </section>
       </div>
@@ -299,16 +306,17 @@ async function renderImagePage(renderVersion) {
   connectToggle("image-side", updatePreviewCommand.bind(null, "image"));
   connectCopyButtons();
   document.getElementById("run-image").addEventListener("click", () => runPrediction("image"));
+  connectSuiteSwitcher("prediction", (value) => { state.predictionSuite = value; });
 }
 
 async function renderVideoPage(renderVersion) {
-  const experiments = (await api("/api/experiments?suite=video")).experiments;
+  const experiments = (await api(`/api/experiments?suite=${state.predictionSuite}`)).experiments;
   if (renderVersion !== state.renderVersion) return;
   const selected = selectedExperiment("video", experiments);
   state.experiment.video = selected;
   const job = state.jobs.video;
-  app.innerHTML = `${heading("/video")}
-    <div class="banner" role="note" style="margin-bottom:16px"><span class="banner-icon">!</span><div><strong>Phạm vi model video</strong><p>Bộ dữ liệu video hiện chỉ có nhãn <b>pothole</b>. Model không được huấn luyện để nhận diện crack hoặc manhole; số đếm cho hai lớp đó không đại diện cho khả năng phát hiện.</p></div></div>
+  app.innerHTML = `${heading("/video", suiteSwitcher(state.predictionSuite, "prediction"))}
+    ${state.predictionSuite === "video" ? videoScopeBanner() : ""}
     <div class="layout-two">
       <div class="stack"><section class="card card-pad">
         <div class="card-head"><div><h2 class="card-title">Cấu hình video</h2><p class="card-desc">Video được tải lên máy cục bộ và xử lý bằng model đã chọn.</p></div><span class="section-kicker">01 — INPUT</span></div>
@@ -331,7 +339,7 @@ async function renderVideoPage(renderVersion) {
         </div>
         ${toggle("Lưu chi tiết từng frame", "Ghi detections vào video_summary.json.", "video-details", true)}
         <button class="button primary button-full" id="run-video" ${experiments.length ? "" : "disabled"}>▷ <span>Chạy phát hiện video</span></button>
-        ${commandPreview("video-command", `python predict.py --experiment experiments/yolo_video/${selected || "A_raw"} --video "<chọn-video>" --frame-step 1 --frame-size 640 --min-track-frames 3`)}
+        ${commandPreview("video-command", `python predict.py --experiment ${modelDir()}/${selected || "A_raw"} --video "<chọn-video>" --frame-step 1 --frame-size 640 --min-track-frames 3`)}
         <div id="video-job">${statusMarkup(job, "video")}</div>
       </section></div>
       <div class="stack"><section class="card card-pad">
@@ -356,6 +364,7 @@ async function renderVideoPage(renderVersion) {
   connectToggle("video-details");
   connectCopyButtons();
   document.getElementById("run-video").addEventListener("click", () => runPrediction("video"));
+  connectSuiteSwitcher("prediction", (value) => { state.predictionSuite = value; });
 }
 
 async function runPrediction(kind) {
@@ -371,7 +380,7 @@ async function runPrediction(kind) {
     return;
   }
   const form = new FormData();
-  form.append("suite", "video");
+  form.append("suite", state.predictionSuite);
   form.append("experiment", document.getElementById(`${kind}-experiment`).value);
   form.append("conf", document.getElementById("image-conf")?.value || "0.25");
   for (const file of files) form.append("files", file, file.name);
@@ -437,9 +446,13 @@ async function watchJob(kind, id) {
 
 function suiteSwitcher(suite, key) {
   return `<div class="segmented" role="group" aria-label="Chọn bộ thí nghiệm">
-    <button type="button" data-suite="${key}" data-value="image" aria-pressed="${suite === "image"}">Bộ ảnh</button>
-    <button type="button" data-suite="${key}" data-value="video" aria-pressed="${suite === "video"}">Bộ video</button>
+    <button type="button" data-suite="${key}" data-value="image" aria-pressed="${suite === "image"}">Bộ ảnh · 3 lớp</button>
+    <button type="button" data-suite="${key}" data-value="video" aria-pressed="${suite === "video"}">Bộ video · pothole</button>
   </div>`;
+}
+
+function videoScopeBanner() {
+  return `<div class="banner" role="note" style="margin-bottom:16px"><span class="banner-icon">!</span><div><strong>Phạm vi model bộ video</strong><p>Bộ dữ liệu video chỉ có nhãn <b>pothole</b>. Model này không được huấn luyện để nhận diện crack hoặc manhole; chọn <b>Bộ ảnh · 3 lớp</b> để phát hiện đủ ba lớp.</p></div></div>`;
 }
 
 function connectSuiteSwitcher(key, setter) {

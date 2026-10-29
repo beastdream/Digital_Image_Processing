@@ -87,7 +87,6 @@ def test_ultralytics_label_cache_and_machine_path_do_not_change_dataset_version(
     assert _source_split_fingerprint(source) == before
     (source / "labels/train/a.txt").write_text("0 0.4 0.5 0.5 0.5\n", encoding="utf-8")
     assert _source_split_fingerprint(source) != before
-<<<<<<< HEAD
 
 
 def test_review_sample_is_seeded_and_grid_keeps_panel_size(tmp_path: Path) -> None:
@@ -98,5 +97,22 @@ def test_review_sample_is_seeded_and_grid_keeps_panel_size(tmp_path: Path) -> No
     assert first == sample_images(tmp_path, 10, seed=42) and len(set(first)) == 10
     panels = [_panel(np.zeros((100, 50, 3), np.uint8), f"p{index}") for index in range(7)]
     assert _grid(panels).shape == (2 * (PANEL_SIZE + HEADER), 4 * PANEL_SIZE, 3)
-=======
->>>>>>> da7e1cd4 (Cap nhat code)
+
+
+def test_many_groups_are_stratified_without_splitting_any_group() -> None:
+    from collections import Counter
+    from src.data.clean_dataset import _assign_groups
+    groups, labels = {}, {}
+    for index in range(300):
+        names = [f"g{index}_{variant}.jpg" for variant in range(1 + index % 4)]
+        groups[f"g{index}"] = names
+        for name in names:
+            labels[Path(name).stem] = [f"{index % 3} 0.5 0.5 0.2 0.2"]
+    assignment = _assign_groups(groups, labels, {"ratios": {"train": 0.7, "val": 0.15, "test": 0.15}})
+    assert set(assignment) == set(groups) and set(assignment.values()) == {"train", "val", "test"}
+    images = Counter()
+    for key, split in assignment.items():
+        images[split] += len(groups[key])
+    total = sum(images.values())
+    assert abs(images["train"] / total - 0.7) < 0.02 and abs(images["test"] / total - 0.15) < 0.02
+    assert assignment == _assign_groups(groups, labels, {"ratios": {"train": 0.7, "val": 0.15, "test": 0.15}})
