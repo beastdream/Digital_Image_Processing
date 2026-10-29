@@ -53,7 +53,8 @@ python -m pytest -q
 
 **2. Models** (needed for prediction and the web interface). Download the
 team's shared Google Drive folder `Digital_Image_Processing/outputs/` and copy
-each `best.pt` next to the `experiment_config.yaml` already in git:
+each `best.pt` into a `weights` folder (create it; the experiment's
+`experiment_config.yaml` is already in git):
 
 | From Drive | To the repository |
 |---|---|
@@ -92,7 +93,7 @@ with `--suite configs/preprocessing_experiments.yaml`.
 ```powershell
 git pull origin main
 python -m pytest -q
-git grep -n "<<<<<<<"
+git grep -n "^<<<<<<< "
 git status
 ```
 
